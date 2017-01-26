@@ -23,18 +23,36 @@ class Bullet extends createjs.Shape {
     }
     
     update (e) {
-        this.position = this.position.add(this.direction.x(this.speed * (e.delta / 1000)));
-        this.set({
-            x: this.position.e(1),
-            y: this.position.e(2)
-        });
+        var startPos = this.position.dup();
+        var toMove = this.speed * (e.delta / 1000)
+        var moved = 0;
+        do {
+            if (toMove - moved >= 2 * this.radius) {
+                moved += 2 * this.radius;
+            } else {
+                moved = toMove;
+            }
+            this.position = startPos.add(this.direction.x(moved));
+            this.collide();
+        } while (toMove != moved);
+        
         if (this.position.e(1) > game.canvas.width ||
             this.position.e(1) < 0 ||
             this.position.e(2) > game.canvas.height ||
             this.position.e(2) < 0) {
             this.die();
         }
-        
+        this.set({
+            x: this.position.e(1),
+            y: this.position.e(2)
+        });
+    }
+    
+    die () {
+        game.removeChild(this);
+    }
+    
+    collide () {
         switch (this.type) {
             case "player" : 
                 for (var i of game.enemies) {
@@ -53,10 +71,6 @@ class Bullet extends createjs.Shape {
                 }
                 break;
         }
-    }
-    
-    die () {
-        game.removeChild(this);
     }
     
 }

@@ -43,7 +43,7 @@ class Player extends createjs.Shape {
     }
     
     fire () {
-        var bullet = new Bullet(this.position, $V([0, -1]), 1500, 5, "player");
+        var bullet = new Bullet(this.position, $V([0, -1]), 5000, 5, "player");
         game.addChild(bullet);
     }
     
