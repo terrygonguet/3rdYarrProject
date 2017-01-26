@@ -23,12 +23,6 @@ class Enemy extends createjs.Shape {
     }
     
     update (e) {
-        this.cooldown += e.delta;
-        if (this.cooldown > 1000) {
-            this.cooldown = 0;
-            var bullet = new Bullet(this.position, game.player.position.subtract(this.position).toUnitVector(), 100, 12, "enemy");
-            game.addChild(bullet);
-        }
         this.set({
             x: this.position.e(1),
             y: this.position.e(2)
