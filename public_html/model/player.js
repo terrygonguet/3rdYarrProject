@@ -36,6 +36,10 @@ class Player extends createjs.Shape {
         ]);
         direction = direction.toUnitVector().x((input.keys.focus ? this.focusSpeed : this.normalSpeed) * (e.delta / 1000));
         this.position = this.position.add(direction);
+        this.position.setElements([
+            this.position.e(1).clamp(0, game.canvas.width),
+            this.position.e(2).clamp(0, game.canvas.height)
+        ]);
         this.set({
             x: this.position.e(1), 
             y: this.position.e(2)
