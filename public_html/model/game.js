@@ -16,13 +16,8 @@ class Game extends createjs.Stage {
         this.player.position = $V([window.innerWidth / 2, window.innerHeight / 2]);
         this.addChild(this.player);
         
-        for (var i = 0; i < 5; i++) {
-            var pos = $V([
-                Math.floor(Math.random() * window.innerWidth),
-                Math.floor(Math.random() * window.innerHeight)
-            ]);
-            this.addChild(new Enemy(pos, 10, "#3A3", 1));
-        }
+        
+        this.addChild(new Loops($V([0,200])));
     }
     
     update (e) {
