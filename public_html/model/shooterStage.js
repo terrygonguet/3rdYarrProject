@@ -16,7 +16,7 @@ class ShooterStage extends createjs.Container {
         this.txtScore   = new createjs.Text("", "20px Verdana", "#000");
         this.score      = 0;
         
-        this.borders.graphics.ss(3).s("#000").r(0,0,this.dimensions.e(1), this.dimensions.e(2));
+        this.borders.graphics.ss(3).s("#000").f("#FFF").r(0,0,this.dimensions.e(1), this.dimensions.e(2));
         this.set({
             x: this.position.e(1),
             y: this.position.e(2)
@@ -24,9 +24,19 @@ class ShooterStage extends createjs.Container {
         this.txtScore.set({
             x: this.dimensions.e(1) + 10, y: 0
         });
+        var lvl1btn = new Button(function () {
+            shooter.loadLevel("levels/lvl1.js"); 
+        }, null, "Level 1", $V([this.dimensions.e(1) + 10, 200]));
+        this.addChild(lvl1btn);
+        var lvl2btn = new Button(function () {
+            shooter.loadLevel("levels/lvl2.js"); 
+        }, null, "Level 2", $V([this.dimensions.e(1) + 10, 235]));
+        this.addChild(lvl2btn);
         
         this.addChild(this.borders);
-        this.addChild(this.txtScore)
+        this.addChild(this.txtScore);
+        this.addChild(lvl1btn);
+        this.addChild(lvl2btn);
         
         this.on("tick", this.update, this);
     }

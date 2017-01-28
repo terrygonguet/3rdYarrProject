@@ -22,6 +22,7 @@ class Button extends createjs.Container {
         this.on("click", this.callback, this.context);
         this.x = this.position.e(1);
         this.y = this.position.e(2);
+        this.cache(-2,-2,this.txt.getMeasuredWidth()+14,30);
     }
     
 }
