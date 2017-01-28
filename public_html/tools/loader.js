@@ -8,7 +8,7 @@ queue.loadManifest([
     {id: "Tools", src:"model/tools.js"},
     {id: "Player", src:"model/player.js"},
     {id: "Bullet", src:"model/bullet.js"},
-    {id: "Enemy", src:"model/enemy.js"},
+    {id: "Enemy Abstract", src:"model/enemy/enemy.js"},
     {id: "Shooter Stage", src:"model/shooterStage.js"}
 ]);
 
