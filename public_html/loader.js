@@ -9,7 +9,7 @@ queue.loadManifest([
     {id: "Player", src:"model/player.js"},
     {id: "Bullet", src:"model/bullet.js"},
     {id: "Enemy", src:"model/enemy.js"},
-    {id: "Loops", src:"model/loops.js"}
+    {id: "Shooter Stage", src:"model/shooterStage.js"}
 ]);
 
 var game;

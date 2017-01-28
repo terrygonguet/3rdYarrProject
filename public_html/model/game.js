@@ -10,14 +10,16 @@ class Game extends createjs.Stage {
         createjs.Ticker.framerate = 60;
         createjs.Ticker.on("tick", this.update, this);
         
-        this.enemies = [];
-        this.player  = new Player();
+        this.enemies      = [];
+        this.player       = new Player();
+        this.shooterStage = new ShooterStage($V([100, 100]), $V([600, 800]));
         
-        this.player.position = $V([window.innerWidth / 2, window.innerHeight / 2]);
+        this.player.position = $V([
+            this.shooterStage.position.e(1) + this.shooterStage.dimensions.e(1) / 2,
+            this.shooterStage.edges.e(2) - 50
+        ]);
         this.addChild(this.player);
-        
-        
-        this.addChild(new Loops($V([0,200])));
+        this.addChild(this.shooterStage);
     }
     
     update (e) {
