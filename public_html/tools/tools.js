@@ -8,6 +8,12 @@ function debugOn () {
         x:10, y:10
     });
     game.addChild(fps);
+    
+    var hint = new createjs.Text("W or Z to fire, Shift to focus, X to use special and Arrows to move.", "12px Verdana", "#000");
+    hint.set({
+        x: 10, y: 40
+    });
+    game.addChild(hint);
 
     var indic1 = new KeyIndicator("up");
     indic1.set({x:100, y:10});

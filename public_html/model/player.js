@@ -37,16 +37,12 @@ class Player extends createjs.Shape {
         direction = direction.toUnitVector().x((input.keys.focus ? this.focusSpeed : this.normalSpeed) * (e.delta / 1000));
         this.position = this.position.add(direction);
         this.position.setElements([
-            this.position.e(1).clamp(
-                this.radius + game.shooterStage.position.e(1), 
-                game.shooterStage.edges.e(1) - this.radius),
-            this.position.e(2).clamp(
-                this.radius + game.shooterStage.position.e(2), 
-                game.shooterStage.edges.e(2) - this.radius)
+            this.position.e(1).clamp(this.radius, shooter.dimensions.e(1) - this.radius),
+            this.position.e(2).clamp(this.radius, shooter.dimensions.e(2) - this.radius)
         ]);
         this.set({
-            x: this.position.e(1), 
-            y: this.position.e(2)
+            x: this.position.e(1) + shooter.position.e(1), 
+            y: this.position.e(2) + shooter.position.e(2)
         });
     }
     

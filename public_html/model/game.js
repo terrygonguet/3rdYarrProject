@@ -15,11 +15,21 @@ class Game extends createjs.Stage {
         this.shooterStage = new ShooterStage($V([100, 100]), $V([600, 800]));
         
         this.player.position = $V([
-            this.shooterStage.position.e(1) + this.shooterStage.dimensions.e(1) / 2,
-            this.shooterStage.edges.e(2) - 50
+            this.shooterStage.dimensions.e(1) / 2,
+            this.shooterStage.dimensions.e(2) - 50
         ]);
         this.addChild(this.player);
         this.addChild(this.shooterStage);
+        
+        var lvl1btn = new Button(function () {
+            shooter.loadLevel("levels/lvl1.js"); 
+        }, null, "Level 1", $V([710, 100]));
+        this.addChild(lvl1btn);
+        
+        var lvl2btn = new Button(function () {
+            shooter.loadLevel("levels/lvl2.js"); 
+        }, null, "Level 2", $V([710, 135]));
+        this.addChild(lvl2btn);
     }
     
     update (e) {
@@ -28,7 +38,7 @@ class Game extends createjs.Stage {
                 super.update(e);
         } catch (err) {
             if (debug) 
-                console.log("I dunno : " + err);
+                console.log(err);
         }
         
     }

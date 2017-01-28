@@ -18,11 +18,12 @@ var input = {
                 input.keys.focus = true;
                 callbacks = input.onFocus;
                 break;
-            case "x" :
+            case "w" :
+            case "z" :
                 input.keys.fire = true;
                 callbacks = input.onFire;
                 break;
-            case "c" :
+            case "x" :
                 input.keys.special = true;
                 callbacks = input.onSpecial;
                 break;
@@ -52,10 +53,11 @@ var input = {
             case "shift" :
                 input.keys.focus = false;
                 break;
-            case "x" :
+            case "w" :
+            case "z" :
                 input.keys.fire = false;
                 break;
-            case "c" :
+            case "x" :
                 input.keys.special = false;
                 break;
             case "arrowup":

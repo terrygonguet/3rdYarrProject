@@ -17,8 +17,8 @@ class Bullet extends createjs.Shape {
         this.on("tick", this.update, this);
         
         this.set({
-            x: this.position.e(1),
-            y: this.position.e(2)
+            x: this.position.e(1) + shooter.position.e(1), 
+            y: this.position.e(2) + shooter.position.e(2)
         });
     }
     
@@ -36,15 +36,15 @@ class Bullet extends createjs.Shape {
             this.collide();
         } while (toMove != moved);
         
-        if (this.position.e(1) > game.shooterStage.edges.e(1) ||
-            this.position.e(1) < game.shooterStage.position.e(1) ||
-            this.position.e(2) > game.shooterStage.edges.e(2) ||
-            this.position.e(2) < game.shooterStage.position.e(2)) {
+        if (this.position.e(1) > shooter.dimensions.e(1) ||
+            this.position.e(1) < 0 ||
+            this.position.e(2) > shooter.dimensions.e(2) ||
+            this.position.e(2) < 0) {
             this.die();
         }
         this.set({
-            x: this.position.e(1),
-            y: this.position.e(2)
+            x: this.position.e(1) + shooter.position.e(1), 
+            y: this.position.e(2) + shooter.position.e(2)
         });
     }
     
