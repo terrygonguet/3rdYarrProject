@@ -23,12 +23,12 @@ class Game extends createjs.Stage {
         
         var lvl1btn = new Button(function () {
             shooter.loadLevel("levels/lvl1.js"); 
-        }, null, "Level 1", $V([710, 100]));
+        }, null, "Level 1", $V([710, 500]));
         this.addChild(lvl1btn);
         
         var lvl2btn = new Button(function () {
             shooter.loadLevel("levels/lvl2.js"); 
-        }, null, "Level 2", $V([710, 135]));
+        }, null, "Level 2", $V([710, 535]));
         this.addChild(lvl2btn);
     }
     

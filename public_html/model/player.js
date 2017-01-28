@@ -10,7 +10,6 @@ class Player extends createjs.Shape {
         this.position    = $V([0,0]);
         this.normalSpeed = 320;
         this.focusSpeed  = 100;
-        this.graphics    = new createjs.Graphics();
         this.radius      = 10;
         
         this.cooldown    = 0;

@@ -9,7 +9,6 @@ class Enemy extends createjs.Shape {
         this.position = position;
         this.radius   = radius;
         this.health   = health;
-        this.graphics = new createjs.Graphics();
         
         this.graphics.s("#000").f(color).dc(0,0,this.radius);
         

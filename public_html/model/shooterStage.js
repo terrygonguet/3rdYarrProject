@@ -2,23 +2,31 @@
  * The stage where the shooter game will play
  */
 
-class ShooterStage extends createjs.Shape {
+class ShooterStage extends createjs.Container {
     
     constructor (position, dimensions) {
         super();
         this.position   = position;
         this.dimensions = dimensions;
-        this.graphics   = new createjs.Graphics();
         this.edges      = $V([this.position.e(1) + this.dimensions.e(1), this.position.e(2) + this.dimensions.e(2)]);
         this.encounters = [];
         this.time       = 0;
         this.started    = false;
+        this.borders    = new createjs.Shape();
+        this.txtScore   = new createjs.Text("", "20px Verdana", "#000");
+        this.score      = 0;
         
-        this.graphics.ss(3).s("#000").r(0,0,this.dimensions.e(1), this.dimensions.e(2));
+        this.borders.graphics.ss(3).s("#000").r(0,0,this.dimensions.e(1), this.dimensions.e(2));
         this.set({
             x: this.position.e(1),
             y: this.position.e(2)
         });
+        this.txtScore.set({
+            x: this.dimensions.e(1) + 10, y: 0
+        });
+        
+        this.addChild(this.borders);
+        this.addChild(this.txtScore)
         
         this.on("tick", this.update, this);
     }
@@ -35,6 +43,7 @@ class ShooterStage extends createjs.Shape {
                     noMoreSpawns = true;
             } while (!noMoreSpawns);
         }
+        this.txtScore.text = "Score : " + this.score;
     }
     
     loadLevel (file) {

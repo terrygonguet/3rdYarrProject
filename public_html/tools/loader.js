@@ -1,7 +1,28 @@
 var queue = new createjs.LoadQueue();
 queue.on("complete", handleComplete, this);
 queue.on("fileload", handleFileLoad, this);
-queue.loadManifest([
+
+queue.stage = new createjs.Stage("game");
+queue.bar = new createjs.Shape();
+queue.bar.graphics.ss(5);
+queue.bar.set({
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2
+});
+queue.txt = new createjs.Text("Loading", "50px Verdana", "#000");
+queue.txt.textAlign = "center";
+queue.txt.set({
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 3
+})
+queue.nbLoaded = 0;
+queue.stage.canvas.width = window.innerWidth;
+queue.stage.canvas.height = window.innerHeight;
+queue.stage.addChild(queue.bar);
+queue.stage.addChild(queue.txt);
+queue.stage.update();
+
+queue.manifest = [
     {id: "Game", src:"model/game.js"},
     {id: "Input Manager", src:"tools/input.js"},
     {id: "KeyIndicator", src:"model/keyIndicator.js"},
@@ -12,7 +33,8 @@ queue.loadManifest([
     {id: "Shooter Stage", src:"model/shooterStage.js"},
     {id: "Pathing Enemy", src:"model/enemy/pathingEnemy.js"},
     {id: "Button", src:"model/button.js"}
-]);
+];
+queue.loadManifest(queue.manifest);
 
 var game;
 var shooter;
@@ -20,6 +42,7 @@ window.addEventListener('resize', resizeCanvas, false);
 
 function handleComplete() {
     console.log("Loading complete.");
+    queue.stage.removeChild(queue.bar);
     game = new Game("game");
     shooter = game.shooterStage;
     resizeCanvas();
@@ -27,6 +50,9 @@ function handleComplete() {
 }
 
 function handleFileLoad	(e) {
+    queue.nbLoaded ++;
+    queue.bar.graphics.s("#000").a(0, 0, 50, -Math.PI/2, (queue.nbLoaded / queue.manifest.length) * (2 * Math.PI)).es();
+    queue.stage.update();
     console.log(e.item.id + " loaded.");
 }
 

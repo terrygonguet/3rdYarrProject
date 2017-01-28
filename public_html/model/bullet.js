@@ -9,7 +9,6 @@ class Bullet extends createjs.Shape {
         this.direction = direction;
         this.speed     = speed;
         this.radius    = radius;
-        this.graphics  = new createjs.Graphics();
         this.type      = type;
         
         this.graphics.s("#000").f("#A33").dc(0,0,this.radius);
