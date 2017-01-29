@@ -38,7 +38,10 @@ queue.manifest = [
     {id: "Drops", src:"model/drop.js"},
     {id: "Weapon Abstract", src:"model/weapons/weapon.js"},
     {id: "Weapon Blaster", src:"model/weapons/blaster.js"},
-    {id: "Weapon Shotgun", src:"model/weapons/shotgun.js"}
+    {id: "Weapon Shotgun", src:"model/weapons/shotgun.js"},
+    {id: "Special Abstract", src:"model/weapons/special.js"},
+    {id: "Special Clear", src:"model/weapons/clear.js"},
+    {id: "Special Shield", src:"model/weapons/shield.js"}
 ];
 queue.loadManifest(queue.manifest);
 

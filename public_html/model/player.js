@@ -15,7 +15,8 @@ class Player extends createjs.Shape {
         this.focusSpeed  = 100;
         this.radius      = 10;
         
-        this.weapon      = new ShotgunWeapon();
+        this.weapon      = new BlasterWeapon();
+        this.special     = new ShieldSpecial();
         
         this.graphics.s("#000").f("#33A").dc(0,0,this.radius);
         

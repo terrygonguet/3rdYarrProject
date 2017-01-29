@@ -45,6 +45,10 @@ class ShotgunWeapon extends Weapon {
             this.fireRate = 2;
             this.nbPellets = 6;
             this.spread = Math.PI / 12;
+        } else {
+            this.fireRate  = 2;
+            this.nbPellets = 3;
+            this.spread    = Math.PI / 13;
         }
     }
     

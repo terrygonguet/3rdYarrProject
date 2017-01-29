@@ -42,12 +42,23 @@ class ShooterStage extends createjs.Container {
         
         var blasterbtn = new Button(function () {
             game.player.weapon = new BlasterWeapon();
-        }, null, "Blaster", $V([this.dimensions.e(1) + 10, 270]));
+        }, null, "Weapon Blaster", $V([this.dimensions.e(1) + 10, 270]));
         this.addChild(blasterbtn);
         var shotgunbtn = new Button(function () {
             game.player.weapon = new ShotgunWeapon();
-        }, null, "Shotgun", $V([this.dimensions.e(1) + 10, 305]));
+        }, null, "Weapon Shotgun", $V([this.dimensions.e(1) + 10, 305]));
         this.addChild(shotgunbtn);
+        
+        var clearbtn = new Button(function () {
+            game.player.special && game.player.special.remove();
+            game.player.special = new ClearSpecial();
+        }, null, "Special Clear", $V([this.dimensions.e(1) + 10, 340]));
+        this.addChild(clearbtn);
+        var shieldbtn = new Button(function () {
+            game.player.special && game.player.special.remove();
+            game.player.special = new ShieldSpecial();
+        }, null, "Special Shield", $V([this.dimensions.e(1) + 10, 375]));
+        this.addChild(shieldbtn);
         
         this.addChild(this.borders);
         this.addChild(this.txtScore);
