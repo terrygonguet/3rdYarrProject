@@ -2,7 +2,7 @@
  * Enemy drops like points, power and stuff
  */
 
-/* global shooter, game, createjs */
+/* global shooter, game, createjs, Vector */
 
 class Drop extends createjs.Shape {
     
@@ -13,8 +13,8 @@ class Drop extends createjs.Shape {
         this.position = position;
         this.impulse  = -50;
         this.movement = $V([0, this.impulse]);
-        this.gravity  = 175;
-        this.maxSpeed = 300;
+        this.gravity  = 120;
+        this.maxSpeed = 200;
         this.color    = "#000";
         
         this.on("tick", this.update, this);
@@ -39,12 +39,18 @@ class Drop extends createjs.Shape {
     }
     
     update (e) {
-        this.position = this.position.add(this.movement.x(e.delta / 1000));
-        this.movement.setElements([
-            0, (this.movement.e(2) + (this.gravity * e.delta / 1000)).clamp(this.impulse, this.maxSpeed)
-        ]);
+        if (game.player.position.e(2) <= 0.15 * shooter.dimensions.e(2)) {
+            this.movement = Vector.Zero(2);
+            this.position = this.position.add(game.player.position.subtract(this.position).toUnitVector().x(this.maxSpeed * 3 * e.delta / 1000));
+            this.x = this.position.e(1) + shooter.position.e(1);
+        } else {
+            this.position = this.position.add(this.movement.x(e.delta / 1000));
+            this.movement.setElements([
+                0, (this.movement.e(2) + (this.gravity * e.delta / 1000)).clamp(this.impulse, this.maxSpeed)
+            ]);
+        }
         
-        this.collide()
+        this.collide();
         
         if (this.position.e(2) > shooter.dimensions.e(2)) this.die();
         this.y = this.position.e(2) + shooter.position.e(2);

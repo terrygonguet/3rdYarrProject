@@ -11,8 +11,9 @@ class Enemy extends createjs.Shape {
         this.position = position;
         this.radius   = radius;
         this.health   = health;
+        this.color    = color;
         
-        this.graphics.s("#000").f(color).dc(0,0,this.radius);
+        this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
         
         this.on("tick", this.update, this);
         

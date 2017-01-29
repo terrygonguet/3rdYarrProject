@@ -24,7 +24,7 @@ class ShotgunWeapon extends Weapon {
             
             for (var i = 0; i < this.nbPellets; i++) {
                 var angle = (Math.random() * this.spread) - (this.spread / 2);
-                var bullet = new Bullet(game.player.position, $V([0, -1]).rotate(angle, Vector.Zero(2)), 700 + (Math.random() * 100 - 50), 3, "player");
+                var bullet = new Bullet(game.player.position, $V([0, -1]).rotate(angle, Vector.Zero(2)), 1000 + (Math.random() * 100 - 50), 3, "player");
                 game.addChild(bullet);
             }
             
