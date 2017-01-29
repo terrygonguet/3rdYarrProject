@@ -13,9 +13,8 @@ class ShieldSpecial extends Special {
     
     trigger () {
         super.trigger();
-        var self = game.player.special;
-        if (game.player.weapon.level >= self.cost) {
-            game.player.weapon.level -= self.cost;
+        if (game.player.weapon.level >= this.cost) {
+            game.player.weapon.level -= this.cost;
             var shield = new createjs.Shape();
             shield.graphics.ss(3).s("#000").dc(0,0,200);
             shield.set({

@@ -9,7 +9,7 @@ function debugOn () {
     });
     game.addChild(fps);
     
-    var hint = new createjs.Text("W or Z to fire, Shift to focus, X to use special and Arrows to move.", "12px Verdana", "#000");
+    var hint = new createjs.Text("W or Z to fire, Shift to focus, X to use special and Arrows to move.\nThe special uses 1 power and power upgrades your weapon.", "12px Verdana", "#000");
     hint.set({
         x: 10, y: 40
     });

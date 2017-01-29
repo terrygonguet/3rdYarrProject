@@ -7,7 +7,10 @@
 class Special {
     
     constructor () {
-        input.onSpecial.push(this.trigger);
+        var self = this;
+        input.onSpecial.push(function () {
+            self.trigger();
+        });
     }
     
     trigger () {

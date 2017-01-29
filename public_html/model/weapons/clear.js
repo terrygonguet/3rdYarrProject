@@ -13,9 +13,8 @@ class ClearSpecial extends Special {
     
     trigger() {
         super.trigger();
-        var self = game.player.special;
-        if (game.player.weapon.level >= self.cost) {
-            game.player.weapon.level -= self.cost;
+        if (game.player.weapon.level >= this.cost) {
+            game.player.weapon.level -= this.cost;
             var toDie = [];
             for (var i of game.children) {
                 if (i instanceof Bullet || i instanceof Enemy) toDie.push(i);
