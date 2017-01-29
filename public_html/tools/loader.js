@@ -1,3 +1,5 @@
+/* global shooter, game, createjs */
+
 var queue = new createjs.LoadQueue();
 queue.on("complete", handleComplete, this);
 queue.on("fileload", handleFileLoad, this);
@@ -14,7 +16,7 @@ queue.txt.textAlign = "center";
 queue.txt.set({
     x: window.innerWidth / 2,
     y: window.innerHeight / 3
-})
+});
 queue.nbLoaded = 0;
 queue.stage.canvas.width = window.innerWidth;
 queue.stage.canvas.height = window.innerHeight;
@@ -33,7 +35,10 @@ queue.manifest = [
     {id: "Shooter Stage", src:"model/shooterStage.js"},
     {id: "Pathing Enemy", src:"model/enemy/pathingEnemy.js"},
     {id: "Button", src:"model/button.js"},
-    {id: "Drops", src:"model/drop.js"}
+    {id: "Drops", src:"model/drop.js"},
+    {id: "Weapon Abstract", src:"model/weapons/weapon.js"},
+    {id: "Weapon Blaster", src:"model/weapons/blaster.js"},
+    {id: "Weapon Shotgun", src:"model/weapons/shotgun.js"}
 ];
 queue.loadManifest(queue.manifest);
 

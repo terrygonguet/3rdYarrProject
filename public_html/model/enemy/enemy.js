@@ -2,14 +2,15 @@
  * Base Enemy class
  */
 
+/* global shooter, game, createjs */
+
 class Enemy extends createjs.Shape {
     
-    constructor (position, radius, color, health, pointValue) {
+    constructor (position, radius, color, health) {
         super();
         this.position = position;
         this.radius   = radius;
         this.health   = health;
-        this.points   = pointValue;
         
         this.graphics.s("#000").f(color).dc(0,0,this.radius);
         
@@ -30,10 +31,6 @@ class Enemy extends createjs.Shape {
     
     die(playerKilled) {
         game.removeChild(this);
-        if (playerKilled) {
-            shooter.score += this.points;
-            if (Math.random() < 0.5) game.addChild(new Drop("points", this.points, this.position));
-        }
     }
     
     getHit () {

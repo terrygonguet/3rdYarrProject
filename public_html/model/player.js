@@ -1,6 +1,9 @@
 /* 
  * The player graphics and controls
  */
+
+/* global shooter, game, createjs */
+
 class Player extends createjs.Shape {
     
     constructor () {
@@ -12,8 +15,7 @@ class Player extends createjs.Shape {
         this.focusSpeed  = 100;
         this.radius      = 10;
         
-        this.cooldown    = 0;
-        this.fireRate    = 50;
+        this.weapon      = new ShotgunWeapon();
         
         this.graphics.s("#000").f("#33A").dc(0,0,this.radius);
         
@@ -24,11 +26,9 @@ class Player extends createjs.Shape {
     }
     
     update (e) {
-        if (input.keys.fire && this.cooldown > this.fireRate) {
-            this.cooldown = 0;
-            this.fire();
-        }
-        this.cooldown += e.delta;
+        this.weapon.update(e);
+        if (input.keys.fire) this.weapon.fire();
+        
         var direction = $V([
             Number(-input.keys.left + input.keys.right),
             Number(-input.keys.up + input.keys.down)
@@ -39,15 +39,11 @@ class Player extends createjs.Shape {
             this.position.e(1).clamp(this.radius, shooter.dimensions.e(1) - this.radius),
             this.position.e(2).clamp(this.radius, shooter.dimensions.e(2) - this.radius)
         ]);
+        
         this.set({
             x: this.position.e(1) + shooter.position.e(1), 
             y: this.position.e(2) + shooter.position.e(2)
         });
-    }
-    
-    fire () {
-        var bullet = new Bullet(this.position, $V([0, -1]), 2500, 5, "player");
-        game.addChild(bullet);
     }
     
     getHit () {

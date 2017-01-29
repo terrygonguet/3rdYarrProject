@@ -2,13 +2,16 @@
  * Base enemy with a set of points to visit
  */
 
+/* global shooter, game, createjs */
+
 class PathingEnemy extends Enemy {
     
     constructor (path, speed, radius, color, health, pointValue) {
-        super(path[0], radius, color, health, pointValue);
+        super(path[0], radius, color, health);
         this.path  = path;
         this.speed = speed;
         this.step  = 1;
+        this.points= pointValue;
     }
     
     update (e) {
@@ -23,6 +26,15 @@ class PathingEnemy extends Enemy {
         var move = this.path[this.step].subtract(this.position).toUnitVector().x(this.speed * e.delta / 1000);
         this.position = this.position.add(move);
         super.update(e);
+    }
+    
+    die(playerKilled) {
+        super.die(playerKilled)
+        if (playerKilled) {
+            shooter.score += this.points;
+            if (Math.random() < 0.5) game.addChild(new Drop("points", this.points, this.position));
+            else game.addChild(new Drop("upgrade", 1, this.position));
+        }
     }
     
 }

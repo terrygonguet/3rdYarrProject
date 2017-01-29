@@ -2,6 +2,8 @@
  * A button to load a level
  */
 
+/* global shooter, game, createjs */
+
 class Button extends createjs.Container {
     
     constructor (callback, context, text, position) {

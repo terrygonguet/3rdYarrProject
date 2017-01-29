@@ -2,6 +2,8 @@
  * Enemy drops like points, power and stuff
  */
 
+/* global shooter, game, createjs */
+
 class Drop extends createjs.Shape {
     
     constructor (type, value, position) {
@@ -13,10 +15,22 @@ class Drop extends createjs.Shape {
         this.movement = $V([0, this.impulse]);
         this.gravity  = 175;
         this.maxSpeed = 300;
+        this.color    = "#000";
         
         this.on("tick", this.update, this);
         
-        this.graphics.s("#000").f("#88E").dr(-5, -5, 10, 10);
+        switch (type) {
+            case "points" :
+                this.color = "#88E";
+                break;
+            case "upgrade" :
+                this.color = "#E88";
+                break;
+            default :
+                this.color = "#8E8";
+                break;
+        }
+        this.graphics.s("#000").f(this.color).dr(-5, -5, 10, 10);
         
         this.set({
             x: this.position.e(1) + shooter.position.e(1),
@@ -45,6 +59,9 @@ class Drop extends createjs.Shape {
             switch(this.type) {
                 case "points" :
                     shooter.score += this.value;
+                    break;
+                case "upgrade" :
+                    game.player.weapon.upgrade(this.value);
                     break;
             }
             this.die();

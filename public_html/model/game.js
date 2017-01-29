@@ -1,6 +1,9 @@
 /*
  * The main class handling updates and graphics
  */
+
+/* global shooter, game, createjs */
+
 class Game extends createjs.Stage {
 	
     constructor (canvasName) {

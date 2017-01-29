@@ -1,6 +1,9 @@
 /* 
  * Bullet class
  */
+
+/* global shooter, game, createjs */
+
 class Bullet extends createjs.Shape {
     
     constructor (position, direction, speed, radius, type) {
