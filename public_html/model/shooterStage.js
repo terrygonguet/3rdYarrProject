@@ -71,7 +71,7 @@ class ShooterStage extends createjs.Container {
             } while (!noMoreSpawns);
         }
         this.txtScore.text = "Score : " + this.score;
-        this.txtPower.text = "power : " + game.player.weapon.level;
+        this.txtPower.text = "power : " + game.player.weapon.level.toFixed(2);
     }
     
     loadLevel (file) {

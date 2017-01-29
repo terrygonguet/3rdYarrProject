@@ -33,7 +33,7 @@ class PathingEnemy extends Enemy {
         if (playerKilled) {
             shooter.score += this.points;
             if (Math.random() < 0.5) game.addChild(new Drop("points", this.points, this.position));
-            else game.addChild(new Drop("upgrade", 1, this.position));
+            else game.addChild(new Drop("upgrade", Number((Math.random() / 2).toFixed(2)), this.position));
         }
     }
     

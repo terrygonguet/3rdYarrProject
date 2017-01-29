@@ -6,13 +6,14 @@
 
 class Bullet extends createjs.Shape {
     
-    constructor (position, direction, speed, radius, type) {
+    constructor (position, direction, speed, damage=1, radius=3, type="enemy") {
         super();
         this.position  = position;
         this.direction = direction;
         this.speed     = speed;
         this.radius    = radius;
         this.type      = type;
+        this.damage    = damage;
         
         this.graphics.s("#000").f("#A33").dc(0,0,this.radius);
         
@@ -36,7 +37,7 @@ class Bullet extends createjs.Shape {
             }
             this.position = startPos.add(this.direction.x(moved));
             this.collide();
-        } while (toMove != moved);
+        } while (toMove !== moved);
         
         if (this.position.e(1) > shooter.dimensions.e(1) ||
             this.position.e(1) < 0 ||
@@ -59,7 +60,7 @@ class Bullet extends createjs.Shape {
             case "player" : 
                 for (var i of game.enemies) {
                     if (i.position.distanceFrom(this.position) < i.radius + this.radius) {
-                        i.getHit();
+                        i.getHit(this.damage);
                         this.die();
                         break;
                     }

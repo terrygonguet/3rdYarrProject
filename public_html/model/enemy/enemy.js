@@ -34,9 +34,9 @@ class Enemy extends createjs.Shape {
         game.removeChild(this);
     }
     
-    getHit () {
-        this.health--;
-        if (this.health < 0) {
+    getHit (damage) {
+        this.health -= damage;
+        if (this.health <= 0) {
             this.die(true);
         }
     }
