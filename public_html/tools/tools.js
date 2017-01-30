@@ -1,6 +1,9 @@
 /* 
  * Random debug info printed
  */
+
+/* global game, createjs */
+
 var debug = false;
 function debugOn () {
     var fps = new createjs.Text("00 FPS", "20px Verdana", "#000");
