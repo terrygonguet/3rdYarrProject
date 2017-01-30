@@ -10,29 +10,36 @@ class SmoothCriminal extends Enemy {
         super(position, radius, color, health);
         this.path = [position];
         this.segments = [];
+        this.step = 0;
     }
     
-    getLastLine () {
+    getLastTangent () {
         var line = null;
-        if (this.path.length >= 2) {
-            var last = this.path[this.path.length - 1];
-            var prev = this.path[this.path.length - 2];
-            line = $L(prev, last.subtract(prev));
+        var last = this.segments[this.segments.length - 1];
+        if (last) {
+            line = last.endTangent;
         }
         return line;
     }
     
     addPoint (to, speed) {
+        this.segments.push(new Segment(this.getLastTangent(), this.path[this.path.length - 1], to, speed));
         this.path.push(to);
-        this.segments.push(new Segment(this.getLastLine(), this.path[this.path.length - 1], to, speed));
+    }
+    
+    update (e) {
+        this.position = this.segments[this.step].getPos(e.delta);
+        if (this.segments[this.step].isDone()) this.step++;
+        if (this.step >= this.segments.length) this.die(false);
+        super.update(e);
     }
     
 }
 
 class Segment {
     
-    constructor (line, from, to, speed) {
-        this.tangent  = line;
+    constructor (tangent, from, to, speed) {
+        this.tangent  = tangent;
         this.from     = from;
         this.to       = to;
         this.speed    = speed;
@@ -41,6 +48,7 @@ class Segment {
         this.totalTime= 0;
         this.distance = 0;
         this.callback = null;
+        this.endTangent= null;
         
         if (this.tangent) {
             this.type = (this.line.isParallelTo(this.tangent) ? "straight" : "curved");
@@ -52,8 +60,28 @@ class Segment {
             case "straight" :
                 this.distance = this.to.distanceFrom(this.from);
                 this.totalTime = this.distance / this.speed * 1000;
+                this.endTangent = this.line;
                 this.callback = function () {
-                    
+                    var move = this.to.subtract(this.from).toUnitVector();
+                    return this.from.add(move.x(this.distance * (this.time / this.totalTime).clamp(0,1)));
+                };
+                break;
+                
+            case "curved" :
+                var radiusLine = this.tangent.rotate(Math.PI / 2, this.from);
+                var middleLine = this.line.rotate(Math.PI / 2, this.from);
+                middleLine.anchor = this.from.add(this.to.subtract(this.from).x(0.5)).to3D();
+                var center = radiusLine.intersectionWith(middleLine);
+                var radius = this.from.to3D().distanceFrom(center);
+                var centerTo = this.to.to3D().subtract(center), 
+                    centerFrom = this.from.to3D().subtract(center);
+                var angle = centerTo.angleFrom(centerFrom);
+                var clockwise = radiusLine.direction.angleFrom(centerFrom) > 1 ? 1 : -1;
+                this.distance = angle * radius;
+                this.totalTime = this.distance / this.speed * 1000;
+                this.endTangent = $L(this.to.to3D(), centerTo.rotate(clockwise * Math.PI / 2, Line.Z));
+                this.callback = function () {
+                    return this.from.to3D().rotate(clockwise * angle * (this.time / this.totalTime).clamp(0,1), $L(center, $V([0,0,1])));
                 };
                 break;
         }
@@ -62,6 +90,11 @@ class Segment {
     
     getPos (delta) {
         this.time += delta;
+        return this.callback.call(this);
+    }
+    
+    isDone () {
+        return (this.time >= this.totalTime)
     }
     
 }

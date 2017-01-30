@@ -31,33 +31,38 @@ class ShooterStage extends createjs.Container {
            x: this.txtScore.x, y: 30 
         });
         
+        var i = 200;
         var lvl1btn = new Button(function () {
             shooter.loadLevel("levels/lvl1.js"); 
-        }, null, "Level 1", $V([this.dimensions.e(1) + 10, 200]));
+        }, null, "Level 1", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(lvl1btn);
         var lvl2btn = new Button(function () {
             shooter.loadLevel("levels/lvl2.js"); 
-        }, null, "Level 2", $V([this.dimensions.e(1) + 10, 235]));
+        }, null, "Level 2", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(lvl2btn);
+        var lvl3btn = new Button(function () {
+            shooter.loadLevel("levels/lvl3.js"); 
+        }, null, "Level 3", $V([this.dimensions.e(1) + 10, i+=35]));
+        this.addChild(lvl3btn);
         
         var blasterbtn = new Button(function () {
             game.player.weapon = new BlasterWeapon();
-        }, null, "Weapon Blaster", $V([this.dimensions.e(1) + 10, 270]));
+        }, null, "Weapon Blaster", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(blasterbtn);
         var shotgunbtn = new Button(function () {
             game.player.weapon = new ShotgunWeapon();
-        }, null, "Weapon Shotgun", $V([this.dimensions.e(1) + 10, 305]));
+        }, null, "Weapon Shotgun", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(shotgunbtn);
         
         var clearbtn = new Button(function () {
             game.player.special && game.player.special.remove();
             game.player.special = new ClearSpecial();
-        }, null, "Special Clear", $V([this.dimensions.e(1) + 10, 340]));
+        }, null, "Special Clear", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(clearbtn);
         var shieldbtn = new Button(function () {
             game.player.special && game.player.special.remove();
             game.player.special = new ShieldSpecial();
-        }, null, "Special Shield", $V([this.dimensions.e(1) + 10, 375]));
+        }, null, "Special Shield", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(shieldbtn);
         
         this.addChild(this.borders);
