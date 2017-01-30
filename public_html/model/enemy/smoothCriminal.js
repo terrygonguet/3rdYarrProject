@@ -90,7 +90,8 @@ class Segment {
     
     getPos (delta) {
         this.time += delta;
-        return this.callback.call(this);
+        var pos = this.callback.call(this);
+        return $V([pos.e(1), pos.e(2)]);
     }
     
     isDone () {
