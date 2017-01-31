@@ -11,6 +11,7 @@ class SmoothCriminal extends Enemy {
         this.path = [position];
         this.segments = [];
         this.step = 0;
+        this.points = 75;
     }
     
     getLastTangent () {
@@ -32,6 +33,15 @@ class SmoothCriminal extends Enemy {
         if (this.segments[this.step].isDone()) this.step++;
         if (this.step >= this.segments.length) this.die(false);
         super.update(e);
+    }
+    
+    die(playerKilled) {
+        super.die(playerKilled)
+        if (playerKilled) {
+            shooter.score += this.points;
+            if (Math.random() < 0.5) game.addChild(new Drop("points", this.points, this.position));
+            else game.addChild(new Drop("upgrade", Number((Math.random() / 2).toFixed(2)), this.position));
+        }
     }
     
 }
@@ -75,7 +85,8 @@ class Segment {
                 var radius = this.from.to3D().distanceFrom(center);
                 var centerTo = this.to.to3D().subtract(center), 
                     centerFrom = this.from.to3D().subtract(center);
-                var angle = centerTo.angleFrom(centerFrom);
+                //var angle = centerTo.angleFrom(centerFrom);
+                var angle = 2 * middleLine.direction.angleFrom(radiusLine.direction);
                 var clockwise = radiusLine.direction.angleFrom(centerFrom) > 1 ? 1 : -1;
                 this.distance = angle * radius;
                 this.totalTime = this.distance / this.speed * 1000;
