@@ -35,7 +35,7 @@ class Bullet extends createjs.Shape {
             } else {
                 moved = toMove;
             }
-            this.position = startPos.add(this.direction.x(moved));
+            this.position = startPos.add(this.direction.toUnitVector().x(moved));
             this.collide();
         } while (toMove !== moved);
         

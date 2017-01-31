@@ -12,6 +12,7 @@ class Enemy extends createjs.Shape {
         this.radius   = radius;
         this.health   = health;
         this.color    = color;
+        this.pattern  = new ShootingPattern(this);
         
         this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
         
@@ -24,6 +25,7 @@ class Enemy extends createjs.Shape {
     }
     
     update (e) {
+        this.pattern.update(e);
         this.set({
             x: this.position.e(1) + shooter.position.e(1),
             y: this.position.e(2) + shooter.position.e(2)
