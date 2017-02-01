@@ -4,12 +4,20 @@
 
 /* global shooter, game, createjs */
 
+/*
+ * position : 2D Vector
+ * direction : 2D Vector, will be normalised
+ * speed : pixels/second
+ * damage : number of hp per hit
+ * radius : radius of the circle hitbox
+ * type : enum["player", "enemy"] the source of the bullet (used for collisions)
+ */
 class Bullet extends createjs.Shape {
     
     constructor (position, direction, speed, damage=1, radius=3, type="enemy") {
         super();
         this.position  = position;
-        this.direction = direction;
+        this.direction = direction.toUnitVector();
         this.speed     = speed;
         this.radius    = radius;
         this.type      = type;
@@ -35,7 +43,7 @@ class Bullet extends createjs.Shape {
             } else {
                 moved = toMove;
             }
-            this.position = startPos.add(this.direction.toUnitVector().x(moved));
+            this.position = startPos.add(this.direction.x(moved));
             this.collide();
         } while (toMove !== moved);
         

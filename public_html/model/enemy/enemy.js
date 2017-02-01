@@ -4,6 +4,12 @@
 
 /* global shooter, game, createjs */
 
+/*
+ * position : 2D Vector
+ * radius : number, radius of the circle hitbox
+ * color [temp] : HTML color of the circle
+ * health : number of hit points
+ */
 class Enemy extends createjs.Shape {
     
     constructor (position, radius, color, health) {
@@ -32,6 +38,10 @@ class Enemy extends createjs.Shape {
         });
     }
     
+    /*
+     * playerKilled : boolean to indicate if killed by the player or removed
+     *      by other means
+     */
     die(playerKilled) {
         game.removeChild(this);
     }

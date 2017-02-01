@@ -4,6 +4,10 @@
 
 /* global shooter, game, createjs */
 
+/*
+ * position : 2D Vector position of the upper left corner
+ * dimensiosn : 2D Vector dimensions of the playing stage
+ */
 class ShooterStage extends createjs.Container {
     
     constructor (position, dimensions) {
@@ -90,6 +94,9 @@ class ShooterStage extends createjs.Container {
         this.txtPower.text = "power : " + game.player.weapon.level.toFixed(2);
     }
     
+    /*
+     * file : path to the level file to be loaded
+     */
     loadLevel (file) {
         var self = this;
         this.encounters = [];
@@ -105,6 +112,10 @@ class ShooterStage extends createjs.Container {
         });
     }
     
+    /*
+     * enemy : enemy object to appear
+     * time : number of ms after which to add the enemy to the stage
+     */
     addEncounter (enemy, time) {
         this.encounters.push({time:time, enemy:enemy});
     }
