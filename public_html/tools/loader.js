@@ -54,6 +54,7 @@ window.addEventListener('resize', resizeCanvas, false);
 function handleComplete() {
     console.log("Loading complete.");
     queue.stage.removeChild(queue.bar);
+    queue.stage.removeChild(queue.txt);
     game = new Game("game");
     shooter = game.shooterStage;
     resizeCanvas();
