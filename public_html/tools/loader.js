@@ -31,6 +31,7 @@ queue.manifest = [
     {id: "Tools", src:"tools/tools.js"},
     {id: "Player", src:"model/player.js"},
     {id: "Bullet", src:"model/bullet.js"},
+    {id: "Bullet Sprite", src:"resources/bulletRed.png"},
     {id: "Enemy Abstract", src:"model/enemy/enemy.js"},
     {id: "Pathing Enemy", src:"model/enemy/pathingEnemy.js"},
     {id: "Smooth Enemy", src:"model/enemy/smoothCriminal.js"},

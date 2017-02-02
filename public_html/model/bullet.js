@@ -12,10 +12,10 @@
  * radius : radius of the circle hitbox
  * type : enum["player", "enemy"] the source of the bullet (used for collisions)
  */
-class Bullet extends createjs.Shape {
+class Bullet extends createjs.Bitmap {
     
     constructor (position, direction, speed, damage=1, radius=3, type="enemy") {
-        super();
+        super(queue.getResult("Bullet Sprite"));
         this.position  = position;
         this.direction = direction.toUnitVector();
         this.speed     = speed;
@@ -23,13 +23,15 @@ class Bullet extends createjs.Shape {
         this.type      = type;
         this.damage    = damage;
         
-        this.graphics.s("#000").f("#A33").dc(0,0,this.radius);
+        // this.graphics.s("#000").f("#A33").dc(0,0,this.radius);
+        this.scaleX = this.scaleY = this.radius / (this.image.width / 2);
         
         this.on("tick", this.update, this);
         
         this.set({
             x: this.position.e(1) + shooter.position.e(1), 
-            y: this.position.e(2) + shooter.position.e(2)
+            y: this.position.e(2) + shooter.position.e(2),
+            rotation: this.direction.angleFrom($V([0,-1])) * Math.sign(this.direction.e(1)) * 57.2958
         });
     }
     
@@ -46,6 +48,7 @@ class Bullet extends createjs.Shape {
             this.position = startPos.add(this.direction.x(moved));
             this.collide();
         } while (toMove !== moved);
+        this.rotation = this.direction.angleFrom(-Vector.j) * Math.sign(this.direction.e(1));
         
         if (this.position.e(1) > shooter.dimensions.e(1) ||
             this.position.e(1) < 0 ||
@@ -55,7 +58,8 @@ class Bullet extends createjs.Shape {
         }
         this.set({
             x: this.position.e(1) + shooter.position.e(1), 
-            y: this.position.e(2) + shooter.position.e(2)
+            y: this.position.e(2) + shooter.position.e(2),
+            rotation: this.direction.angleFrom($V([0,-1])) * Math.sign(this.direction.e(1)) * 57.2958
         });
     }
     
