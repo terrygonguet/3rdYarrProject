@@ -13,16 +13,17 @@ class Player extends createjs.Shape {
         this.position    = $V([0,0]);
         this.normalSpeed = 320;
         this.focusSpeed  = 100;
-        this.radius      = 10;
+        this.radius      = 3;
         
         this.weapon      = new BlasterWeapon();
         this.special     = new ShieldSpecial();
-        
-        this.graphics.s("#000").f("#33A").dc(0,0,this.radius);
+        this.normalGraph = new createjs.Graphics().s("#000").f("#33A").dc(0,0,10);
+        this.focusGraph  = new createjs.Graphics().s("#000").f("#33A").dc(0,0,10).f("#FFF").dc(0,0,this.radius);        
         
         this.set({
             x: this.position.e(1),
-            y: this.position.e(2)
+            y: this.position.e(2),
+            graphics: this.normalGraph
         });
     }
     
@@ -43,7 +44,8 @@ class Player extends createjs.Shape {
         
         this.set({
             x: this.position.e(1) + shooter.position.e(1), 
-            y: this.position.e(2) + shooter.position.e(2)
+            y: this.position.e(2) + shooter.position.e(2),
+            graphics: input.keys.focus ? this.focusGraph : this.normalGraph
         });
     }
     
