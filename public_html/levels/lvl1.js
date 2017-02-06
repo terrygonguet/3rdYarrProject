@@ -2,18 +2,17 @@
  * Level 1
  */
 
-for (var i = 0; i < 10; i++) {
-    shooter.addEncounter(new PathingEnemy([
-        $V([0,100]),
-        $V([200, 200]),
-        $V([400, 100]),
-        $V([600, 200])
-    ], 200, 10, "#917", 1, 500), 1000 + i * 300);
-}
-
-shooter.addEncounter(new PathingEnemy([
-        $V([0,100]),
-        $V([200, 200]),
-        $V([400, 100]),
-        $V([600, 200])
-    ], 200, 10, "#917", 5, 500), 5000);
+(function () {
+    var boss = new Boss($V([100,100]), 20, "#FF7B0F");
+    boss.addPhase(
+        new TargetPlayerPattern(boss, 0.5, 1, {radius: 10}),
+        new Pattern(boss, function (e) {
+            if (this.enemy.position.distanceFrom(this.dest) <= this.enemy.radius / 2) {
+                this.dest = (this.dest.eql($V([100,100])) ? $V([500,100]) : $V([100,100]));
+            }
+            var dir = this.dest.subtract(this.enemy.position).toUnitVector().x(e.delta / 1000 * this.speed);
+            this.enemy.position = this.enemy.position.add(dir);
+        }, {dest: $V([500,100]), speed:100}),
+        1500);
+    shooter.addEncounter(boss, 500);
+})();

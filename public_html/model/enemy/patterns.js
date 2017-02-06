@@ -5,12 +5,12 @@
 /* global shooter, game, createjs */
 
 /*
- * enemy : reference to the enemy firing
- * callback : function called every update, this object is the ShootingPattern,
+ * enemy : reference to the enemy
+ * callback : function called every update, 'this' object is the Pattern,
  *      argument is createjs event object and this.time is auto incremented by delta
  * props : object whose properties will be added to the this object to be used in callback
  */
-class ShootingPattern {
+class Pattern {
     
     constructor (enemy, callback = null, props = {}) {
         this.enemy    = enemy;
@@ -29,12 +29,12 @@ class ShootingPattern {
 }
 
 /*
- * Shortcut for a basic "fire at the player every so often
+ * Shortcut for a basic "fire at the player every so often"
  * fireRate : shots/second
  * chance : [0,1[ probability to choot every update when can shoot
  * bulletProps : {position, speed, radius} if set, overrides defaults
  */
-class TargetPlayerPattern extends ShootingPattern {
+class TargetPlayerPattern extends Pattern {
     
     constructor (enemy, fireRate, chance, bulletProps = {}) {
         super(enemy, function () {

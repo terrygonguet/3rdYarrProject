@@ -38,13 +38,13 @@ class Game extends createjs.Stage {
     
     addChild (child) {
         super.addChild(child);
-        if (child instanceof Enemy)
+        if (child instanceof Enemy || child instanceof Boss)
             this.enemies.push(child);
     }
     
     removeChild (child) {
         super.removeChild(child);
-        if (child instanceof Enemy)
+        if (child instanceof Enemy || child instanceof Boss)
             this.enemies.splice(this.enemies.indexOf(child), 1);
     }
 	
