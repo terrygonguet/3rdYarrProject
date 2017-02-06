@@ -46,7 +46,7 @@ class Boss extends createjs.Shape {
     
     update (e) {
         if (this.health >= 0) {
-            if (this.invincible > 0) this.invincible -= e.delta;
+            if (this.invincible >= 0) this.invincible -= e.delta;
             this.phases[this.step].shooting.update(e);
             this.phases[this.step].moving.update(e);
             this.lifemeter.text = this.health;
@@ -72,7 +72,7 @@ class Boss extends createjs.Shape {
     }
     
     getHit (damage) {
-        if (!this.invincible > 0) {
+        if (this.invincible <= 0) {
             this.health -= damage;
         }
     }

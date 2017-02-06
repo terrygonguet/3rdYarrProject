@@ -14,11 +14,12 @@ class Player extends createjs.Shape {
         this.normalSpeed = 320;
         this.focusSpeed  = 100;
         this.radius      = 3;
+        this.size        = 10;
         
         this.weapon      = new BlasterWeapon();
         this.special     = new ShieldSpecial();
-        this.normalGraph = new createjs.Graphics().s("#000").f("#33A").dc(0,0,10);
-        this.focusGraph  = new createjs.Graphics().s("#000").f("#33A").dc(0,0,10).f("#FFF").dc(0,0,this.radius);        
+        this.normalGraph = new createjs.Graphics().s("#000").f("#33A").dc(0,0,this.size);
+        this.focusGraph  = new createjs.Graphics().s("#000").f("#33A").dc(0,0,this.size).f("#FFF").dc(0,0,this.radius);        
         
         this.set({
             x: this.position.e(1),

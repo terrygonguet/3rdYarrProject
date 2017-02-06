@@ -51,10 +51,12 @@ class ShooterStage extends createjs.Container {
         
         var blasterbtn = new Button(function () {
             game.player.weapon = new BlasterWeapon();
+            game.player.weapon.level = 3;
         }, null, "Weapon Blaster", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(blasterbtn);
         var shotgunbtn = new Button(function () {
             game.player.weapon = new ShotgunWeapon();
+            game.player.weapon.level = 3;
         }, null, "Weapon Shotgun", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(shotgunbtn);
         

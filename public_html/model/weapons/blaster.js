@@ -20,7 +20,7 @@ class BlasterWeapon extends Weapon {
     fire () {
         if (this.time >= 1000 / this.fireRate) {
             this.time = 0;
-            var bullet = new Bullet(game.player.position, $V([0, -1]), 1300, this.damage, 5, "player");
+            var bullet = new Bullet(game.player.position.add($V([0, -game.player.size - 5])), $V([0, -1]), 1300, this.damage, 5, "player");
             game.addChild(bullet);
         }
     }

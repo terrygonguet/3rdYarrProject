@@ -3,6 +3,7 @@
 var queue = new createjs.LoadQueue();
 queue.on("complete", handleComplete, this);
 queue.on("fileload", handleFileLoad, this);
+queue.on("fileerror", handleFileError, this);
 
 queue.stage = new createjs.Stage("game");
 queue.bar = new createjs.Shape();
@@ -68,6 +69,10 @@ function handleFileLoad	(e) {
     queue.bar.graphics.s("#000").a(0, 0, 50, -Math.PI/2, (queue.nbLoaded / queue.manifest.length) * (2 * Math.PI)).es();
     queue.stage.update();
     console.log(e.item.id + " loaded.");
+}
+
+function handleFileError (e) {
+    console.log(e.item.id + " failed.");
 }
 
 function resizeCanvas() {
