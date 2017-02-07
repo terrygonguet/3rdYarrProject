@@ -4,6 +4,12 @@
 
 /* global shooter, game, createjs, Vector */
 
+/*
+ * position : 2D Vector starting position
+ * radius: duh
+ * color [temp] : html color
+ * health: number
+ */
 class SmoothCriminal extends Enemy {
     
     constructor (position, radius, color, health) {
@@ -33,6 +39,14 @@ class SmoothCriminal extends Enemy {
         if (this.segments[this.step].isDone()) this.step++;
         if (this.step >= this.segments.length) this.die(false);
         super.update(e);
+    }
+    
+    getTotalTime () {
+        var total = 0;
+        for (var i of this.segments) {
+            total += i.totalTime;
+        }
+        return total;
     }
     
     die(playerKilled) {

@@ -11,8 +11,8 @@ class Player extends createjs.Shape {
         this.on("tick", this.update, this);
         
         this.position    = $V([0,0]);
-        this.normalSpeed = 320;
-        this.focusSpeed  = 100;
+        this.normalSpeed = 500;
+        this.focusSpeed  = 150;
         this.radius      = 3;
         this.size        = 10;
         

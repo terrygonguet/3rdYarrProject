@@ -4,26 +4,35 @@
 
 /* global shooter, game, createjs */
 
+/*
+ * path : array of objects {position: 2D Vector, speed: number}, 
+ *      the first one is the starting position and the speed is the speed for the 
+ *      next move so the last speed doesn't matter
+ * radius : number radius of the hitbox
+ * color [temp] : html color
+ * health : number
+ */
 class PathingEnemy extends Enemy {
     
-    constructor (path, speed, radius, color, health, pointValue) {
-        super(path[0], radius, color, health);
+    constructor (path, radius, color, health, pointValue) {
+        super(path[0].position, radius, color, health);
         this.path  = path;
-        this.speed = speed;
+        this.speed = path[0].speed;
         this.step  = 1;
         this.points= pointValue;
     }
     
     update (e) {
-        if (this.position.distanceFrom(this.path[this.step]) <= this.speed * e.delta / 1000) {
-            this.position = this.path[this.step];
+        if (this.position.distanceFrom(this.path[this.step].position) <= this.speed * e.delta / 1000) {
+            this.position = this.path[this.step].position;
+            this.speed = this.path[this.step].speed;
             this.step++;
         }
         if (this.step >= this.path.length) { 
             this.die();
             return;
         }
-        var move = this.path[this.step].subtract(this.position).toUnitVector().x(this.speed * e.delta / 1000);
+        var move = this.path[this.step].position.subtract(this.position).toUnitVector().x(this.speed * e.delta / 1000);
         this.position = this.position.add(move);
         super.update(e);
     }
@@ -35,6 +44,15 @@ class PathingEnemy extends Enemy {
             if (Math.random() < 0.5) game.addChild(new Drop("points", this.points, this.position));
             else game.addChild(new Drop("upgrade", Number((Math.random() / 2).toFixed(2)), this.position));
         }
+    }
+    
+    getTotalTime () {
+        var total = 0, cur = this.path[0];
+        for (var i = 1; i < this.path.length; i++) {
+            total += cur.position.distanceFrom(this.path[i].position) / cur.speed * 1000;
+            cur = this.path[i];
+        }
+        return total;
     }
     
 }
