@@ -14,7 +14,7 @@
  */
 class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
     
-    constructor (position, direction, speed, damage=1, radius=3, type="enemy") {
+    constructor (position, direction, speed, damage=1, radius=3, type="enemy", color="#A33") {
         super(/*queue.getResult("Bullet Sprite")*/);
         this.position  = position;
         this.direction = direction.toUnitVector();
@@ -22,8 +22,9 @@ class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
         this.radius    = radius;
         this.type      = type;
         this.damage    = damage;
+        this.color     = color;
         
-        this.graphics.s("#000").f("#A33").dc(0,0,this.radius);
+        this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
         //this.scaleX = this.scaleY = this.radius / (this.image.width / 2);
         
         this.on("tick", this.update, this);
@@ -89,3 +90,24 @@ class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
     
 }
 
+class HomingBullet extends Bullet {
+    
+    constructor (position, direction, speed, damage=1, radius=3, type="enemy", color="#555") {
+        super(position, direction, speed, damage, radius, type, color);
+    }
+    
+    update(e) {
+        if (game.enemies.length) {
+            var target = null, dist = 500000;
+            for (var i of game.enemies) {
+                if (i.position.distanceFrom(this.position) < dist) {
+                    dist = i.position.distanceFrom(this.position);
+                    target = i;
+                }
+            }
+            this.direction = target.position.subtract(this.position).toUnitVector();
+        }
+        super.update(e);
+    }
+    
+}
