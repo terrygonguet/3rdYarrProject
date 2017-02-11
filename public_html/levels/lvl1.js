@@ -30,7 +30,7 @@
         time += 500;
         shooter.addEncounter(dude, time);
     }
-    time += 5000;
+    time += 500;
     dude = new PathingEnemy([
         {position: $V([4 * shooter.dimensions.e(1) / 5, -10]), speed: 180},
         {position: $V([4 * shooter.dimensions.e(1) / 5, 200]), speed: 0.3},
@@ -102,7 +102,7 @@
         shooter.addEncounter(dude, time);
         time += 300;
     }
-    time += dude.getTotalTime() + 5000;
+    time += dude.getTotalTime() + 3000;
     
     
     var boss = new Boss($V([100,100]), 20, "#FF7B0F");

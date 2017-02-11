@@ -52,11 +52,13 @@ class ShooterStage extends createjs.Container {
         var blasterbtn = new Button(function () {
             game.player.weapon = new BlasterWeapon();
             game.player.weapon.level = 3;
+            game.player.weapon.upgrade(0);
         }, null, "Weapon Blaster", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(blasterbtn);
         var shotgunbtn = new Button(function () {
             game.player.weapon = new ShotgunWeapon();
             game.player.weapon.level = 3;
+            game.player.weapon.upgrade(0);
         }, null, "Weapon Shotgun", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(shotgunbtn);
         
@@ -74,8 +76,6 @@ class ShooterStage extends createjs.Container {
         this.addChild(this.borders);
         this.addChild(this.txtScore);
         this.addChild(this.txtPower);
-        this.addChild(lvl1btn);
-        this.addChild(lvl2btn);
         
         this.on("tick", this.update, this);
     }
