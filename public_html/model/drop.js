@@ -71,7 +71,6 @@ class Drop extends createjs.Shape {
                     break;
                 case "upgrade" :
                     game.player.weapon.upgrade(this.value);
-                    console.log(this.value);
                     break;
             }
             this.die();

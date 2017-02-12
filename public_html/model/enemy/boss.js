@@ -73,12 +73,20 @@ class Boss extends createjs.Shape {
             });
             this.marker.x = this.x;
         } else if (this.phases.length-1 > this.step++) {
-            this.health = this.phases[this.step].health;
-            this.maxHealth = this.phases[this.step].health;
-            this.invincible = 3000;
+            this.nextPhase();
         } else {
             this.die();
         }
+    }
+    
+    nextPhase () {
+        this.health = this.phases[this.step].health;
+        this.maxHealth = this.phases[this.step].health;
+        this.invincible = 3000;
+        var entities = game.children.slice(0);
+        for (var e of entities) {
+            if (e instanceof Bullet && e.type === "enemy") e.die();
+        };
     }
     
     addPhase (shootingPattern, movingPattern, health) {
