@@ -14,7 +14,7 @@
             {position: $V([x, -10]), speed:100},
             {position: $V([x, 150]), speed:0.3},
             {position: $V([x, 149]), speed:150},
-            {position: $V([(i > 3 ? shooter.dimensions.e(1) + 10 : -10), 140]), speed:0}
+            {position: $V([(i >= 3 ? shooter.dimensions.e(1) + 10 : -10), 140]), speed:0}
         ], 10, "#189", 1, 100);
         shooter.addEncounter(dude, time);
         time += 500;
@@ -37,8 +37,9 @@
         {position: $V([4 * shooter.dimensions.e(1) / 5, 201]), speed: 200},
         {position: $V([shooter.dimensions.e(1) + 10, 190]), speed: 0}
     ], 17, "#469", 25, 500);
+    dude.drop = makeDropFunc(1, 0.5);
     shooter.addEncounter(dude, time);
-    time += dude.getTotalTime();
+    time += dude.getTotalTime() - 1000;
     
     for (var i = 0; i < 5; i++) {
         dude = new SmoothCriminal($V([4 * shooter.dimensions.e(1) / 5, -10]), 10, "#189", 1);
@@ -56,10 +57,11 @@
         {position: $V([shooter.dimensions.e(1) / 5, 201]), speed: 200},
         {position: $V([-10, 190]), speed: 0}
     ], 17, "#469", 25, 500);
+    dude.drop = makeDropFunc(1, 0.5);
     shooter.addEncounter(dude, time);
-    time += dude.getTotalTime() + 1000;
+    time += dude.getTotalTime();
     
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 5; i++) {
         for (var j = 1; j <= 5; j++) {
             var x = (j + (i % 2) / 2) * shooter.dimensions.e(1) / 6;
             dude = new PathingEnemy([
@@ -74,24 +76,40 @@
     }
     time += dude.getTotalTime();
     
-    dude = new SmoothCriminal($V([-10, 100]), 17, "#469", 25);
+    dude = new SmoothCriminal($V([-10, 100]), 17, "#469", 25, 500);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 200]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 200]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) + 10, 100]), 150);
+    dude.drop = makeDropFunc(1, 0.5);
     shooter.addEncounter(dude, time);
     
-    dude = new SmoothCriminal($V([shooter.dimensions.e(1) + 10, 200]), 17, "#469", 25);
+    dude = new SmoothCriminal($V([shooter.dimensions.e(1) + 10, 200]), 17, "#469", 25, 500);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 200]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 200]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 200]), 150);
     dude.addPoint($V([-10, 200]), 150);
+    dude.drop = makeDropFunc(1, 0.5);
     shooter.addEncounter(dude, time);
-    time += dude.getTotalTime() + 2000;
+    time += dude.getTotalTime();
+    
+    for (var i = 0; i < 15; i++) {
+        dude = new SmoothCriminal($V([-10, 100]), 10, "#924", 1);
+        dude.addPoint($V([shooter.dimensions.e(1) - 200, 100]), 150);
+        dude.addPoint($V([shooter.dimensions.e(1) - 200, 300]), 150);
+        dude.addPoint($V([-10, 300]), 150);
+        shooter.addEncounter(dude, time);
+        dude = new SmoothCriminal($V([shooter.dimensions.e(1) + 10, 400]), 10, "#924", 1);
+        dude.addPoint($V([200, 400]), 150);
+        dude.addPoint($V([200, 600]), 150);
+        dude.addPoint($V([shooter.dimensions.e(1) + 10, 600]), 150);
+        shooter.addEncounter(dude, time);
+        time += 200;
+    }
     
     for (var i = 0; i < 8; i++) {
         var startpos = $V([(i % 2 ? -10 : shooter.dimensions.e(1) + 10), 2 * shooter.dimensions.e(2) / 3 - i * shooter.dimensions.e(2) / 12]);

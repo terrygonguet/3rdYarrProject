@@ -20,7 +20,7 @@ class Enemy extends createjs.Shape {
         this.color    = color;
         this.pattern  = null;
         this.points   = pointValue;
-        this.drop     = defaultDrop;
+        this.drop     = makeDropFunc();
         
         this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
         
@@ -61,10 +61,12 @@ class Enemy extends createjs.Shape {
     
 }
 
-function defaultDrop (enemy) {
-    if (Math.random() <= 0.3) {
-        game.addChild(new Drop("upgrade", 0.05, enemy.position));
-    } else if (Math.random() <= 0.5) {
-        game.addChild(new Drop("points", 2 * enemy.points, enemy.position));
-    }
+function makeDropFunc (probUpgrade=0.3, valUpgrade=0.05, probPoints=0.3, valPoints=200) {
+    return function (enemy) {
+        if (Math.random() <= probUpgrade) {
+            game.addChild(new Drop("upgrade", valUpgrade, enemy.position));
+        } else if (Math.random() <= probPoints) {
+            game.addChild(new Drop("points", valPoints, enemy.position));
+        }
+    };
 }
