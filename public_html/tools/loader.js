@@ -66,7 +66,7 @@ function handleComplete() {
 
 function handleFileLoad	(e) {
     queue.nbLoaded ++;
-    queue.bar.graphics.s("#000").a(0, 0, 50, -Math.PI/2, (queue.nbLoaded / queue.manifest.length) * (2 * Math.PI)).es();
+    queue.bar.graphics.s("#000").a(0, 0, 50, -Math.PI/2, (queue.nbLoaded / queue.manifest.length) * (2 * Math.PI) - Math.PI/2).es();
     queue.stage.update();
     console.log(e.item.id + " loaded.");
 }

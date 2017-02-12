@@ -12,8 +12,8 @@
  */
 class SmoothCriminal extends Enemy {
     
-    constructor (position, radius, color, health) {
-        super(position, radius, color, health);
+    constructor (position, radius, color, health, pointValue = 100) {
+        super(position, radius, color, health, pointValue);
         this.path = [position];
         this.segments = [];
         this.step = 0;

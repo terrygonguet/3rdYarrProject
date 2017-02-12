@@ -12,13 +12,15 @@
  */
 class Enemy extends createjs.Shape {
     
-    constructor (position, radius, color, health) {
+    constructor (position, radius, color, health, pointValue) {
         super();
         this.position = position;
         this.radius   = radius;
         this.health   = health;
         this.color    = color;
         this.pattern  = null;
+        this.points   = pointValue;
+        this.drop     = defaultDrop;
         
         this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
         
@@ -44,6 +46,10 @@ class Enemy extends createjs.Shape {
      */
     die(playerKilled) {
         game.removeChild(this);
+        if (playerKilled) {
+            shooter.score += this.points;
+            this.drop && this.drop(this);
+        }
     }
     
     getHit (damage) {
@@ -53,4 +59,12 @@ class Enemy extends createjs.Shape {
         }
     }
     
+}
+
+function defaultDrop (enemy) {
+    if (Math.random() <= 0.3) {
+        game.addChild(new Drop("upgrade", 0.05, enemy.position));
+    } else if (Math.random() <= 0.5) {
+        game.addChild(new Drop("points", 2 * enemy.points, enemy.position));
+    }
 }

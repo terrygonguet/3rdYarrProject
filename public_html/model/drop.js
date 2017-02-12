@@ -39,21 +39,24 @@ class Drop extends createjs.Shape {
     }
     
     update (e) {
-        if (game.player.position.e(2) <= 0.15 * shooter.dimensions.e(2)) {
-            this.movement = Vector.Zero(2);
-            this.position = this.position.add(game.player.position.subtract(this.position).toUnitVector().x(this.maxSpeed * 3 * e.delta / 1000));
-            this.x = this.position.e(1) + shooter.position.e(1);
+        if (game.player.position.e(2) <= 0.15 * shooter.dimensions.e(2) 
+            || this.position.distanceFrom(game.player.position) <= 100) {
+            this.movement = game.player.position.subtract(this.position).toUnitVector().x(this.maxSpeed * 3);
         } else {
-            this.position = this.position.add(this.movement.x(e.delta / 1000));
             this.movement.setElements([
-                0, (this.movement.e(2) + (this.gravity * e.delta / 1000)).clamp(this.impulse, this.maxSpeed)
+                0, (this.movement.e(2) + this.gravity * e.delta / 1000).clamp(this.impulse, this.maxSpeed)
             ]);
         }
+        
+        this.position = this.position.add(this.movement.x(e.delta / 1000));
         
         this.collide();
         
         if (this.position.e(2) > shooter.dimensions.e(2)) this.die();
-        this.y = this.position.e(2) + shooter.position.e(2);
+        this.set({
+            x: this.position.e(1) + shooter.position.e(1),
+            y: this.position.e(2) + shooter.position.e(2)
+        });
     }
     
     die () {

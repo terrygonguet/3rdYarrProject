@@ -15,14 +15,14 @@
             {position: $V([x, 150]), speed:0.3},
             {position: $V([x, 149]), speed:150},
             {position: $V([(i > 3 ? shooter.dimensions.e(1) + 10 : -10), 140]), speed:0}
-        ], 10, "#189", 1);
+        ], 10, "#189", 1, 100);
         shooter.addEncounter(dude, time);
         time += 500;
     }
     time += 1000 + dude.getTotalTime();
     
     for (var i = 0; i < 5; i++) {
-        dude = new SmoothCriminal($V([shooter.dimensions.e(1) / 5, -10]), 10, "#189", 1);
+        dude = new SmoothCriminal($V([shooter.dimensions.e(1) / 5, -10]), 10, "#189", 1, 100);
         dude.addPoint($V([shooter.dimensions.e(1) / 5, 200]), 200);
         dude.addPoint($V([shooter.dimensions.e(1) / 5 + 100, 300]), 200);
         dude.addPoint($V([shooter.dimensions.e(1) / 5 + 200, 300]), 50);
@@ -36,7 +36,7 @@
         {position: $V([4 * shooter.dimensions.e(1) / 5, 200]), speed: 0.3},
         {position: $V([4 * shooter.dimensions.e(1) / 5, 201]), speed: 200},
         {position: $V([shooter.dimensions.e(1) + 10, 190]), speed: 0}
-    ], 17, "#469", 25);
+    ], 17, "#469", 25, 500);
     shooter.addEncounter(dude, time);
     time += dude.getTotalTime();
     
@@ -55,7 +55,7 @@
         {position: $V([shooter.dimensions.e(1) / 5, 200]), speed: 0.3},
         {position: $V([shooter.dimensions.e(1) / 5, 201]), speed: 200},
         {position: $V([-10, 190]), speed: 0}
-    ], 17, "#469", 25);
+    ], 17, "#469", 25, 500);
     shooter.addEncounter(dude, time);
     time += dude.getTotalTime() + 1000;
     
