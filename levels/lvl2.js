@@ -1,14 +1,13 @@
-/* 
+/*
  * Level 2
 */
 
 (function () {
     // Boss --------------------------------------------------------
-    var boss = new Boss($V([Math.floor(Math.random() * shooter.dimensions.e(1))
-        ,Math.floor(Math.random() * shooter.dimensions.e(2) / 3)]), 20, "#FF7B0F");
-    
+    var boss = new Boss($V([shooter.dimensions.e(1) / 2,200), 20, "#FF7B0F");
+
     // Phase 1 -----------------------------------------------------
-    boss.addPhase( 
+    boss.addPhase(
         new Pattern(boss, function (e) {// fire
             this.timeSpiral += e.delta;
             if (this.timeSpiral >= 3000 && this.nbSpiral === 0) {
@@ -21,7 +20,7 @@
                 var b = new Bullet(pos, game.player.position.subtract(pos), 180, 1, 6);
                 game.addChild(b);
             }
-            
+
             if (this.time >= 2000) {
                 this.time = 0;
                 this.offset = !this.offset;
@@ -44,7 +43,7 @@
             }
         }, {speed: 200, timeout: 3000, dest: boss.position}),
         750);
-    
+
     // Phase 2 -----------------------------------------------------
     boss.addPhase(
         new Pattern(boss, function (e) {// fire
@@ -57,7 +56,7 @@
                     game.addChild(new Bullet(boss.position, dir, 200, 1, 10));
                 }
             }
-            
+
             if (this.time >= 400) {
                 this.time = 0;
                 for (var i = 0; i < 4; i++) {
@@ -71,11 +70,11 @@
             if (boss.position.distanceFrom(this.dest) >= 10) {
                 var move = this.dest.subtract(boss.position).toUnitVector().x(200 * e.delta / 1000);
                 boss.position = boss.position.add(move);
-            } else 
+            } else
                 boss.incenter = true;
         }, {dest: $V([shooter.dimensions.e(1) / 2, 250])}),
         500);
-        
+
     // Phase 3 -----------------------------------------------------
     boss.addPhase(
         new Pattern(boss, function (e) {// fire
@@ -87,7 +86,7 @@
                     game.addChild(new Bullet(boss.position, dir, 150 + i * 15, 1, 6))
                 }
             }
-            
+
             if (this.time >= 50) {
                 this.time = 0;
                 game.addChild(new Bullet($V([this.x, 0]), $V([0, 1]), 150, 1, 10));
@@ -107,6 +106,6 @@
             }
         }, {speed: 200, timeout: 2000, dest: boss.position}),
         750);
-        
+
     shooter.addEncounter(boss, 500);
 })()
