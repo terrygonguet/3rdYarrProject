@@ -4,7 +4,7 @@
 
 (function () {
     // Boss --------------------------------------------------------
-    var boss = new Boss($V([shooter.dimensions.e(1) / 2,200), 20, "#FF7B0F");
+    var boss = new Boss($V([shooter.dimensions.e(1) / 2,200]), 20, "#FF7B0F");
 
     // Phase 1 -----------------------------------------------------
     boss.addPhase(

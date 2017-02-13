@@ -1,4 +1,4 @@
-/* 
+/*
  * Random debug info printed
  */
 
@@ -11,12 +11,13 @@ function debugOn () {
         x:10, y:10
     });
     game.addChild(fps);
-    
+
     var entities = new createjs.Text("00 ENT", "20px Verdana", "#000");
     entities.set({
         x:460, y:40
     });
-    
+    game.addChild(entities);
+
     var hint = new createjs.Text("W or Z to fire, Shift to focus, X to use special and Arrows to move.\nThe special uses 1 power and power upgrades your weapon.", "12px Verdana", "#000");
     hint.set({
         x: 10, y: 40
@@ -44,12 +45,12 @@ function debugOn () {
     var indic7 = new KeyIndicator("special");
     indic7.set({x:460, y:10});
     game.addChild(indic7);
-    
+
     createjs.Ticker.on("tick", function () {
         fps.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " FPS";
         entities.text = game.children.length + " ENT";
     }, null);
-    
+
     debug = true;
 }
 
@@ -67,4 +68,3 @@ function debugOn () {
 Number.prototype.clamp = function(min, max) {
   return Math.min(Math.max(this, min), max);
 };
-
