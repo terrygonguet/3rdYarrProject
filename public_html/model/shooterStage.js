@@ -72,6 +72,10 @@ class ShooterStage extends createjs.Container {
             game.player.special = new ShieldSpecial();
         }, null, "Special Shield", $V([this.dimensions.e(1) + 10, i+=35]));
         this.addChild(shieldbtn);
+        var unpausebtn = new Button(function () {
+            createjs.Ticker.paused = false;
+        }, null, "Unpause", $V([this.dimensions.e(1) + 10, i+=35]));
+        this.addChild(unpausebtn);
         
         this.addChild(this.borders);
         this.addChild(this.txtScore);
