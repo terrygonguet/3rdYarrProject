@@ -10,41 +10,41 @@ function debugOn () {
     fps.set({
         x:10, y:10
     });
-    game.addChild(fps);
+    game.addChildAt(fps, 2);
 
     var entities = new createjs.Text("00 ENT", "20px Verdana", "#000");
     entities.set({
         x:460, y:40
     });
-    game.addChild(entities);
+    game.addChildAt(entities, 2);
 
     var hint = new createjs.Text("W or Z to fire, Shift to focus, X to use special and Arrows to move.\nThe special uses 1 power and power upgrades your weapon.", "12px Verdana", "#000");
     hint.set({
         x: 10, y: 40
     });
-    game.addChild(hint);
+    game.addChildAt(hint, 2);
 
     var indic1 = new KeyIndicator("up");
     indic1.set({x:100, y:10});
-    game.addChild(indic1);
+    game.addChildAt(indic1, 2);
     var indic2 = new KeyIndicator("down");
     indic2.set({x:160, y:10});
-    game.addChild(indic2);
+    game.addChildAt(indic2, 2);
     var indic3 = new KeyIndicator("left");
     indic3.set({x:220, y:10});
-    game.addChild(indic3);
+    game.addChildAt(indic3, 2);
     var indic4 = new KeyIndicator("right");
     indic4.set({x:280, y:10});
-    game.addChild(indic4);
+    game.addChildAt(indic4, 2);
     var indic5 = new KeyIndicator("fire");
     indic5.set({x:340, y:10});
-    game.addChild(indic5);
+    game.addChildAt(indic5, 2);
     var indic6 = new KeyIndicator("focus");
     indic6.set({x:400, y:10});
-    game.addChild(indic6);
+    game.addChildAt(indic6, 2);
     var indic7 = new KeyIndicator("special");
     indic7.set({x:460, y:10});
-    game.addChild(indic7);
+    game.addChildAt(indic7, 2);
 
     createjs.Ticker.on("tick", function () {
         fps.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " FPS";
@@ -67,4 +67,11 @@ function debugOn () {
  */
 Number.prototype.clamp = function(min, max) {
   return Math.min(Math.max(this, min), max);
+};
+
+Number.prototype.roundPres = function(precision) {
+    var factor = Math.pow(10, precision);
+    var tempNumber = this * factor;
+    var roundedTempNumber = Math.round(tempNumber);
+    return roundedTempNumber / factor;
 };
