@@ -1,4 +1,4 @@
-/* 
+/*
  * Bullet class
  */
 
@@ -13,7 +13,7 @@
  * type : enum["player", "enemy"] the source of the bullet (used for collisions)
  */
 class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
-    
+
     constructor (position, direction, speed, damage=1, radius=3, type="enemy", color="#A33") {
         super(/*queue.getResult("Bullet Sprite")*/);
         this.position  = position;
@@ -23,19 +23,19 @@ class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
         this.type      = type;
         this.damage    = damage;
         this.color     = color;
-        
+
         this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
         //this.scaleX = this.scaleY = this.radius / (this.image.width / 2);
-        
+
         this.on("tick", this.update, this);
-        
+
         this.set({
-            x: this.position.e(1) + shooter.position.e(1), 
+            x: this.position.e(1) + shooter.position.e(1),
             y: this.position.e(2) + shooter.position.e(2),
             rotation: this.direction.angleFrom($V([0,-1])) * Math.sign(this.direction.e(1)) * 57.2958
         });
     }
-    
+
     update (e) {
         var startPos = this.position.dup();
         var toMove = this.speed * (e.delta / 1000)
@@ -50,7 +50,7 @@ class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
             this.position = startPos.add(this.direction.x(moved));
         } while (toMove !== moved);
         this.rotation = this.direction.angleFrom(-Vector.j) * Math.sign(this.direction.e(1));
-        
+
         if (this.position.e(1) > shooter.dimensions.e(1) ||
             this.position.e(1) < 0 ||
             this.position.e(2) > shooter.dimensions.e(2) ||
@@ -58,19 +58,19 @@ class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
             this.die();
         }
         this.set({
-            x: this.position.e(1) + shooter.position.e(1), 
+            x: this.position.e(1) + shooter.position.e(1),
             y: this.position.e(2) + shooter.position.e(2),
             rotation: this.direction.angleFrom($V([0,-1])) * Math.sign(this.direction.e(1)) * 57.2958
         });
     }
-    
+
     die () {
         game.removeChild(this);
     }
-    
+
     collide () {
         switch (this.type) {
-            case "player" : 
+            case "player" :
                 for (var i of game.enemies) {
                     if (i.position.distanceFrom(this.position) < i.radius + this.radius) {
                         i.getHit(this.damage);
@@ -79,7 +79,7 @@ class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
                     }
                 }
                 break;
-                
+
             case "enemy":
                 if (game.player.position.distanceFrom(this.position) < game.player.radius + this.radius) {
                     game.player.getHit();
@@ -87,15 +87,15 @@ class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
                 break;
         }
     }
-    
+
 }
 
 class HomingBullet extends Bullet {
-    
+
     constructor (position, direction, speed, damage=1, radius=3, type="enemy", color="#555") {
         super(position, direction, speed, damage, radius, type, color);
     }
-    
+
     update(e) {
         if (game.enemies.length) {
             var target = null, dist = 500000;
@@ -109,5 +109,5 @@ class HomingBullet extends Bullet {
         }
         super.update(e);
     }
-    
+
 }

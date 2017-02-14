@@ -6,6 +6,16 @@
 
 (function () {
     var time = 2000;
+    function bigdudeFire (e) {
+      if (this.time >= this.delay) {
+        this.time = 0;
+        var dir = game.player.position.subtract(this.enemy.position);
+        for (var i = 0; i < 5; i++) {
+            var b = new Bullet(this.enemy.position, dir, 150 + i * 15, 1, 6);
+            game.addChild(b);
+        }
+      }
+    }
 
     var dude = null;
     for (var i = 0; i < 6; i++) {
@@ -14,12 +24,14 @@
             {position: $V([x, -10]), speed:100},
             {position: $V([x, 150]), speed:0.3},
             {position: $V([x, 149]), speed:150},
-            {position: $V([(i >= 3 ? shooter.dimensions.e(1) + 10 : -10), 140]), speed:0}
+            {position: $V([-10, 140]), speed:0}
         ], 10, "#189", 1, 100);
         shooter.addEncounter(dude, time);
         time += 500;
     }
     time += 1000 + dude.getTotalTime();
+
+
 
     for (var i = 0; i < 5; i++) {
         dude = new SmoothCriminal($V([shooter.dimensions.e(1) / 5, -10]), 10, "#189", 1, 100);
@@ -27,6 +39,7 @@
         dude.addPoint($V([shooter.dimensions.e(1) / 5 + 100, 300]), 200);
         dude.addPoint($V([shooter.dimensions.e(1) / 5 + 200, 300]), 50);
         dude.addPoint($V([shooter.dimensions.e(1) + 10, 300]), 220);
+        dude.pattern = new TargetPlayerPattern(dude, 0.5, 0.5, {radius:7});
         time += 500;
         shooter.addEncounter(dude, time);
     }
@@ -38,8 +51,13 @@
         {position: $V([shooter.dimensions.e(1) + 10, 190]), speed: 0}
     ], 17, "#469", 25, 500);
     dude.drop = makeDropFunc(1, 0.5);
+    dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
     time += dude.getTotalTime() - 1000;
+
+
+
+
 
     for (var i = 0; i < 5; i++) {
         dude = new SmoothCriminal($V([4 * shooter.dimensions.e(1) / 5, -10]), 10, "#189", 1);
@@ -47,6 +65,7 @@
         dude.addPoint($V([4 * shooter.dimensions.e(1) / 5 - 100, 300]), 200);
         dude.addPoint($V([4 * shooter.dimensions.e(1) / 5 - 200, 300]), 50);
         dude.addPoint($V([-10, 300]), 220);
+        dude.pattern = new TargetPlayerPattern(dude, 0.5, 0.5, {radius:7});
         time += 500;
         shooter.addEncounter(dude, time);
     }
@@ -58,8 +77,13 @@
         {position: $V([-10, 190]), speed: 0}
     ], 17, "#469", 25, 500);
     dude.drop = makeDropFunc(1, 0.5);
+    dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
     time += dude.getTotalTime();
+
+
+
+
 
     for (var i = 0; i < 5; i++) {
         for (var j = 1; j <= 5; j++) {
@@ -70,11 +94,17 @@
                 {position: $V([x, 300]), speed: 170},
                 {position: $V([x, -10]), speed: 0}
             ], 10, "#924", 1);
+            dude.pattern = new TargetPlayerPattern(dude, 1, 0.007, {radius:7});
             shooter.addEncounter(dude, time);
         }
         time += 700;
     }
     time += dude.getTotalTime();
+
+
+
+
+
 
     dude = new SmoothCriminal($V([-10, 100]), 17, "#469", 25, 500);
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 100]), 150);
@@ -84,6 +114,7 @@
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([shooter.dimensions.e(1) + 10, 100]), 150);
     dude.drop = makeDropFunc(1, 0.5);
+    dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
 
     dude = new SmoothCriminal($V([shooter.dimensions.e(1) + 10, 200]), 17, "#469", 25, 500);
@@ -94,8 +125,15 @@
     dude.addPoint($V([shooter.dimensions.e(1) / 2, 200]), 150);
     dude.addPoint($V([-10, 200]), 150);
     dude.drop = makeDropFunc(1, 0.5);
+    dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
     time += dude.getTotalTime();
+
+
+
+
+
+
 
     for (var i = 0; i < 15; i++) {
         dude = new SmoothCriminal($V([-10, 100]), 10, "#924", 1);
@@ -110,6 +148,12 @@
         shooter.addEncounter(dude, time);
         time += 200;
     }
+    time += dude.getTotalTime() - 1000;
+
+
+
+
+
 
     for (var i = 0; i < 8; i++) {
         var startpos = $V([(i % 2 ? -10 : shooter.dimensions.e(1) + 10), 2 * shooter.dimensions.e(2) / 3 - i * shooter.dimensions.e(2) / 12]);
@@ -121,6 +165,11 @@
         time += 300;
     }
     time += dude.getTotalTime() + 3000;
+
+
+
+
+
 
     // Boss --------------------------------------------------------
     var boss = new Boss($V([shooter.dimensions.e(1) / 2,200]), 20, "#FF7B0F");

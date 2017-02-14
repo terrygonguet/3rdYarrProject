@@ -19,8 +19,8 @@ class ShooterStage extends createjs.Container {
         this.time       = 0;
         this.started    = false;
         this.borders    = new createjs.Shape();
-        this.txtScore   = new createjs.Text("", "20px Verdana", "#000");
-        this.txtPower   = new createjs.Text("", "20px Verdana", "#000");
+        this.txtScore   = new createjs.Text("", "20px Verdana", "#FFF");
+        this.txtPower   = new createjs.Text("", "20px Verdana", "#FFF");
         this.score      = 0;
         this.bg         = [
           new createjs.Shape(new createjs.Graphics().f("#333").dr(0,0,window.innerWidth,this.position.e(2))),

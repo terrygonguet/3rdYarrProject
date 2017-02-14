@@ -1,4 +1,4 @@
-/* 
+/*
  * Describes the shooting pattern of enemies to mix and match with deplacement
  */
 
@@ -11,7 +11,7 @@
  * props : object whose properties will be added to the this object to be used in callback
  */
 class Pattern {
-    
+
     constructor (enemy, callback = null, props = {}) {
         this.enemy    = enemy;
         this.callback = callback;
@@ -20,12 +20,12 @@ class Pattern {
             this[i] = props[i];
         }
     }
-    
+
     update (e) {
         this.time += e.delta;
         this.callback && this.callback.call(this, e);
     }
-    
+
 }
 
 /*
@@ -35,13 +35,13 @@ class Pattern {
  * bulletProps : {position, speed, radius} if set, overrides defaults
  */
 class TargetPlayerPattern extends Pattern {
-    
+
     constructor (enemy, fireRate, chance, bulletProps = {}) {
         super(enemy, function () {
             if (this.time >= 1000 / fireRate && Math.random() < chance) {
                 this.time = 0;
                 var b = new Bullet(
-                        bulletProps.position || enemy.position, 
+                        bulletProps.position || enemy.position,
                         game.player.position.subtract(enemy.position),
                         bulletProps.speed || 100, 1,
                         bulletProps.radius || 3);

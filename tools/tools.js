@@ -6,19 +6,19 @@
 
 var debug = false;
 function debugOn () {
-    var fps = new createjs.Text("00 FPS", "20px Verdana", "#000");
+    var fps = new createjs.Text("00 FPS", "20px Verdana", "#FFF");
     fps.set({
         x:10, y:10
     });
     game.addChildAt(fps, 2);
 
-    var entities = new createjs.Text("00 ENT", "20px Verdana", "#000");
+    var entities = new createjs.Text("00 ENT", "20px Verdana", "#FFF");
     entities.set({
         x:460, y:40
     });
     game.addChildAt(entities, 2);
 
-    var hint = new createjs.Text("W or Z to fire, Shift to focus, X to use special and Arrows to move.\nThe special uses 1 power and power upgrades your weapon.", "12px Verdana", "#000");
+    var hint = new createjs.Text("W or Z to fire, Shift to focus, X to use special and Arrows to move.\nThe special uses 1 power and power upgrades your weapon.", "12px Verdana", "#FFF");
     hint.set({
         x: 10, y: 40
     });
