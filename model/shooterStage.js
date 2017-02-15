@@ -10,10 +10,10 @@
  */
 class ShooterStage extends createjs.Container {
 
-    constructor (position, dimensions) {
+    constructor () {
         super();
-        this.position   = position;
-        this.dimensions = dimensions;
+        this.position   = $V([100, 100]);
+        this.dimensions = $V([600, 800]);
         this.edges      = this.position.add(this.dimensions);
         this.encounters = [];
         this.time       = 0;
@@ -31,63 +31,16 @@ class ShooterStage extends createjs.Container {
         for (var i of this.bg)
           this.addChild(i);
 
-        this.borders.graphics.ss(3).s("#000").r(this.position.e(1), this.position.e(1), this.dimensions.e(1), this.dimensions.e(2));
-        this.set({
-            x: 0,
-            y: 0
-        });
-        this.txtScore.set({
-            x: this.edges.e(1) + 10, y: this.position.e(2)
-        });
-        this.txtPower.set({
-           x: this.txtScore.x, y: this.position.e(2) + 30
-        });
-
-        var i = 200;
-        var lvl1btn = new Button(function () {
-            shooter.loadLevel("levels/lvl1.js");
-        }, null, "Level 1", $V([this.edges.e(1) + 10, i+=35]));
-        this.addChild(lvl1btn);
-        var lvl2btn = new Button(function () {
-            shooter.loadLevel("levels/lvl2.js");
-        }, null, "Level 2", $V([this.edges.e(1) + 10, i+=35]));
-        this.addChild(lvl2btn);
-        var lvl3btn = new Button(function () {
-            shooter.loadLevel("levels/lvl3.js");
-        }, null, "Level 3", $V([this.edges.e(1) + 10, i+=35]));
-        this.addChild(lvl3btn);
-
-        var blasterbtn = new Button(function () {
-            game.player.weapon = new BlasterWeapon();
-            game.player.weapon.level = 3;
-            game.player.weapon.upgrade(0);
-        }, null, "Weapon Blaster", $V([this.edges.e(1) + 10, i+=35]));
-        this.addChild(blasterbtn);
-        var shotgunbtn = new Button(function () {
-            game.player.weapon = new ShotgunWeapon();
-            game.player.weapon.level = 3;
-            game.player.weapon.upgrade(0);
-        }, null, "Weapon Shotgun", $V([this.edges.e(1) + 10, i+=35]));
-        this.addChild(shotgunbtn);
-
-        var clearbtn = new Button(function () {
-            game.player.special && game.player.special.remove();
-            game.player.special = new ClearSpecial();
-        }, null, "Special Clear", $V([this.edges.e(1) + 10, i+=35]));
-        this.addChild(clearbtn);
-        var shieldbtn = new Button(function () {
-            game.player.special && game.player.special.remove();
-            game.player.special = new ShieldSpecial();
-        }, null, "Special Shield", $V([this.edges.e(1) + 10, i+=35]));
-        this.addChild(shieldbtn);
-        var unpausebtn = new Button(function () {
-            createjs.Ticker.paused = false;
-        }, null, "Unpause", $V([this.edges.e(1) + 10, i+=35]));
-        this.addChild(unpausebtn);
+        this.set({ x: 0, y: 0 });
+        this.txtScore.set({ visible: false });
+        this.txtPower.set({ visible: false });
 
         this.addChild(this.borders);
         this.addChild(this.txtScore);
         this.addChild(this.txtPower);
+
+        // this.switchToGame();
+        this.switchToMenu();
 
         this.on("tick", this.update, this);
     }
@@ -113,6 +66,7 @@ class ShooterStage extends createjs.Container {
      */
     loadLevel (file) {
         var self = this;
+        this.switchToGame();
         this.encounters = [];
         $.getScript(file, function () {
            self.started   = true;
@@ -124,6 +78,77 @@ class ShooterStage extends createjs.Container {
            });
            console.log(file + " loaded.");
         });
+    }
+
+    switchToMenu () {
+      this.position   = $V([100, 100]);
+      this.dimensions = $V([window.innerWidth - 200, window.innerHeight - 200]);
+      this.edges      = this.position.add(this.dimensions);
+      this.resizeStage();
+      this.txtScore.visible = false;
+      this.txtPower.visible = false;
+
+      var lvl1btn = new Selector($V([200, 200]), 25, "#3A3", "Level 1", function() {
+          shooter.loadLevel("levels/lvl1.js");
+      });
+      this.addChild(lvl1btn);
+      var lvl2btn = new Selector($V([200, 275]), 25, "#3A3", "Boss Only", function() {
+          shooter.loadLevel("levels/lvl2.js");
+      });
+      this.addChild(lvl2btn);
+      var lvl3btn = new Selector($V([200, 350]), 25, "#3A3", "Demo", function() {
+          shooter.loadLevel("levels/lvl3.js");
+      });
+      this.addChild(lvl3btn);
+
+      var blasterbtn = new Selector($V([350, 200]), 25, "#777", "Full power", function() {
+            // game.player.weapon = new BlasterWeapon();
+            game.player.weapon.level = 3;
+            game.player.weapon.upgrade(0);
+      });
+      this.addChild(blasterbtn);
+      var clearbtn = new Selector($V([350, 275]), 25, "#777", "Special Clear", function() {
+            game.player.special && game.player.special.remove();
+            game.player.special = new ClearSpecial();
+      });
+      this.addChild(clearbtn);
+      var shieldbtn = new Selector($V([350, 350]), 25, "#777", "Special Shield", function() {
+            game.player.special && game.player.special.remove();
+            game.player.special = new ShieldSpecial();
+      });
+      this.addChild(shieldbtn);
+    }
+
+    switchToGame () {
+      this.position   = $V([100, 100]);
+      this.dimensions = $V([600, 800]);
+      this.edges      = this.position.add(this.dimensions);
+      this.resizeStage();
+      this.txtScore.set({
+          x: this.edges.e(1) + 10, y: this.position.e(2), visible: true
+      });
+      this.txtPower.set({
+          x: this.txtScore.x, y: this.position.e(2) + 30, visible: true
+      });
+    }
+
+    resizeStage () {
+      var childs = this.children.slice(0);
+      for (var i of childs) {
+        if (i !== this.txtScore &&
+            i !== this.txtPower &&
+            i !== this.border)
+            this.removeChild(i);
+      }
+      this.bg         = [
+        new createjs.Shape(new createjs.Graphics().f("#333").dr(0,0,window.innerWidth,this.position.e(2))),
+        new createjs.Shape(new createjs.Graphics().f("#333").dr(0,this.position.e(2),this.position.e(1),window.innerHeight-this.position.e(2))),
+        new createjs.Shape(new createjs.Graphics().f("#333").dr(this.edges.e(1),this.position.e(2),window.innerWidth-this.edges.e(1),window.innerHeight-this.position.e(2))),
+        new createjs.Shape(new createjs.Graphics().f("#333").dr(this.position.e(1),this.edges.e(2),this.dimensions.e(1),this.dimensions.e(2)))
+      ];
+      for (var i of this.bg)
+        this.addChildAt(i,0);
+      this.borders.graphics = new createjs.Graphics().ss(3).s("#000").r(this.position.e(1), this.position.e(1), this.dimensions.e(1), this.dimensions.e(2));
     }
 
     /*

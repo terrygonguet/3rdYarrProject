@@ -46,7 +46,7 @@ class Boss extends createjs.Shape {
 
         this.on("added", function () {
             game.addChild(this.lifemeter);
-            game.addChild(this.marker);
+            game.addChildAt(this.marker, game.children.length);
             this.livesIndic.graphics.f("#A33");
             for (var i = 0; i < this.phases.length-1; i++) {
               this.livesIndic.graphics.dc(i*20+7, 0, 7);

@@ -48,10 +48,17 @@ function debugOn () {
 
     createjs.Ticker.on("tick", function () {
         fps.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " FPS";
-        entities.text = game.children.length + " ENT";
+        entities.text = (game.children.length + shooter.children.length - 1) + " ENT";
     }, null);
 
-    debug = true;
+    debug = [fps, entities, hint, indic1, indic2, indic3, indic4, indic5, indic6, indic7];
+}
+
+function debugOff () {
+  for (var i of debug) {
+    game.removeChild(i);
+  }
+  debug = false;
 }
 
 /**

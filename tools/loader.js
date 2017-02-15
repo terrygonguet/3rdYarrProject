@@ -44,6 +44,7 @@ var shooter;
     {id: "Boss", src:"model/enemy/boss.js"},
     {id: "Shooter Stage", src:"model/shooterStage.js"},
     {id: "Button", src:"model/button.js"},
+    {id: "Selector", src:"model/selector.js"},
     {id: "Drops", src:"model/drop.js"},
     {id: "Weapon Abstract", src:"model/weapons/weapon.js"},
     {id: "Weapon Blaster", src:"model/weapons/blaster.js"},

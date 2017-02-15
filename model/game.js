@@ -15,7 +15,7 @@ class Game extends createjs.Stage {
 
         this.enemies      = [];
         this.player       = new Player();
-        this.shooterStage = new ShooterStage($V([100, 100]), $V([600, 800]));
+        this.shooterStage = new ShooterStage();
 
         this.player.position = $V([
             this.shooterStage.dimensions.e(1) / 2,
