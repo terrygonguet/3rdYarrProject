@@ -16,7 +16,7 @@ class Button extends createjs.Container {
 
         this.bg.graphics.s("#000").f("#AAA").dr(0,0,this.txt.getMeasuredWidth()+10,26);
         this.txt.set({
-            x:5, y:0
+            x:5, y:3
         });
         this.addChild(this.bg);
         this.addChild(this.txt);

@@ -33,13 +33,15 @@
 
 
 
+
+
     for (var i = 0; i < 5; i++) {
         dude = new SmoothCriminal($V([shooter.dimensions.e(1) / 5, -10]), 10, "#189", 1, 100);
         dude.addPoint($V([shooter.dimensions.e(1) / 5, 200]), 200);
         dude.addPoint($V([shooter.dimensions.e(1) / 5 + 100, 300]), 200);
         dude.addPoint($V([shooter.dimensions.e(1) / 5 + 200, 300]), 50);
         dude.addPoint($V([shooter.dimensions.e(1) + 10, 300]), 220);
-        dude.pattern = new TargetPlayerPattern(dude, 0.5, 0.5, {radius:7});
+        dude.pattern = new TargetPlayerPattern(dude, 0.5, 0.05, {radius:7});
         time += 500;
         shooter.addEncounter(dude, time);
     }
@@ -65,7 +67,7 @@
         dude.addPoint($V([4 * shooter.dimensions.e(1) / 5 - 100, 300]), 200);
         dude.addPoint($V([4 * shooter.dimensions.e(1) / 5 - 200, 300]), 50);
         dude.addPoint($V([-10, 300]), 220);
-        dude.pattern = new TargetPlayerPattern(dude, 0.5, 0.5, {radius:7});
+        dude.pattern = new TargetPlayerPattern(dude, 0.5, 0.05, {radius:7});
         time += 500;
         shooter.addEncounter(dude, time);
     }
@@ -140,13 +142,15 @@
         dude.addPoint($V([shooter.dimensions.e(1) - 200, 100]), 150);
         dude.addPoint($V([shooter.dimensions.e(1) - 200, 300]), 150);
         dude.addPoint($V([-10, 300]), 150);
+        dude.pattern = new TargetPlayerPattern(dude, 1, 0.007, {radius:7});
         shooter.addEncounter(dude, time);
         dude = new SmoothCriminal($V([shooter.dimensions.e(1) + 10, 400]), 10, "#924", 1);
         dude.addPoint($V([200, 400]), 150);
         dude.addPoint($V([200, 600]), 150);
         dude.addPoint($V([shooter.dimensions.e(1) + 10, 600]), 150);
+        dude.pattern = new TargetPlayerPattern(dude, 1, 0.007, {radius:7});
         shooter.addEncounter(dude, time);
-        time += 200;
+        time += 400;
     }
     time += dude.getTotalTime() - 1000;
 
@@ -161,6 +165,7 @@
         dude.addPoint(startpos.add($V([(i % 2 ? 1 : -1), 1])), 150);
         dude.addPoint($V([shooter.dimensions.e(1) / 2, startpos.e(2)]), 150);
         dude.addPoint($V([shooter.dimensions.e(1) / 2, -10]), 150);
+        dude.pattern = new TargetPlayerPattern(dude, 1, 0.007, {radius:7});
         shooter.addEncounter(dude, time);
         time += 300;
     }
@@ -210,7 +215,7 @@
                 boss.position = boss.position.add(move);
             }
         }, {speed: 200, timeout: 3000, dest: boss.position}),
-        750);
+        1000);
 
     // Phase 2 -----------------------------------------------------
     boss.addPhase(
@@ -241,7 +246,7 @@
             } else
                 boss.incenter = true;
         }, {dest: $V([shooter.dimensions.e(1) / 2, 250])}),
-        500);
+        750);
 
     // Phase 3 -----------------------------------------------------
     boss.addPhase(
