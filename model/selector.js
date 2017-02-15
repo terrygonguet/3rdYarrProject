@@ -16,14 +16,14 @@ class Selector extends createjs.Container {
     this.rate     = 1500 / radius;
     this.filled   = 0;
     this.fired    = false;
-    this.txt      = new createjs.Text(text, "15px Verdana", "#FFF");
+    this.txt      = new createjs.Text(text, "15px Verdana", "#EEE");
     this.border   = new createjs.Shape(new createjs.Graphics().ss(3).s("#000").dc(0,0,radius));
     this.meter    = new createjs.Shape();
 
     this.meter.visible = false;
     this.txt.set({
       textAlign: "center",
-      shadow: new createjs.Shadow("#000", 0, 0, 3),
+      shadow: new createjs.Shadow("#000", 0, 0, 2),
       textBaseline: "middle"
     });
 

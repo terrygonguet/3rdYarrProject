@@ -88,31 +88,31 @@ class ShooterStage extends createjs.Container {
       this.txtScore.visible = false;
       this.txtPower.visible = false;
 
-      var lvl1btn = new Selector($V([200, 200]), 25, "#3A3", "Level 1", function() {
+      var lvl1btn = new Selector($V([this.dimensions.e(1) / 2 - 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Level 1", function() {
           shooter.loadLevel("levels/lvl1.js");
       });
       this.addChild(lvl1btn);
-      var lvl2btn = new Selector($V([200, 275]), 25, "#3A3", "Boss Only", function() {
+      var lvl2btn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2]), 25, "#3A3", "Boss Only", function() {
           shooter.loadLevel("levels/lvl2.js");
       });
       this.addChild(lvl2btn);
-      var lvl3btn = new Selector($V([200, 350]), 25, "#3A3", "Demo", function() {
+      var lvl3btn = new Selector($V([this.dimensions.e(1) / 2 + 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Demo", function() {
           shooter.loadLevel("levels/lvl3.js");
       });
       this.addChild(lvl3btn);
 
-      var blasterbtn = new Selector($V([350, 200]), 25, "#777", "Full power", function() {
+      var blasterbtn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Full power", function() {
             // game.player.weapon = new BlasterWeapon();
             game.player.weapon.level = 3;
             game.player.weapon.upgrade(0);
       });
       this.addChild(blasterbtn);
-      var clearbtn = new Selector($V([350, 275]), 25, "#777", "Special Clear", function() {
+      var clearbtn = new Selector($V([50, this.dimensions.e(2) / 2]), 25, "#777", "Special Clear", function() {
             game.player.special && game.player.special.remove();
             game.player.special = new ClearSpecial();
       });
       this.addChild(clearbtn);
-      var shieldbtn = new Selector($V([350, 350]), 25, "#777", "Special Shield", function() {
+      var shieldbtn = new Selector($V([50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Special Shield", function() {
             game.player.special && game.player.special.remove();
             game.player.special = new ShieldSpecial();
       });
@@ -137,10 +137,10 @@ class ShooterStage extends createjs.Container {
       for (var i of childs) {
         if (i !== this.txtScore &&
             i !== this.txtPower &&
-            i !== this.border)
+            i !== this.borders)
             this.removeChild(i);
       }
-      this.bg         = [
+      this.bg = [
         new createjs.Shape(new createjs.Graphics().f("#333").dr(0,0,window.innerWidth,this.position.e(2))),
         new createjs.Shape(new createjs.Graphics().f("#333").dr(0,this.position.e(2),this.position.e(1),window.innerHeight-this.position.e(2))),
         new createjs.Shape(new createjs.Graphics().f("#333").dr(this.edges.e(1),this.position.e(2),window.innerWidth-this.edges.e(1),window.innerHeight-this.position.e(2))),
@@ -148,7 +148,7 @@ class ShooterStage extends createjs.Container {
       ];
       for (var i of this.bg)
         this.addChildAt(i,0);
-      this.borders.graphics = new createjs.Graphics().ss(3).s("#000").r(this.position.e(1), this.position.e(1), this.dimensions.e(1), this.dimensions.e(2));
+      this.borders.graphics.c().ss(3).s("#000").r(this.position.e(1), this.position.e(1), this.dimensions.e(1), this.dimensions.e(2));
     }
 
     /*
