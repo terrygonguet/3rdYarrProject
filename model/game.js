@@ -48,4 +48,11 @@ class Game extends createjs.Stage {
             this.enemies.splice(this.enemies.indexOf(child), 1);
     }
 
+    killAll () {
+        var childs = this.children.slice(0);
+        for (var i of childs) {
+          if (!(i instanceof Player) && i.die) i.die();
+        }
+    }
+
 }

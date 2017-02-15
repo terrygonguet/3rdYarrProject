@@ -43,11 +43,17 @@ var input = {
                 input.keys.left = true;
                 callbacks = input.onArrowLeft;
                 break;
+            case "r" : // reset
+                createjs.Ticker.paused = false;
+                shooter.switchToMenu();
+                game.killAll();
+                shooter.started = false;
+                break;
         }
         for (var i of callbacks) {
             i(event);
         }
-    }, 
+    },
     onKeyUp: function (event) {
         switch(event.key.toLowerCase()) {
             case "shift" :

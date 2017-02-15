@@ -34,7 +34,7 @@ class Boss extends createjs.Shape {
         })
 
         this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
-        this.lifemeter.graphics.f("#A33").dr(0,0,shooter.dimensions.e(1) - 20,5);
+        this.lifemeter.graphics.s("#000").f("#A33").dr(0,0,shooter.dimensions.e(1) - 20,5);
         this.lifemeter.set({
             x: shooter.position.e(1) + 10,
             y: shooter.position.e(2) + 10
@@ -47,10 +47,9 @@ class Boss extends createjs.Shape {
         this.on("added", function () {
             game.addChild(this.lifemeter);
             game.addChildAt(this.marker, game.children.length);
-            this.livesIndic.graphics.f("#A33");
-            for (var i = 0; i < this.phases.length-1; i++) {
-              this.livesIndic.graphics.dc(i*20+7, 0, 7);
-            }
+            this.livesIndic.graphics.s("#000").f("#A33");
+            for (var i = 0; i < this.phases.length-1; i++)
+              this.livesIndic.graphics.mt(i*20+14, 0).dc(i*20+7, 0, 7);
             game.addChild(this.livesIndic);
         }, this);
         this.on("removed", function () {
@@ -99,7 +98,7 @@ class Boss extends createjs.Shape {
         for (var e of entities) {
             if (e instanceof Bullet && e.type === "enemy") e.die();
         };
-        this.livesIndic.graphics = new createjs.Graphics().f("#A33");
+        this.livesIndic.graphics = new createjs.Graphics().s("#000").f("#A33");
         for (var i = 0; i < this.phases.length-1-this.step; i++) {
           this.livesIndic.graphics.dc(i*20+7, 0, 7);
         }

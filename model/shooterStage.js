@@ -66,18 +66,32 @@ class ShooterStage extends createjs.Container {
      */
     loadLevel (file) {
         var self = this;
-        this.switchToGame();
+        var pos = this.position.dup(),
+        dim = this.dimensions.dup();
         this.encounters = [];
+        this.position   = $V([100, 100]);
+        this.dimensions = $V([600, 800]);
+        this.edges      = this.position.add(this.dimensions);
         $.getScript(file, function () {
-           self.started   = true;
-           self.time      = 0;
            self.encounters.sort(function (a,b) {
                if (a.time > b.time) return 1;
                else if (a.time < b.time) return -1;
                else return 0;
            });
-           console.log(file + " loaded.");
+           self.position   = pos;
+           self.dimensions = dim;
+           self.edges      = self.position.add(self.dimensions);
+           console.log(file + " loaded, " + self.encounters.length + " enemies.");
         });
+    }
+
+    start () {
+      if (this.encounters.length > 0) {
+        this.switchToGame();
+        this.started   = true;
+        this.time      = 0;
+        game.player.position = $V([this.dimensions.e(1) / 2, this.dimensions.e(2) - 50]);
+      }
     }
 
     switchToMenu () {
@@ -90,15 +104,24 @@ class ShooterStage extends createjs.Container {
 
       var lvl1btn = new Selector($V([this.dimensions.e(1) / 2 - 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Level 1", function() {
           shooter.loadLevel("levels/lvl1.js");
-      });
+          lvl1btn.state = true;
+          lvl2btn.state = false;
+          lvl3btn.state = false;
+      }, true, true);
       this.addChild(lvl1btn);
       var lvl2btn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2]), 25, "#3A3", "Boss Only", function() {
           shooter.loadLevel("levels/lvl2.js");
-      });
+          lvl1btn.state = false;
+          lvl2btn.state = true;
+          lvl3btn.state = false;
+      }, true, true);
       this.addChild(lvl2btn);
       var lvl3btn = new Selector($V([this.dimensions.e(1) / 2 + 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Demo", function() {
           shooter.loadLevel("levels/lvl3.js");
-      });
+          lvl1btn.state = false;
+          lvl2btn.state = false;
+          lvl3btn.state = true;
+      }, true, true);
       this.addChild(lvl3btn);
 
       var blasterbtn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Full power", function() {
@@ -107,16 +130,51 @@ class ShooterStage extends createjs.Container {
             game.player.weapon.upgrade(0);
       });
       this.addChild(blasterbtn);
+      var startbtn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2 - 75]), 25, "#2E2", "Start game", function() {
+            shooter.start();
+      });
+      this.addChild(startbtn);
+
+
       var clearbtn = new Selector($V([50, this.dimensions.e(2) / 2]), 25, "#777", "Special Clear", function() {
             game.player.special && game.player.special.remove();
             game.player.special = new ClearSpecial();
-      });
+            shieldbtn.state = false;
+            clearbtn.state = true;
+      }, true, true);
       this.addChild(clearbtn);
       var shieldbtn = new Selector($V([50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Special Shield", function() {
             game.player.special && game.player.special.remove();
             game.player.special = new ShieldSpecial();
-      });
+            clearbtn.state = false;
+            shieldbtn.state = true;
+      }, true, true);
+      shieldbtn.state = true;
       this.addChild(shieldbtn);
+
+      var autofirebtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2 - 75]), 25, "#A33", "Autofire", function() {
+            game.player.autofire = this.state;
+            setCookie("autofire", this.state);
+      }, true, true);
+      autofirebtn.state = getCookie("autofire") === "true";
+      this.addChild(autofirebtn);
+      var mousebtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2]), 25, "#A33", "Mouse Controls", function() {
+            game.player.controls = "Mouse";
+            setCookie("controls", "Mouse");
+            keybbtn.state = false;
+            mousebtn.state = true;
+      }, true, true);
+      var ctrl = getCookie("controls");
+      mousebtn.state = ctrl === "Mouse";
+      this.addChild(mousebtn);
+      var keybbtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2 + 75]), 25, "#A33", "Keyboard Controls", function() {
+            game.player.controls = "Keyboard";
+            setCookie("controls", "Keyboard");
+            mousebtn.state = false;
+            keybbtn.state = true;
+      }, true, true);
+      keybbtn.state = ctrl === "Keyboard" || ctrl === "";
+      this.addChild(keybbtn);
     }
 
     switchToGame () {
