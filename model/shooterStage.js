@@ -42,7 +42,8 @@ class ShooterStage extends createjs.Container {
         // this.switchToGame();
         this.switchToMenu();
 
-        this.on("tick", this.update, this);
+        // this.on("tick", this.update, this);
+        this.on("frameTick", this.update, this);
     }
 
     update(e) {
@@ -59,6 +60,8 @@ class ShooterStage extends createjs.Container {
         }
         this.txtScore.text = "Score : " + this.score;
         this.txtPower.text = "power : " + game.player.weapon.level.toFixed(2);
+        for (var i of this.children)
+          i.dispatchEvent(new createjs.Event("frameTick").set({delta: e.delta}));
     }
 
     /*
@@ -66,21 +69,13 @@ class ShooterStage extends createjs.Container {
      */
     loadLevel (file) {
         var self = this;
-        var pos = this.position.dup(),
-        dim = this.dimensions.dup();
         this.encounters = [];
-        this.position   = $V([100, 100]);
-        this.dimensions = $V([600, 800]);
-        this.edges      = this.position.add(this.dimensions);
         $.getScript(file, function () {
            self.encounters.sort(function (a,b) {
                if (a.time > b.time) return 1;
                else if (a.time < b.time) return -1;
                else return 0;
            });
-           self.position   = pos;
-           self.dimensions = dim;
-           self.edges      = self.position.add(self.dimensions);
            console.log(file + " loaded, " + self.encounters.length + " enemies.");
         });
     }
@@ -95,6 +90,7 @@ class ShooterStage extends createjs.Container {
     }
 
     switchToMenu () {
+      this.clear();
       this.position   = $V([100, 100]);
       this.dimensions = $V([window.innerWidth - 200, window.innerHeight - 200]);
       this.edges      = this.position.add(this.dimensions);
@@ -178,6 +174,7 @@ class ShooterStage extends createjs.Container {
     }
 
     switchToGame () {
+      this.clear();
       this.position   = $V([100, 100]);
       this.dimensions = $V([600, 800]);
       this.edges      = this.position.add(this.dimensions);
@@ -190,12 +187,17 @@ class ShooterStage extends createjs.Container {
       });
     }
 
+    getGameBounds () {
+      var bounds = {
+        position: $V([100, 100]),
+        dimensions: $V([600, 800])
+      };
+      bounds.edges = bounds.position.add(bounds.dimensions);
+      return bounds;
+    }
+
     resizeStage () {
-      var childs = this.children.slice(0);
-      for (var i of childs) {
-        if (i !== this.txtScore &&
-            i !== this.txtPower &&
-            i !== this.borders)
+      for (var i of this.bg) {
             this.removeChild(i);
       }
       this.bg = [
@@ -207,6 +209,21 @@ class ShooterStage extends createjs.Container {
       for (var i of this.bg)
         this.addChildAt(i,0);
       this.borders.graphics.c().ss(3).s("#000").r(this.position.e(1), this.position.e(1), this.dimensions.e(1), this.dimensions.e(2));
+    }
+
+    clear () {
+        var childs = this.children.slice(0);
+        for (var i of childs) {
+          var toKill = true;
+          if (i === this.txtScore || i === this.txtPower || i === this.borders) toKill = false;
+          for (var j of this.bg) {
+            if (j === i) {
+              toKill = false;
+              break;
+            }
+          }
+          if (toKill) this.removeChild(i);
+        }
     }
 
     /*

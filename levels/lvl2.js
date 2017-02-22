@@ -3,8 +3,10 @@
 */
 
 (function () {
+
+  var bounds = shooter.getGameBounds();
   // Boss --------------------------------------------------------
-  var boss = new Boss($V([shooter.dimensions.e(1) / 2,200]), 20, "#FF7B0F");
+  var boss = new Boss($V([bounds.dimensions.e(1) / 2,200]), 20, "#FF7B0F");
   boss.invincible = 2000;
 
   // Phase 1 -----------------------------------------------------
@@ -30,13 +32,13 @@
                   var b = new Bullet($V([x, 0]), $V([0, 1]), 70, 1, 10);
                   game.addChild(b);
                   x += 70;
-              } while (x < shooter.dimensions.e(1));
+              } while (x < bounds.dimensions.e(1));
           }
       }, {timeSpiral: 0, nbSpiral: 0, offset: 0}),
       new Pattern(boss, function (e) {// move
           if (this.time >= this.timeout) {
-              this.dest = $V([Math.floor(Math.random() * shooter.dimensions.e(1))
-                  ,Math.floor(Math.random() * shooter.dimensions.e(2) / 3)]);
+              this.dest = $V([Math.floor(Math.random() * bounds.dimensions.e(1))
+                  ,Math.floor(Math.random() * bounds.dimensions.e(2) / 3)]);
               this.time = 0;
           } else if (boss.position.distanceFrom(this.dest) > boss.radius) {
               var move = this.dest.subtract(boss.position).toUnitVector().x(this.speed * e.delta / 1000);
@@ -73,7 +75,7 @@
               boss.position = boss.position.add(move);
           } else
               boss.incenter = true;
-      }, {dest: $V([shooter.dimensions.e(1) / 2, 250])}),
+      }, {dest: $V([bounds.dimensions.e(1) / 2, 250])}),
       750);
 
   // Phase 3 -----------------------------------------------------
@@ -91,15 +93,15 @@
           if (this.time >= 50) {
               this.time = 0;
               game.addChild(new Bullet($V([this.x, 0]), $V([0, 1]), 150, 1, 10));
-              game.addChild(new Bullet($V([shooter.dimensions.e(1) - this.x, 0]), $V([0, 1]), 150, 1, 10));
+              game.addChild(new Bullet($V([bounds.dimensions.e(1) - this.x, 0]), $V([0, 1]), 150, 1, 10));
               this.x += 10 * this.dir;
-              if (this.x >= shooter.dimensions.e(1) / 2 - 30 || this.x <= 0) this.dir = -this.dir;
+              if (this.x >= bounds.dimensions.e(1) / 2 - 30 || this.x <= 0) this.dir = -this.dir;
           }
       }, {x: 0, burstTime: 0, dir: 1}),
       new Pattern(boss, function (e) {// move
           if (this.time >= this.timeout) {
-              this.dest = $V([Math.floor(Math.random() * shooter.dimensions.e(1))
-                  ,Math.floor(Math.random() * shooter.dimensions.e(2) / 3)]);
+              this.dest = $V([Math.floor(Math.random() * bounds.dimensions.e(1))
+                  ,Math.floor(Math.random() * bounds.dimensions.e(2) / 3)]);
               this.time = 0;
           } else if (boss.position.distanceFrom(this.dest) > boss.radius) {
               var move = this.dest.subtract(boss.position).toUnitVector().x(this.speed * e.delta / 1000);
@@ -108,6 +110,5 @@
       }, {speed: 200, timeout: 2000, dest: boss.position}),
       750);
 
-
-    shooter.addEncounter(boss, 500);
+  shooter.addEncounter(boss, 500);
 })()

@@ -27,7 +27,8 @@ class Bullet extends createjs.Shape /*createjs.Bitmap*/ {
         this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
         //this.scaleX = this.scaleY = this.radius / (this.image.width / 2);
 
-        this.on("tick", this.update, this);
+        // this.on("tick", this.update, this);
+        this.on("frameTick", this.update, this);
 
         this.set({
             x: this.position.e(1) + shooter.position.e(1),

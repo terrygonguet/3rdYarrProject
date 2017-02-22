@@ -28,20 +28,22 @@ class Boss extends createjs.Shape {
         );
         this.livesIndic = new createjs.Shape;
 
+        var bounds = shooter.getGameBounds();
+
         this.livesIndic.set({
-          x: shooter.position.e(1) + 10,
-          y: shooter.position.e(2) + 25
+          x: bounds.position.e(1) + 10,
+          y: bounds.position.e(2) + 25
         })
 
         this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
-        this.lifemeter.graphics.s("#000").f("#A33").dr(0,0,shooter.dimensions.e(1) - 20,5);
+        this.lifemeter.graphics.s("#000").f("#A33").dr(0,0,bounds.dimensions.e(1) - 20,5);
         this.lifemeter.set({
-            x: shooter.position.e(1) + 10,
-            y: shooter.position.e(2) + 10
+            x: bounds.position.e(1) + 10,
+            y: bounds.position.e(2) + 10
         });
         this.marker.set({
-            x: shooter.position.e(1),
-            y: shooter.edges.e(2) + 13
+            x: bounds.position.e(1),
+            y: bounds.edges.e(2) + 13
         })
 
         this.on("added", function () {
@@ -58,11 +60,12 @@ class Boss extends createjs.Shape {
             game.removeChild(this.livesIndic);
         }, this);
 
-        this.on("tick", this.update, this);
+        // this.on("tick", this.update, this);
+        this.on("frameTick", this.update, this);
 
         this.set({
-            x: this.position.e(1) + shooter.position.e(1),
-            y: this.position.e(2) + shooter.position.e(2)
+            x: this.position.e(1) + bounds.position.e(1),
+            y: this.position.e(2) + bounds.position.e(2)
         });
     }
 
@@ -79,8 +82,8 @@ class Boss extends createjs.Shape {
                 scaleX: this.health / this.maxHealth
             });
             this.set({
-                x: this.position.e(1) + shooter.position.e(1),
-                y: this.position.e(2) + shooter.position.e(2)
+                x: this.position.e(1) + bounds.position.e(1),
+                y: this.position.e(2) + bounds.position.e(2)
             });
             this.marker.x = this.x;
         } else if (this.phases.length-1 > this.step++) {

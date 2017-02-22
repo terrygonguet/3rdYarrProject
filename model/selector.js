@@ -40,7 +40,8 @@ class Selector extends createjs.Container {
     this.addChild(this.txtBord);
     this.addChild(this.txt);
 
-    this.on("tick", this.update, this);
+    // this.on("tick", this.update, this);
+    this.on("frameTick", this.update, this);
   }
 
   update (e) {

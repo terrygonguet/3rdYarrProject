@@ -82,5 +82,6 @@ var shooter;
     if (!game) return;
     game.canvas.width = window.innerWidth;
     game.canvas.height = window.innerHeight;
+    shooter.resizeStage();
   }
 })();

@@ -8,7 +8,8 @@ class Player extends createjs.Shape {
 
     constructor () {
         super ();
-        this.on("tick", this.update, this);
+        // this.on("tick", this.update, this);
+        this.on("frameTick", this.update, this);
         var autof = getCookie("autofire");
         var ctrl = getCookie("controls");
 

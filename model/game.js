@@ -29,6 +29,11 @@ class Game extends createjs.Stage {
         try {
             if (!e.paused)
                 super.update(e);
+
+            var childs = this.children.slice(0);
+            for (var i of childs) {
+              i.dispatchEvent(new createjs.Event("frameTick").set({delta: e.delta}));
+            }
         } catch (err) {
             if (debug)
                 console.log(err);
