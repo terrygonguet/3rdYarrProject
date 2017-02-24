@@ -82,8 +82,8 @@ class Boss extends createjs.Shape {
                 scaleX: this.health / this.maxHealth
             });
             this.set({
-                x: this.position.e(1) + bounds.position.e(1),
-                y: this.position.e(2) + bounds.position.e(2)
+                x: this.position.e(1) + shooter.position.e(1),
+                y: this.position.e(2) + shooter.position.e(2)
             });
             this.marker.x = this.x;
         } else if (this.phases.length-1 > this.step++) {
