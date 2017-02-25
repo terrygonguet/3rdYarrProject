@@ -30,10 +30,10 @@ var shooter;
   stage.update();
 
   queue.manifest = [
-    {id: "Game", src:"model/game.js"},
-    {id: "Input Manager", src:"tools/input.js"},
-    {id: "KeyIndicator", src:"model/keyIndicator.js"},
     {id: "Tools", src:"tools/tools.js"},
+    {id: "Input Manager", src:"tools/input.js"},
+    {id: "Game", src:"model/game.js"},
+    {id: "KeyIndicator", src:"model/keyIndicator.js"},
     {id: "Player", src:"model/player.js"},
     {id: "Bullet", src:"model/bullet.js"},
     {id: "Bullet Sprite", src:"resources/bulletRed.png"},

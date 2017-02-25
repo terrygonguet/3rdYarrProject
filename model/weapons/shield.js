@@ -1,25 +1,24 @@
-/* 
+/*
  * Forward moving shield that destroys bullets and enemies
  */
 
 /* global shooter, game, createjs, Vector */
 
 class ShieldSpecial extends Special {
-    
+
     constructor () {
         super();
-        this.cost = 1;
+        this.cost = 0.5;
     }
-    
+
     trigger () {
-        super.trigger();
         if (game.player.weapon.level >= this.cost) {
             game.player.weapon.level -= this.cost;
             var shield = new createjs.Shape();
             shield.graphics.ss(3).s("#000").dc(0,0,200);
             shield.set({
-                x: game.player.position.e(1) + shooter.position.e(1), 
-                y: game.player.position.e(2) + shooter.position.e(2), 
+                x: game.player.position.e(1) + shooter.position.e(1),
+                y: game.player.position.e(2) + shooter.position.e(2),
                 time: 0
             });
             shield.on("tick", function (e, data) {
@@ -29,12 +28,12 @@ class ShieldSpecial extends Special {
                     game.removeChild(data.shield);
                 } else {
                     var shieldPos = $V([
-                        data.shield.x - shooter.position.e(1), 
+                        data.shield.x - shooter.position.e(1),
                         data.shield.y - shooter.position.e(2)
                     ]);
                     var toDie = [];
                     for (var i of game.children) {
-                        if ((i instanceof Enemy || (i instanceof Bullet && i.type !== "player")) 
+                        if ((i instanceof Enemy || (i instanceof Bullet && i.type !== "player"))
                                 && i.position.distanceFrom(shieldPos) <= 200) {
                             toDie.push(i);
                         }
@@ -44,6 +43,7 @@ class ShieldSpecial extends Special {
             }, null, false, {shield:shield});
             game.addChild(shield);
         }
+        super.trigger();
     }
-    
+
 }

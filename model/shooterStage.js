@@ -21,6 +21,7 @@ class ShooterStage extends createjs.Container {
         this.borders    = new createjs.Shape();
         this.txtScore   = new createjs.Text("", "20px Verdana", "#FFF");
         this.txtPower   = new createjs.Text("", "20px Verdana", "#FFF");
+        this.txtLives   = new createjs.Text("", "20px Verdana", "#FFF");
         this.score      = 0;
         this.bg         = [
           new createjs.Shape(new createjs.Graphics().f("#333").dr(0,0,window.innerWidth,this.position.e(2))),
@@ -34,10 +35,12 @@ class ShooterStage extends createjs.Container {
         this.set({ x: 0, y: 0 });
         this.txtScore.set({ visible: false });
         this.txtPower.set({ visible: false });
+        this.txtLives.set({ visible: false });
 
         this.addChild(this.borders);
         this.addChild(this.txtScore);
         this.addChild(this.txtPower);
+        this.addChild(this.txtLives);
 
         // this.switchToGame();
         this.switchToMenu();
@@ -60,6 +63,7 @@ class ShooterStage extends createjs.Container {
         }
         this.txtScore.text = "Score : " + this.score;
         this.txtPower.text = "power : " + game.player.weapon.level.toFixed(2);
+        this.txtLives.text = "●".repeat(game.player.lives);
         for (var i of this.children)
           i.dispatchEvent(new createjs.Event("frameTick").set({delta: e.delta}));
     }
@@ -97,6 +101,7 @@ class ShooterStage extends createjs.Container {
       this.resizeStage();
       this.txtScore.visible = false;
       this.txtPower.visible = false;
+      this.txtLives.visible = false;
 
       var lvl1btn = new Selector($V([this.dimensions.e(1) / 2 - 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Level 1", function() {
           shooter.loadLevel("levels/lvl1.js");
@@ -149,27 +154,23 @@ class ShooterStage extends createjs.Container {
       this.addChild(shieldbtn);
 
       var autofirebtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2 - 75]), 25, "#A33", "Autofire", function() {
-            game.player.autofire = this.state;
-            setCookie("autofire", this.state);
+            input.setAutoFire(this.state);
       }, true, true);
-      autofirebtn.state = getCookie("autofire") === "true";
+      autofirebtn.state = input.autofire;
       this.addChild(autofirebtn);
       var mousebtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2]), 25, "#A33", "Mouse Controls", function() {
-            game.player.controls = "Mouse";
-            setCookie("controls", "Mouse");
+            input.setControls("Mouse");
             keybbtn.state = false;
             mousebtn.state = true;
       }, true, true);
-      var ctrl = getCookie("controls");
-      mousebtn.state = ctrl === "Mouse";
+      mousebtn.state = input.controls === "Mouse";
       this.addChild(mousebtn);
       var keybbtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2 + 75]), 25, "#A33", "Keyboard Controls", function() {
-            game.player.controls = "Keyboard";
-            setCookie("controls", "Keyboard");
+            input.setControls("Keyboard");
             mousebtn.state = false;
             keybbtn.state = true;
       }, true, true);
-      keybbtn.state = ctrl === "Keyboard" || ctrl === "";
+      keybbtn.state = input.controls === "Keyboard" || input.controls === "";
       this.addChild(keybbtn);
     }
 
@@ -184,6 +185,9 @@ class ShooterStage extends createjs.Container {
       });
       this.txtPower.set({
           x: this.txtScore.x, y: this.position.e(2) + 30, visible: true
+      });
+      this.txtLives.set({
+          x: this.txtScore.x, y: this.position.e(2) + 60, visible: true
       });
     }
 
@@ -215,7 +219,9 @@ class ShooterStage extends createjs.Container {
         var childs = this.children.slice(0);
         for (var i of childs) {
           var toKill = true;
-          if (i === this.txtScore || i === this.txtPower || i === this.borders) toKill = false;
+          if (i === this.txtScore || i === this.txtPower
+            || i === this.borders || this.txtLives === i)
+            toKill = false;
           for (var j of this.bg) {
             if (j === i) {
               toKill = false;

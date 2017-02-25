@@ -18,8 +18,8 @@ class Player extends createjs.Shape {
         this.focusSpeed  = 150;
         this.radius      = 3;
         this.size        = 10;
-        this.controls    = (ctrl === "" ? "Keyboard" : ctrl);
-        this.autofire    = (autof === "true" ? true : false);;
+        this.lives       = 2;
+        this.invincible  = 0;
 
         this.weapon      = new BlasterWeapon();
         this.special     = new ShieldSpecial();
@@ -35,10 +35,18 @@ class Player extends createjs.Shape {
 
     update (e) {
         this.weapon.update(e);
-        if (input.keys.fire || this.autofire) this.weapon.fire();
+        if (input.keys.fire || input.autofire) this.weapon.fire();
+
+        if (this.invincible > 0) {
+          this.visible = !this.visible;
+          this.invincible -= e.delta;
+        } else {
+          this.visible = true;
+        }
 
         var direction = $V([0,0]);
-        switch (this.controls) {
+        switch (input.controls) {
+          case "":
           case "Keyboard":
             direction = $V([
                 Number(-input.keys.left + input.keys.right),
@@ -71,6 +79,12 @@ class Player extends createjs.Shape {
     }
 
     getHit () {
-        createjs.Ticker.paused = true;
+      if (this.invincible <= 0) {
+        this.lives --;
+        if (this.lives < 0)
+          createjs.Ticker.paused = true;
+        else
+          this.invincible = 3000;
+      }
     }
 }

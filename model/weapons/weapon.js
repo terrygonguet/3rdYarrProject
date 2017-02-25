@@ -24,8 +24,7 @@ class Weapon {
         if (this.level === 3) {
             shooter.score += 200 * val;
         } else {
-            this.level = (this.level + val).clamp(0,3);
-            this.level = this.level.roundPres(2)
+            this.level = (this.level + val).clamp(0,3).roundPres(2);
         }
     }
 

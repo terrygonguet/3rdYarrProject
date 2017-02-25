@@ -2,6 +2,16 @@
  * Input manager
  */
 var input = {
+    controls: getCookie("controls"),
+    autofire: getCookie("autofire") === "true",
+    setControls: function (val) {
+      input.controls = val;
+      setCookie("controls", val);
+    },
+    setAutoFire: function (val) {
+      input.autofire = val;
+      setCookie("autofire", val);
+    },
     keys: {
         up: false,
         down: false,
@@ -80,6 +90,36 @@ var input = {
                 break;
         }
     },
+    onMouseDown: function (event) {
+      var callbacks = [];
+      if (input.controls == "Mouse") {
+        switch (event.buttons) {
+          case 1 :
+            input.keys.focus = true;
+            callbacks = input.onFocus;
+            break;
+          case 2 :
+            input.keys.special = true;
+            callbacks = input.onSpecial;
+            break;
+        }
+      }
+      for (var i of callbacks) {
+          i(event);
+      }
+    },
+    onMouseUp: function (event) {
+      if (input.controls == "Mouse") {
+        switch (event.which) {
+          case 1 :
+            input.keys.focus = false;
+            break;
+          case 3 :
+            input.keys.special = false;
+            break;
+        }
+      }
+    },
     onArrowUp: [],
     onArrowDown: [],
     onArrowRight: [],
@@ -91,3 +131,6 @@ var input = {
 
 window.addEventListener("keydown", input.onKeyDown, true);
 window.addEventListener("keyup", input.onKeyUp, true);
+window.addEventListener("mousedown", input.onMouseDown, true);
+window.addEventListener("mouseup", input.onMouseUp, true);
+$("#game").on("contextmenu", null, null, false);
