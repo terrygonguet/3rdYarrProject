@@ -14,11 +14,10 @@ class ClearSpecial extends Special {
     trigger() {
         if (game.player.weapon.level >= this.cost) {
             game.player.weapon.level -= this.cost;
-            var toDie = [];
-            for (var i of game.children) {
-                if (i instanceof Bullet || i instanceof Enemy) toDie.push(i);
+            var childs = game.children.slice(0);
+            for (var i of childs) {
+                if (i instanceof Bullet && i.type == "enemy") i.die(true);
             }
-            for (var i of toDie) i.die(true);
         }
         super.trigger();
     }

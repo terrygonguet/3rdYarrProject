@@ -18,6 +18,7 @@ class ShooterStage extends createjs.Container {
         this.encounters = [];
         this.time       = 0;
         this.started    = false;
+        this.mode       = "";
         this.borders    = new createjs.Shape();
         this.txtScore   = new createjs.Text("", "20px Verdana", "#FFF");
         this.txtPower   = new createjs.Text("", "20px Verdana", "#FFF");
@@ -64,6 +65,7 @@ class ShooterStage extends createjs.Container {
         this.txtScore.text = "Score : " + this.score;
         this.txtPower.text = "power : " + game.player.weapon.level.toFixed(2);
         this.txtLives.text = "●".repeat(game.player.lives);
+        if (this.mode == "menu") game.player.lives = 2;
         for (var i of this.children)
           i.dispatchEvent(new createjs.Event("frameTick").set({delta: e.delta}));
     }
@@ -95,12 +97,18 @@ class ShooterStage extends createjs.Container {
 
     switchToMenu () {
       this.clear();
+      this.mode = "menu";
       this.position   = $V([100, 100]);
       this.dimensions = $V([window.innerWidth - 200, window.innerHeight - 200]);
       this.edges      = this.position.add(this.dimensions);
       this.resizeStage();
       this.txtScore.visible = false;
-      this.txtPower.visible = false;
+      this.txtPower.set({
+        visible: true,
+        x: this.position.e(1) + 20,
+        y: this.position.e(2) + 20,
+        color: "#000"
+      });
       this.txtLives.visible = false;
 
       var lvl1btn = new Selector($V([this.dimensions.e(1) / 2 - 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Level 1", function() {
@@ -125,26 +133,32 @@ class ShooterStage extends createjs.Container {
       }, true, true);
       this.addChild(lvl3btn);
 
-      var blasterbtn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Full power", function() {
+      var powerbtn = new Selector($V([this.dimensions.e(1) / 2 - 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Full power", function() {
             // game.player.weapon = new BlasterWeapon();
             game.player.weapon.level = 3;
             game.player.weapon.upgrade(0);
       });
-      this.addChild(blasterbtn);
+      this.addChild(powerbtn);
+      var emptybtn = new Selector($V([this.dimensions.e(1) / 2 + 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "No power", function() {
+            // game.player.weapon = new BlasterWeapon();
+            game.player.weapon.level = 0;
+            game.player.weapon.upgrade(0);
+      });
+      this.addChild(emptybtn);
       var startbtn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2 - 75]), 25, "#2E2", "Start game", function() {
             shooter.start();
       });
       this.addChild(startbtn);
 
 
-      var clearbtn = new Selector($V([50, this.dimensions.e(2) / 2]), 25, "#777", "Special Clear", function() {
+      var clearbtn = new Selector($V([150, this.dimensions.e(2) / 2]), 25, "#777", "Special Clear", function() {
             game.player.special && game.player.special.remove();
             game.player.special = new ClearSpecial();
             shieldbtn.state = false;
             clearbtn.state = true;
       }, true, true);
       this.addChild(clearbtn);
-      var shieldbtn = new Selector($V([50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Special Shield", function() {
+      var shieldbtn = new Selector($V([150, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Special Shield", function() {
             game.player.special && game.player.special.remove();
             game.player.special = new ShieldSpecial();
             clearbtn.state = false;
@@ -172,10 +186,26 @@ class ShooterStage extends createjs.Container {
       }, true, true);
       keybbtn.state = input.controls === "Keyboard" || input.controls === "";
       this.addChild(keybbtn);
+
+      // ugly but to initialize the first time when shooter is undefined
+      setTimeout(function () {
+        var dude = new Enemy(
+          $V([100, 100]),
+          10, "#468465", 99999999, 0
+        );
+        dude.pattern = new Pattern(dude, function () {
+          if (this.time >= 500) {
+            this.time = 0;
+            game.addChild(new Bullet(dude.position.add($V([0, 10])), $V([0, 1]), 500, 1, 8));
+          }
+        });
+        game.addChild(dude);
+      }, 50);
     }
 
     switchToGame () {
       this.clear();
+      this.mode = "game";
       this.dimensions = $V([600, 800]);
       this.position   = $V([window.innerWidth / 2 - this.dimensions.e(1) / 2, 100]);
       this.edges      = this.position.add(this.dimensions);
@@ -184,7 +214,7 @@ class ShooterStage extends createjs.Container {
           x: this.edges.e(1) + 10, y: this.position.e(2), visible: true
       });
       this.txtPower.set({
-          x: this.txtScore.x, y: this.position.e(2) + 30, visible: true
+          x: this.txtScore.x, y: this.position.e(2) + 30, visible: true, color: "#FFF"
       });
       this.txtLives.set({
           x: this.txtScore.x, y: this.position.e(2) + 60, visible: true

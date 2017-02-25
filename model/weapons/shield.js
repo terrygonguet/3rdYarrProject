@@ -33,7 +33,7 @@ class ShieldSpecial extends Special {
                     ]);
                     var toDie = [];
                     for (var i of game.children) {
-                        if ((i instanceof Enemy || (i instanceof Bullet && i.type !== "player"))
+                        if (i instanceof Bullet && i.type !== "player"
                                 && i.position.distanceFrom(shieldPos) <= 200) {
                             toDie.push(i);
                         }
