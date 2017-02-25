@@ -83,8 +83,16 @@ class Player extends createjs.Shape {
         this.lives --;
         if (this.lives < 0)
           createjs.Ticker.paused = true;
-        else
+        else {
           this.invincible = 3000;
+          this.special.trigger();
+          for (var i=0; i<this.special.cost; i+=0.1) {
+            game.addChild(new Drop("upgrade", 0.1,
+              $V([shooter.dimensions.e(1) / 2 + randInt(-50,50),
+              shooter.dimensions.e(2) / 3 + randInt(-50,50)]))
+            );
+          }
+        }
       }
     }
 }

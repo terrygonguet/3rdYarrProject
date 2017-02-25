@@ -111,22 +111,22 @@
 
     dude = new SmoothCriminal($V([-10, 100]), 17, "#469", 25, 500);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
-    dude.addPoint($V([bounds.dimensions.e(1) / 2, 200]), 150);
+    dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
-    dude.addPoint($V([bounds.dimensions.e(1) / 2, 200]), 150);
+    dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) + 10, 100]), 150);
     dude.drop = makeDropFunc(1, 0.5);
     dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
 
-    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 200]), 17, "#469", 25, 500);
-    dude.addPoint($V([bounds.dimensions.e(1) / 2, 200]), 150);
+    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 300]), 17, "#469", 25, 500);
+    dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
-    dude.addPoint($V([bounds.dimensions.e(1) / 2, 200]), 150);
+    dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
-    dude.addPoint($V([bounds.dimensions.e(1) / 2, 200]), 150);
-    dude.addPoint($V([-10, 200]), 150);
+    dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
+    dude.addPoint($V([-10, 300]), 150);
     dude.drop = makeDropFunc(1, 0.5);
     dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);

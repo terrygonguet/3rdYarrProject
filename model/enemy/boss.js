@@ -33,7 +33,7 @@ class Boss extends createjs.Shape {
         this.livesIndic.set({
           x: bounds.position.e(1) + 10,
           y: bounds.position.e(2) + 25
-        })
+        });
 
         this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
         this.lifemeter.graphics.s("#000").f("#A33").dr(0,0,bounds.dimensions.e(1) - 20,5);

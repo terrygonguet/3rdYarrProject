@@ -27,9 +27,11 @@ class Enemy extends createjs.Shape {
         // this.on("tick", this.update, this);
         this.on("frameTick", this.update, this);
 
+        var bounds = shooter.getGameBounds();
+
         this.set({
-            x: this.position.e(1) + shooter.position.e(1),
-            y: this.position.e(2) + shooter.position.e(2)
+            x: this.position.e(1) + bounds.position.e(1),
+            y: this.position.e(2) + bounds.position.e(2)
         });
     }
 

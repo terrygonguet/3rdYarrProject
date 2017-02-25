@@ -105,3 +105,7 @@ Number.prototype.roundPres = function(precision) {
     var roundedTempNumber = Math.round(tempNumber);
     return roundedTempNumber / factor;
 };
+
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}

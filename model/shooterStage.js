@@ -176,8 +176,8 @@ class ShooterStage extends createjs.Container {
 
     switchToGame () {
       this.clear();
-      this.position   = $V([100, 100]);
       this.dimensions = $V([600, 800]);
+      this.position   = $V([window.innerWidth / 2 - this.dimensions.e(1) / 2, 100]);
       this.edges      = this.position.add(this.dimensions);
       this.resizeStage();
       this.txtScore.set({
@@ -193,7 +193,7 @@ class ShooterStage extends createjs.Container {
 
     getGameBounds () {
       var bounds = {
-        position: $V([100, 100]),
+        position: $V([window.innerWidth / 2 - 300, 100]),
         dimensions: $V([600, 800])
       };
       bounds.edges = bounds.position.add(bounds.dimensions);
@@ -212,7 +212,7 @@ class ShooterStage extends createjs.Container {
       ];
       for (var i of this.bg)
         this.addChildAt(i,0);
-      this.borders.graphics.c().ss(3).s("#000").r(this.position.e(1), this.position.e(1), this.dimensions.e(1), this.dimensions.e(2));
+      this.borders.graphics.c().ss(3).s("#000").r(this.position.e(1), this.position.e(2), this.dimensions.e(1), this.dimensions.e(2));
     }
 
     clear () {
