@@ -10,7 +10,6 @@ class Special {
         var self = this;
         input.onSpecial.push(function () {
             self.trigger();
-            console.log(game.player.weapon.level);
         });
     }
 
