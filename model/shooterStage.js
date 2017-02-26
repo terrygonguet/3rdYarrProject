@@ -246,6 +246,7 @@ class ShooterStage extends createjs.Container {
     }
 
     clear () {
+        game && game.killAll();
         var childs = this.children.slice(0);
         for (var i of childs) {
           var toKill = true;
