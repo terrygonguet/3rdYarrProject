@@ -219,6 +219,32 @@ class ShooterStage extends createjs.Container {
       this.txtLives.set({
           x: this.txtScore.x, y: this.position.e(2) + 60, visible: true
       });
+
+      // item get line
+      var itemLine = new createjs.Container();
+      var line = new createjs.Shape();
+      line.graphics
+        .s("#000").ss(3)
+        .mt(-this.dimensions.e(1) / 2.3, 0)
+        .lt(this.dimensions.e(1) / 2.3, 0);
+      itemLine.addChild(line);
+      var linetxt = new createjs.Text("Item get line", "18px Verdana", "#FFF")
+        .set({textAlign: "center", textBaseline: "middle", y: 15});
+      var linetxtbg = new createjs.Text("Item get line", "18px Verdana", "#000")
+        .set({textAlign: "center", textBaseline: "middle", y: 15, outline: 3, y: 15});
+      itemLine.addChild(linetxtbg);
+      itemLine.addChild(linetxt);
+      itemLine.set({
+        x: this.dimensions.e(1) / 2 + this.position.e(1),
+        y: this.dimensions.e(2) / 5 + this.position.e(2),
+        ttl: 3000
+      });
+      itemLine.on("frameTick", function (e) {
+        if (this.ttl > 0) this.ttl -= e.delta;
+        else if (this.alpha > 0) this.alpha -= e.delta / 1000;
+        else game.removeChild(this);
+      }, itemLine);
+      game.addChild(itemLine);
     }
 
     getGameBounds () {

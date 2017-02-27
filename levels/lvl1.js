@@ -170,9 +170,24 @@
         shooter.addEncounter(dude, time);
         time += 300;
     }
-    time += dude.getTotalTime() + 3000;
+    time += dude.getTotalTime();
 
+    dude = new SmoothCriminal($V([-10, bounds.dimensions.e(2) + 10]), 17, "#469", 25, 500);
+    dude.addPoint($V([0, bounds.dimensions.e(2)]), 150);
+    dude.addPoint($V([0, 0]), 150);
+    dude.addPoint($V([-10, -10]), 150);
+    dude.drop = makeDropFunc(1, 0.5);
+    dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
+    shooter.addEncounter(dude, time);
 
+    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, bounds.dimensions.e(2) + 10]), 17, "#469", 25, 500);
+    dude.addPoint($V([bounds.dimensions.e(1), bounds.dimensions.e(2)]), 150);
+    dude.addPoint($V([bounds.dimensions.e(1), 0]), 150);
+    dude.addPoint($V([bounds.dimensions.e(1) + 10, -10]), 150);
+    dude.drop = makeDropFunc(1, 0.5);
+    dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
+    shooter.addEncounter(dude, time);
+    time += dude.getTotalTime() + 2500;
 
 
 

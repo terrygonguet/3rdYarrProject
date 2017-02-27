@@ -40,7 +40,7 @@ class Drop extends createjs.Shape {
     }
 
     update (e) {
-        if (game.player.position.e(2) <= 0.15 * shooter.dimensions.e(2)
+        if (game.player.position.e(2) <= shooter.dimensions.e(2) / 5
             || this.position.distanceFrom(game.player.position) <= 100) {
             this.movement = game.player.position.subtract(this.position).toUnitVector().x(this.maxSpeed * 3);
         } else {
