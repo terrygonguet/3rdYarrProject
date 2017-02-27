@@ -23,6 +23,7 @@ class ShooterStage extends createjs.Container {
         this.txtScore   = new createjs.Text("", "20px Verdana", "#FFF");
         this.txtPower   = new createjs.Text("", "20px Verdana", "#FFF");
         this.txtLives   = new createjs.Text("", "20px Verdana", "#FFF");
+        this.txtVersion = new createjs.Text("", "12px Verdana", "#FFF");
         this.score      = 0;
         this.bg         = [
           new createjs.Shape(new createjs.Graphics().f("#333").dr(0,0,window.innerWidth,this.position.e(2))),
@@ -30,6 +31,23 @@ class ShooterStage extends createjs.Container {
           new createjs.Shape(new createjs.Graphics().f("#333").dr(this.edges.e(1),this.position.e(2),window.innerWidth-this.edges.e(1),window.innerHeight-this.position.e(2))),
           new createjs.Shape(new createjs.Graphics().f("#333").dr(this.position.e(1),this.edges.e(2),this.dimensions.e(1),this.dimensions.e(2)))
         ];
+
+        this.txtVersion.set({
+          x: 20, y: window.innerHeight - 20
+        });
+
+        $.get("https://api.github.com/repos/terrygonguet/3rdYarrProject/contributors", function (data) {
+          if (!data.message) {
+            var sum = 0;
+            for (var i of data) {
+              sum += i.contributions;
+            }
+            shooter.txtVersion.text = "Version " + sum;
+          } else {
+            console.log(data.message);
+          }
+        });
+
         for (var i of this.bg)
           this.addChild(i);
 
@@ -42,6 +60,7 @@ class ShooterStage extends createjs.Container {
         this.addChild(this.txtScore);
         this.addChild(this.txtPower);
         this.addChild(this.txtLives);
+        this.addChild(this.txtVersion);
 
         // this.switchToGame();
         this.switchToMenu();
@@ -277,8 +296,11 @@ class ShooterStage extends createjs.Container {
         for (var i of childs) {
           var toKill = true;
           if (i === this.txtScore || i === this.txtPower
-            || i === this.borders || this.txtLives === i)
+            || i === this.borders || this.txtLives === i
+            ||i === this.txtVersion) {
             toKill = false;
+            continue;
+          }
           for (var j of this.bg) {
             if (j === i) {
               toKill = false;
