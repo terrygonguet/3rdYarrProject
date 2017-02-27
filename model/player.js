@@ -81,6 +81,7 @@ class Player extends createjs.Shape {
     getHit () {
       if (this.invincible <= 0) {
         this.lives --;
+        this.dispatchEvent("death");
         if (this.lives < 0)
           createjs.Ticker.paused = true;
         else {

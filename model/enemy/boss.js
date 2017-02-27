@@ -14,16 +14,18 @@ class Boss extends createjs.Shape {
 
     constructor (position, radius, color) {
         super();
-        this.position   = position;
-        this.radius     = radius;
-        this.health     = 1;
-        this.maxHealth  = 1;
-        this.color      = color;
-        this.phases     = [];
-        this.step       = 0;
-        this.invincible = 0;
-        this.lifemeter  = new createjs.Shape();
-        this.marker     = new createjs.Shape(
+        this.position      = position;
+        this.radius        = radius;
+        this.health        = 1;
+        this.maxHealth     = 1;
+        this.color         = color;
+        this.phases        = [];
+        this.step          = 0;
+        this.invincible    = 0;
+        this.deathEvent    = null;
+        this.specialEvent  = null;
+        this.lifemeter     = new createjs.Shape();
+        this.marker        = new createjs.Shape(
             new createjs.Graphics().f("#A33").s("#000").mt(-10, 5).lt(10, 5).lt(0, -5).cp()
         );
         this.livesIndic = new createjs.Shape;
@@ -53,11 +55,19 @@ class Boss extends createjs.Shape {
             for (var i = 0; i < this.phases.length-1; i++)
               this.livesIndic.graphics.mt(i*20+14, 0).dc(i*20+7, 0, 7);
             game.addChild(this.livesIndic);
+            this.deathEvent = game.player.on("death", function () {
+              this.phases[this.step].failed = true;
+            }, this);
+            this.specialEvent = game.player.on("special", function () {
+              this.phases[this.step].failed = true;
+            }, this);
         }, this);
         this.on("removed", function () {
             game.removeChild(this.lifemeter);
             game.removeChild(this.marker);
             game.removeChild(this.livesIndic);
+            game.player.off("death", this.deathEvent);
+            game.player.off("special", this.specialEvent);
         }, this);
 
         // this.on("tick", this.update, this);
@@ -86,7 +96,7 @@ class Boss extends createjs.Shape {
                 y: this.position.e(2) + shooter.position.e(2)
             });
             this.marker.x = this.x;
-        } else if (this.phases.length-1 > this.step++) {
+        } else if (this.phases.length-1 > this.step) {
             this.nextPhase();
         } else {
             this.die();
@@ -94,6 +104,8 @@ class Boss extends createjs.Shape {
     }
 
     nextPhase () {
+        this.dropBonus();
+        this.step++;
         this.health = this.phases[this.step].health;
         this.maxHealth = this.phases[this.step].health;
         this.invincible = 3000;
@@ -107,11 +119,38 @@ class Boss extends createjs.Shape {
         }
     }
 
-    addPhase (shootingPattern, movingPattern, health) {
+    dropBonus () {
+      if (game.player.weapon.level != 3) {
+        for (var i=0; i<5; i ++) {
+          game.addChild(
+            new Drop("upgrade", 0.2, $V([
+              shooter.dimensions.e(1) / 2 + randInt(-50, 50),
+              shooter.dimensions.e(2) / 2 + randInt(-50, 50)
+            ]))
+          );
+        }
+      } else {
+        this.phases[this.step].reward += 3000;
+      }
+      if (!this.phases[this.step].failed) {
+        for (var i=0; i<this.phases[this.step].reward; i += 1000) {
+          game.addChild(
+            new Drop("points", 1000, $V([
+              shooter.dimensions.e(1) / 2 + randInt(-50, 50),
+              shooter.dimensions.e(2) / 2 + randInt(-50, 50)
+            ]))
+          );
+        }
+      }
+    }
+
+    addPhase (shootingPattern, movingPattern, health, pointsReward = 10000) {
         this.phases.push({
             shooting: shootingPattern,
             moving: movingPattern,
-            health: health
+            health: health,
+            reward: pointsReward,
+            failed: false
         });
         if (this.phases.length === 1) {
             this.health = health;
@@ -130,6 +169,7 @@ class Boss extends createjs.Shape {
       for (var e of entities) {
           if (e instanceof Bullet && e.type === "enemy") e.die();
       };
+      this.dropBonus();
       game.removeChild(this);
     }
 

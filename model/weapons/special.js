@@ -15,6 +15,7 @@ class Special {
 
     trigger () {
         game.player.weapon.upgrade(0);
+        game.player.dispatchEvent("special");
     }
 
     remove () {
