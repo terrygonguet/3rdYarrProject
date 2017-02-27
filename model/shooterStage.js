@@ -33,7 +33,7 @@ class ShooterStage extends createjs.Container {
         ];
 
         this.txtVersion.set({
-          x: 20, y: window.innerHeight - 20
+          x: 7, y: window.innerHeight - 20
         });
 
         $.get("https://api.github.com/repos/terrygonguet/3rdYarrProject/contributors", function (data) {
@@ -42,7 +42,7 @@ class ShooterStage extends createjs.Container {
             for (var i of data) {
               sum += i.contributions;
             }
-            shooter.txtVersion.text = "Version " + sum;
+            shooter.txtVersion.text = "Version 0.1c" + sum;
           } else {
             console.log(data.message);
           }
