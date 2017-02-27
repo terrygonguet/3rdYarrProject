@@ -9,7 +9,7 @@ class Game extends createjs.Stage {
     constructor (canvasName) {
         super(canvasName);
 
-        createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
+        createjs.Ticker.timingMode = createjs.Ticker.RAF;
         createjs.Ticker.framerate = 60;
         createjs.Ticker.on("tick", this.update, this);
 
