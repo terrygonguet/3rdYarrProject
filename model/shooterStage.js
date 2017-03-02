@@ -25,12 +25,13 @@ class ShooterStage extends createjs.Container {
         this.txtLives   = new createjs.Text("", "20px Verdana", "#FFF");
         this.txtVersion = new createjs.Text("", "12px Verdana", "#FFF");
         this.score      = 0;
-        this.bg         = [
-          new createjs.Shape(new createjs.Graphics().f("#333").dr(0,0,window.innerWidth,this.position.e(2))),
-          new createjs.Shape(new createjs.Graphics().f("#333").dr(0,this.position.e(2),this.position.e(1),window.innerHeight-this.position.e(2))),
-          new createjs.Shape(new createjs.Graphics().f("#333").dr(this.edges.e(1),this.position.e(2),window.innerWidth-this.edges.e(1),window.innerHeight-this.position.e(2))),
-          new createjs.Shape(new createjs.Graphics().f("#333").dr(this.position.e(1),this.edges.e(2),this.dimensions.e(1),this.dimensions.e(2)))
-        ];
+        this.bg         = [];
+        // this.bg         = [
+        //   new createjs.Shape(new createjs.Graphics().f("#333").dr(0,0,window.innerWidth,this.position.e(2))),
+        //   new createjs.Shape(new createjs.Graphics().f("#333").dr(0,this.position.e(2),this.position.e(1),window.innerHeight-this.position.e(2))),
+        //   new createjs.Shape(new createjs.Graphics().f("#333").dr(this.edges.e(1),this.position.e(2),window.innerWidth-this.edges.e(1),window.innerHeight-this.position.e(2))),
+        //   new createjs.Shape(new createjs.Graphics().f("#333").dr(this.position.e(1),this.edges.e(2),this.dimensions.e(1),this.dimensions.e(2)))
+        // ];
 
         this.txtVersion.set({
           x: 7, y: window.innerHeight - 20
@@ -286,7 +287,7 @@ class ShooterStage extends createjs.Container {
         new createjs.Shape(new createjs.Graphics().f("#333").dr(this.position.e(1),this.edges.e(2),this.dimensions.e(1),this.dimensions.e(2)))
       ];
       for (var i of this.bg)
-        this.addChildAt(i,0);
+        this.addChildAt(i,1);
       this.borders.graphics.c().ss(3).s("#000").r(this.position.e(1), this.position.e(2), this.dimensions.e(1), this.dimensions.e(2));
     }
 

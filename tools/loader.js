@@ -44,6 +44,7 @@ var queue;
     {id: "Patterns", src:"model/enemy/patterns.js"},
     {id: "Boss", src:"model/enemy/boss.js"},
     {id: "Shooter Stage", src:"model/shooterStage.js"},
+    {id: "Sea", src:"model/sea.js"},
     {id: "Button", src:"model/button.js"},
     {id: "Selector", src:"model/selector.js"},
     {id: "Drops", src:"model/drop.js"},
@@ -55,7 +56,8 @@ var queue;
     {id: "Special Shield", src:"model/weapons/shield.js"},
 
     {id: "Calamar", src:"resources/calamar.png"},
-    {id: "Meduse", src:"resources/meduse.png"}
+    {id: "Meduse", src:"resources/meduse.png"},
+    {id: "Waves", src:"resources/waves.png"}
   ];
   queue.loadManifest(queue.manifest);
 
