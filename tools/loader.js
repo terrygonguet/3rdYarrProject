@@ -2,9 +2,10 @@
 
 var game;
 var shooter;
+var queue;
 
 (function () {
-  var queue = new createjs.LoadQueue();
+  queue = new createjs.LoadQueue();
   queue.on("complete", handleComplete, this);
   queue.on("fileload", handleFileLoad, this);
   queue.on("fileerror", handleFileError, this);
@@ -51,7 +52,10 @@ var shooter;
     {id: "Weapon Shotgun", src:"model/weapons/shotgun.js"},
     {id: "Special Abstract", src:"model/weapons/special.js"},
     {id: "Special Clear", src:"model/weapons/clear.js"},
-    {id: "Special Shield", src:"model/weapons/shield.js"}
+    {id: "Special Shield", src:"model/weapons/shield.js"},
+
+    {id: "Calamar", src:"resources/calamar.png"},
+    {id: "Meduse", src:"resources/meduse.png"}
   ];
   queue.loadManifest(queue.manifest);
 

@@ -26,7 +26,7 @@
             {position: $V([x, 150]), speed:0.3},
             {position: $V([x, 149]), speed:150},
             {position: $V([-10, 140]), speed:0}
-        ], 10, "#189", 1, 100);
+        ], 20, "Meduse", 1, 100);
         shooter.addEncounter(dude, time);
         time += 500;
     }
@@ -37,7 +37,7 @@
 
 
     for (var i = 0; i < 5; i++) {
-        dude = new SmoothCriminal($V([bounds.dimensions.e(1) / 5, -10]), 10, "#189", 1, 100);
+        dude = new SmoothCriminal($V([bounds.dimensions.e(1) / 5, -10]), 20, "Meduse", 1, 100);
         dude.addPoint($V([bounds.dimensions.e(1) / 5, 200]), 200);
         dude.addPoint($V([bounds.dimensions.e(1) / 5 + 100, 300]), 200);
         dude.addPoint($V([bounds.dimensions.e(1) / 5 + 200, 300]), 50);
@@ -52,7 +52,7 @@
         {position: $V([4 * bounds.dimensions.e(1) / 5, 200]), speed: 0.3},
         {position: $V([4 * bounds.dimensions.e(1) / 5, 201]), speed: 200},
         {position: $V([bounds.dimensions.e(1) + 10, 190]), speed: 0}
-    ], 17, "#469", 25, 500);
+    ], 30, "Calamar", 25, 500);
     dude.drop = makeDropFunc(1, 0.5);
     dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
@@ -63,7 +63,7 @@
 
 
     for (var i = 0; i < 5; i++) {
-        dude = new SmoothCriminal($V([4 * bounds.dimensions.e(1) / 5, -10]), 10, "#189", 1);
+        dude = new SmoothCriminal($V([4 * bounds.dimensions.e(1) / 5, -10]), 20, "Meduse", 1);
         dude.addPoint($V([4 * bounds.dimensions.e(1) / 5, 200]), 200);
         dude.addPoint($V([4 * bounds.dimensions.e(1) / 5 - 100, 300]), 200);
         dude.addPoint($V([4 * bounds.dimensions.e(1) / 5 - 200, 300]), 50);
@@ -78,7 +78,7 @@
         {position: $V([bounds.dimensions.e(1) / 5, 200]), speed: 0.3},
         {position: $V([bounds.dimensions.e(1) / 5, 201]), speed: 200},
         {position: $V([-10, 190]), speed: 0}
-    ], 17, "#469", 25, 500);
+    ], 30, "Calamar", 25, 500);
     dude.drop = makeDropFunc(1, 0.5);
     dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
@@ -96,7 +96,7 @@
                 {position: $V([x, 120]), speed: 50},
                 {position: $V([x, 300]), speed: 170},
                 {position: $V([x, -10]), speed: 0}
-            ], 10, "#924", 1);
+            ], 20, "Meduse", 1);
             dude.pattern = new TargetPlayerPattern(dude, 1, 0.007, {radius:7});
             shooter.addEncounter(dude, time);
         }
@@ -109,7 +109,7 @@
 
 
 
-    dude = new SmoothCriminal($V([-10, 100]), 17, "#469", 25, 500);
+    dude = new SmoothCriminal($V([-10, 100]), 30, "Calamar", 25, 500);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
@@ -120,7 +120,7 @@
     dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
 
-    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 300]), 17, "#469", 25, 500);
+    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 300]), 30, "Calamar", 25, 500);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
@@ -139,13 +139,13 @@
 
 
     for (var i = 0; i < 15; i++) {
-        dude = new SmoothCriminal($V([-10, 100]), 10, "#924", 1);
+        dude = new SmoothCriminal($V([-10, 100]), 20, "Meduse", 1);
         dude.addPoint($V([bounds.dimensions.e(1) - 200, 100]), 150);
         dude.addPoint($V([bounds.dimensions.e(1) - 200, 300]), 150);
         dude.addPoint($V([-10, 300]), 150);
         dude.pattern = new TargetPlayerPattern(dude, 1, 0.007, {radius:7});
         shooter.addEncounter(dude, time);
-        dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 400]), 10, "#924", 1);
+        dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 400]), 20, "Meduse", 1);
         dude.addPoint($V([200, 400]), 150);
         dude.addPoint($V([200, 600]), 150);
         dude.addPoint($V([bounds.dimensions.e(1) + 10, 600]), 150);
@@ -162,7 +162,7 @@
 
     for (var i = 0; i < 8; i++) {
         var startpos = $V([(i % 2 ? -10 : bounds.dimensions.e(1) + 10), 2 * bounds.dimensions.e(2) / 3 - i * bounds.dimensions.e(2) / 12]);
-        dude = new SmoothCriminal(startpos, 10, "#924", 1);
+        dude = new SmoothCriminal(startpos, 20, "Meduse", 1);
         dude.addPoint(startpos.add($V([(i % 2 ? 1 : -1), 1])), 150);
         dude.addPoint($V([bounds.dimensions.e(1) / 2, startpos.e(2)]), 150);
         dude.addPoint($V([bounds.dimensions.e(1) / 2, -10]), 150);
@@ -172,7 +172,7 @@
     }
     time += dude.getTotalTime();
 
-    dude = new SmoothCriminal($V([-10, bounds.dimensions.e(2) + 10]), 17, "#469", 25, 500);
+    dude = new SmoothCriminal($V([-10, bounds.dimensions.e(2) + 10]), 30, "Calamar", 25, 500);
     dude.addPoint($V([0, bounds.dimensions.e(2)]), 150);
     dude.addPoint($V([0, 0]), 150);
     dude.addPoint($V([-10, -10]), 150);
@@ -180,7 +180,7 @@
     dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
 
-    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, bounds.dimensions.e(2) + 10]), 17, "#469", 25, 500);
+    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, bounds.dimensions.e(2) + 10]), 30, "Calamar", 25, 500);
     dude.addPoint($V([bounds.dimensions.e(1), bounds.dimensions.e(2)]), 150);
     dude.addPoint($V([bounds.dimensions.e(1), 0]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) + 10, -10]), 150);

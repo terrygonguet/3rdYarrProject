@@ -7,22 +7,29 @@
 /*
  * position : 2D Vector
  * radius : number, radius of the circle hitbox
- * color [temp] : HTML color of the circle
+ * sprites : array of images ID from the LoadQueue. A random one will be selected
  * health : number of hit points
  */
-class Enemy extends createjs.Shape {
+class Enemy extends createjs.Bitmap {
 
-    constructor (position, radius, color, health, pointValue) {
-        super();
+    constructor (position, radius, sprites, health, pointValue) {
+        var sprite;
+        if (typeof sprites === "string")
+          sprite = sprites;
+        else
+          sprite = sprites[Math.floor(Math.random() * sprites.length)];
+        super(queue.getResult(sprite));
         this.position = position;
         this.radius   = radius;
         this.health   = health;
-        this.color    = color;
+        this.sprite   = sprite;
         this.pattern  = null;
         this.points   = pointValue;
         this.drop     = makeDropFunc();
-
-        this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
+        this.regX     = this.image.width / 2;
+        this.regY     = this.image.height / 2;
+        this.scaleX   = 2 * this.radius / this.image.width;
+        this.scaleY   = this.scaleX;
 
         // this.on("tick", this.update, this);
         this.on("frameTick", this.update, this);
