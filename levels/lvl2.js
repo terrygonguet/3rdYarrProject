@@ -20,7 +20,7 @@
               this.nbSpiral--;
               this.timeSpiral = 0;
               var pos = boss.position.add($V([-boss.radius - this.nbSpiral, 0]).rotate(this.nbSpiral * Math.PI / 6, Vector.Zero(2)));
-              var b = new Bullet(pos, game.player.position.subtract(pos), 180, 1, 6);
+              var b = new Bullet(pos, game.player.position.subtract(pos), 180, 1, 6, "enemy", "Red Bullet");
               game.addChild(b);
           }
 
@@ -29,7 +29,7 @@
               this.offset = !this.offset;
               var x = this.offset * 30;
               do {
-                  var b = new Bullet($V([x, 0]), $V([0, 1]), 70, 1, 10);
+                  var b = new Bullet($V([x, 0]), $V([0, 1]), 70, 1, 10, "enemy", "Blue Bullet");
                   game.addChild(b);
                   x += 70;
               } while (x < bounds.dimensions.e(1));
@@ -56,7 +56,7 @@
               this.novaTime = 0;
               for (var i = 0; i < 50; i++) {
                   var dir = $V([0, 1]).rotate(i * Math.PI / 25, Vector.Zero(2));
-                  game.addChild(new Bullet(boss.position, dir, 200, 1, 10));
+                  game.addChild(new Bullet(boss.position, dir, 200, 1, 10, "enemy", "Red Bullet"));
               }
           }
 
@@ -64,7 +64,7 @@
               this.time = 0;
               for (var i = 0; i < 4; i++) {
                   var dir = $V([0, 1]).rotate(i * Math.PI / 2 + this.curAngle, Vector.Zero(2));
-                  game.addChild(new Bullet(boss.position, dir, 300, 1, 12));
+                  game.addChild(new Bullet(boss.position, dir, 300, 1, 12, "enemy", "Blue Bullet"));
               }
           }
           this.curAngle += e.delta / 1500;
@@ -86,14 +86,14 @@
               this.burstTime = 0;
               var dir = game.player.position.subtract(boss.position);
               for (var i = 0; i < 5; i++) {
-                  game.addChild(new Bullet(boss.position, dir, 150 + i * 15, 1, 6))
+                  game.addChild(new Bullet(boss.position, dir, 150 + i * 15, 1, 6, "enemy", "Blue Bullet"))
               }
           }
 
           if (this.time >= 50) {
               this.time = 0;
-              game.addChild(new Bullet($V([this.x, 0]), $V([0, 1]), 150, 1, 10));
-              game.addChild(new Bullet($V([bounds.dimensions.e(1) - this.x, 0]), $V([0, 1]), 150, 1, 10));
+              game.addChild(new Bullet($V([this.x, 0]), $V([0, 1]), 150, 1, 10, "enemy", "Red Bullet"));
+              game.addChild(new Bullet($V([bounds.dimensions.e(1) - this.x, 0]), $V([0, 1]), 150, 1, 10, "enemy", "Red Bullet"));
               this.x += 10 * this.dir;
               if (this.x >= bounds.dimensions.e(1) / 2 - 30 || this.x <= 0) this.dir = -this.dir;
           }

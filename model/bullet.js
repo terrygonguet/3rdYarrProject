@@ -31,8 +31,8 @@ class Bullet extends createjs.Bitmap {
             x: this.position.e(1) + shooter.position.e(1),
             y: this.position.e(2) + shooter.position.e(2),
             regX: this.image.width / 2, regY: this.image.height / 2,
-            scaleX: 2 * this.radius / this.image.height,
-            scaleY: 2 * this.radius / this.image.height
+            scaleX: 2 * this.radius / this.image.width,
+            scaleY: 2 * this.radius / this.image.width
         });
     }
 
@@ -59,7 +59,7 @@ class Bullet extends createjs.Bitmap {
         this.set({
             x: this.position.e(1) + shooter.position.e(1),
             y: this.position.e(2) + shooter.position.e(2),
-            rotation: this.direction.angleFrom($V([0,-1])) * Math.sign(this.direction.e(1)) * 57.2958 - 90
+            rotation: this.direction.angleFrom($V([0,-1])) * Math.sign(this.direction.e(1)) * 57.2958
         });
     }
 

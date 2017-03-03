@@ -211,7 +211,7 @@ class ShooterStage extends createjs.Container {
       setTimeout(function () {
         var dude = new Enemy(
           $V([100, 100]),
-          20, "Meduse", 99999999, 0
+          20, ["Meduse1", "Meduse2"], 99999999, 0
         );
         dude.pattern = new Pattern(dude, function () {
           if (this.time >= 500) {

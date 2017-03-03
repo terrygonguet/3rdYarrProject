@@ -55,9 +55,13 @@ var queue;
     {id: "Special Shield", src:"model/weapons/shield.js"},
 
     {id: "Calamar", src:"resources/calamar.png"},
-    {id: "Meduse", src:"resources/meduse.png"},
+    {id: "Meduse1", src:"resources/meduse1.png"},
+    {id: "Meduse2", src:"resources/meduse2.png"},
     {id: "Player", src:"resources/Bateau-100x100.png"},
     {id: "Missile", src:"resources/Balle.png"},
+    {id: "Blue Bullet", src:"resources/blueBullet.png"},
+    {id: "Red Bullet", src:"resources/redBullet.png"},
+    {id: "Green Bullet", src:"resources/greenBullet.png"},
     {id: "Canonball", src:"resources/Boulet.png"},
     {id: "Kraken", src:"resources/Kraken.png"}
   ];

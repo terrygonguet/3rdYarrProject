@@ -33,8 +33,7 @@ class Player extends createjs.Container {
         this.sprite.set({
           regX: this.sprite.image.width / 2,
           regY: this.sprite.image.height / 2,
-          rotation: -90,
-          scaleX: 0.7, scaleY: 0.7
+          scaleX: 0.5, scaleY: 0.5
         });
 
         this.set({

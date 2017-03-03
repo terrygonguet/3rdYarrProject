@@ -26,7 +26,7 @@
             {position: $V([x, 150]), speed:0.3},
             {position: $V([x, 149]), speed:150},
             {position: $V([-10, 140]), speed:0}
-        ], 20, "Meduse", 1, 100);
+        ], 20, ["Meduse1", "Meduse2"], 1, 100);
         shooter.addEncounter(dude, time);
         time += 500;
     }
@@ -37,7 +37,7 @@
 
 
     for (var i = 0; i < 5; i++) {
-        dude = new SmoothCriminal($V([bounds.dimensions.e(1) / 5, -10]), 20, "Meduse", 1, 100);
+        dude = new SmoothCriminal($V([bounds.dimensions.e(1) / 5, -10]), 20, ["Meduse1", "Meduse2"], 1, 100);
         dude.addPoint($V([bounds.dimensions.e(1) / 5, 200]), 200);
         dude.addPoint($V([bounds.dimensions.e(1) / 5 + 100, 300]), 200);
         dude.addPoint($V([bounds.dimensions.e(1) / 5 + 200, 300]), 50);
@@ -63,7 +63,7 @@
 
 
     for (var i = 0; i < 5; i++) {
-        dude = new SmoothCriminal($V([4 * bounds.dimensions.e(1) / 5, -10]), 20, "Meduse", 1);
+        dude = new SmoothCriminal($V([4 * bounds.dimensions.e(1) / 5, -10]), 20, ["Meduse1", "Meduse2"], 1);
         dude.addPoint($V([4 * bounds.dimensions.e(1) / 5, 200]), 200);
         dude.addPoint($V([4 * bounds.dimensions.e(1) / 5 - 100, 300]), 200);
         dude.addPoint($V([4 * bounds.dimensions.e(1) / 5 - 200, 300]), 50);
@@ -96,7 +96,7 @@
                 {position: $V([x, 120]), speed: 50},
                 {position: $V([x, 300]), speed: 170},
                 {position: $V([x, -10]), speed: 0}
-            ], 20, "Meduse", 1);
+            ], 20, ["Meduse1", "Meduse2"], 1);
             dude.pattern = new TargetPlayerPattern(dude, 1, 0.007, {radius:7});
             shooter.addEncounter(dude, time);
         }
@@ -139,13 +139,13 @@
 
 
     for (var i = 0; i < 15; i++) {
-        dude = new SmoothCriminal($V([-10, 100]), 20, "Meduse", 1);
+        dude = new SmoothCriminal($V([-10, 100]), 20, ["Meduse1", "Meduse2"], 1);
         dude.addPoint($V([bounds.dimensions.e(1) - 200, 100]), 150);
         dude.addPoint($V([bounds.dimensions.e(1) - 200, 300]), 150);
         dude.addPoint($V([-10, 300]), 150);
         dude.pattern = new TargetPlayerPattern(dude, 1, 0.007, {radius:7});
         shooter.addEncounter(dude, time);
-        dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 400]), 20, "Meduse", 1);
+        dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 400]), 20, ["Meduse1", "Meduse2"], 1);
         dude.addPoint($V([200, 400]), 150);
         dude.addPoint($V([200, 600]), 150);
         dude.addPoint($V([bounds.dimensions.e(1) + 10, 600]), 150);
@@ -162,7 +162,7 @@
 
     for (var i = 0; i < 8; i++) {
         var startpos = $V([(i % 2 ? -10 : bounds.dimensions.e(1) + 10), 2 * bounds.dimensions.e(2) / 3 - i * bounds.dimensions.e(2) / 12]);
-        dude = new SmoothCriminal(startpos, 20, "Meduse", 1);
+        dude = new SmoothCriminal(startpos, 20, ["Meduse1", "Meduse2"], 1);
         dude.addPoint(startpos.add($V([(i % 2 ? 1 : -1), 1])), 150);
         dude.addPoint($V([bounds.dimensions.e(1) / 2, startpos.e(2)]), 150);
         dude.addPoint($V([bounds.dimensions.e(1) / 2, -10]), 150);
@@ -207,7 +207,7 @@
                 this.nbSpiral--;
                 this.timeSpiral = 0;
                 var pos = boss.position.add($V([-boss.radius - this.nbSpiral, 0]).rotate(this.nbSpiral * Math.PI / 6, Vector.Zero(2)));
-                var b = new Bullet(pos, game.player.position.subtract(pos), 180, 1, 6);
+                var b = new Bullet(pos, game.player.position.subtract(pos), 180, 1, 6, "enemy", "Red Bullet");
                 game.addChild(b);
             }
 
@@ -216,7 +216,7 @@
                 this.offset = !this.offset;
                 var x = this.offset * 30;
                 do {
-                    var b = new Bullet($V([x, 0]), $V([0, 1]), 70, 1, 10);
+                    var b = new Bullet($V([x, 0]), $V([0, 1]), 70, 1, 10, "enemy", "Blue Bullet");
                     game.addChild(b);
                     x += 70;
                 } while (x < bounds.dimensions.e(1));
@@ -243,7 +243,7 @@
                 this.novaTime = 0;
                 for (var i = 0; i < 50; i++) {
                     var dir = $V([0, 1]).rotate(i * Math.PI / 25, Vector.Zero(2));
-                    game.addChild(new Bullet(boss.position, dir, 200, 1, 10));
+                    game.addChild(new Bullet(boss.position, dir, 200, 1, 10, "enemy", "Red Bullet"));
                 }
             }
 
@@ -251,7 +251,7 @@
                 this.time = 0;
                 for (var i = 0; i < 4; i++) {
                     var dir = $V([0, 1]).rotate(i * Math.PI / 2 + this.curAngle, Vector.Zero(2));
-                    game.addChild(new Bullet(boss.position, dir, 300, 1, 12));
+                    game.addChild(new Bullet(boss.position, dir, 300, 1, 12, "enemy", "Blue Bullet"));
                 }
             }
             this.curAngle += e.delta / 1500;
@@ -273,14 +273,14 @@
                 this.burstTime = 0;
                 var dir = game.player.position.subtract(boss.position);
                 for (var i = 0; i < 5; i++) {
-                    game.addChild(new Bullet(boss.position, dir, 150 + i * 15, 1, 6))
+                    game.addChild(new Bullet(boss.position, dir, 150 + i * 15, 1, 6, "enemy", "Blue Bullet"))
                 }
             }
 
             if (this.time >= 50) {
                 this.time = 0;
-                game.addChild(new Bullet($V([this.x, 0]), $V([0, 1]), 150, 1, 10));
-                game.addChild(new Bullet($V([bounds.dimensions.e(1) - this.x, 0]), $V([0, 1]), 150, 1, 10));
+                game.addChild(new Bullet($V([this.x, 0]), $V([0, 1]), 150, 1, 10, "enemy", "Red Bullet"));
+                game.addChild(new Bullet($V([bounds.dimensions.e(1) - this.x, 0]), $V([0, 1]), 150, 1, 10, "enemy", "Red Bullet"));
                 this.x += 10 * this.dir;
                 if (this.x >= bounds.dimensions.e(1) / 2 - 30 || this.x <= 0) this.dir = -this.dir;
             }

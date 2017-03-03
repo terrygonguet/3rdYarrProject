@@ -50,7 +50,7 @@ class Game extends createjs.Stage {
     }
 
     addChild (child) {
-        super.addChildAt(child, 2);
+        super.addChildAt(child, 1);
         if (child instanceof Enemy || child instanceof Boss)
             this.enemies.push(child);
     }
