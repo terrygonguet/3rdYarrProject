@@ -37,7 +37,6 @@ var queue;
     {id: "KeyIndicator", src:"model/keyIndicator.js"},
     {id: "Player", src:"model/player.js"},
     {id: "Bullet", src:"model/bullet.js"},
-    {id: "Bullet Sprite", src:"resources/bulletRed.png"},
     {id: "Enemy Abstract", src:"model/enemy/enemy.js"},
     {id: "Pathing Enemy", src:"model/enemy/pathingEnemy.js"},
     {id: "Smooth Enemy", src:"model/enemy/smoothCriminal.js"},
@@ -57,7 +56,10 @@ var queue;
 
     {id: "Calamar", src:"resources/calamar.png"},
     {id: "Meduse", src:"resources/meduse.png"},
-    {id: "Waves", src:"resources/waves.png"}
+    {id: "Player", src:"resources/Bateau-100x100.png"},
+    {id: "Missile", src:"resources/Balle.png"},
+    {id: "Canonball", src:"resources/Boulet.png"},
+    {id: "Kraken", src:"resources/Kraken.png"}
   ];
   queue.loadManifest(queue.manifest);
 

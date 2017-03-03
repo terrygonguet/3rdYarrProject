@@ -25,9 +25,11 @@ class Game extends createjs.Stage {
             this.shooterStage.dimensions.e(1) / 2,
             this.shooterStage.dimensions.e(2) - 50
         ]);
-        this.addChildAt(this.sea, 0);
-        this.addChildAt(this.player,1);
-        this.addChildAt(this.shooterStage,2);
+        // this.addChildAt(this.sea, 0);
+        // this.addChildAt(this.player,1);
+        // this.addChildAt(this.shooterStage,2);
+        this.addChildAt(this.player,0);
+        this.addChildAt(this.shooterStage,1);
     }
 
     update (e) {

@@ -24,12 +24,12 @@ class BlasterWeapon extends Weapon {
     fire () {
         if (this.time >= 1000 / this.fireRate) {
             this.time = 0;
-            var bullet = new Bullet(game.player.position.add($V([0, -game.player.size - 5])), $V([0, -1]), 1600, this.damage, 5, "player");
+            var bullet = new Bullet(game.player.position.add($V([0, 0])), $V([0, -1]), 1600, this.damage, 5, "player");
             game.addChild(bullet);
         }
         if (this.missileRate && this.missileTime >= 1000 / this.missileRate) {
             this.missileTime = 0;
-            var bullet = new HomingBullet(game.player.position.add($V([0, -game.player.size - 5])), $V([0, -1]), 1000, this.damage, 5, "player");
+            var bullet = new HomingBullet(game.player.position.add($V([0, 0])), $V([0, -1]), 1000, this.damage, 5, "player");
             game.addChild(bullet);
         }
     }

@@ -7,18 +7,18 @@
 /*
  * position : 2D Vector
  * radius : number, radius of the circle hitbox
- * color [temp] : HTML color of the circle
+ * sprite : LoadQueue resource ID
  */
 
-class Boss extends createjs.Shape {
+class Boss extends createjs.Bitmap {
 
-    constructor (position, radius, color) {
-        super();
+    constructor (position, radius, sprite) {
+        super(queue.getResult(sprite));
         this.position      = position;
         this.radius        = radius;
         this.health        = 1;
         this.maxHealth     = 1;
-        this.color         = color;
+        this.sprite        = sprite;
         this.phases        = [];
         this.step          = 0;
         this.invincible    = 0;
@@ -37,7 +37,6 @@ class Boss extends createjs.Shape {
           y: bounds.position.e(2) + 25
         });
 
-        this.graphics.s("#000").f(this.color).dc(0,0,this.radius);
         this.lifemeter.graphics.s("#000").f("#A33").dr(0,0,bounds.dimensions.e(1) - 20,5);
         this.lifemeter.set({
             x: bounds.position.e(1) + 10,
@@ -75,7 +74,11 @@ class Boss extends createjs.Shape {
 
         this.set({
             x: this.position.e(1) + bounds.position.e(1),
-            y: this.position.e(2) + bounds.position.e(2)
+            y: this.position.e(2) + bounds.position.e(2),
+            scaleX: 2 * this.radius / this.image.width,
+            scaleY: 2 * this.radius / this.image.height,
+            regX: this.image.width / 2,
+            regY: this.image.height / 2
         });
     }
 

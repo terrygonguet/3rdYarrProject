@@ -193,7 +193,7 @@
 
 
     // Boss --------------------------------------------------------
-    var boss = new Boss($V([bounds.dimensions.e(1) / 2,200]), 20, "#FF7B0F");
+    var boss = new Boss($V([bounds.dimensions.e(1) / 2,200]), 50, "Kraken");
     boss.invincible = 2000;
 
     // Phase 1 -----------------------------------------------------

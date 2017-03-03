@@ -4,11 +4,10 @@
 
 /* global shooter, game, createjs */
 
-class Player extends createjs.Shape {
+class Player extends createjs.Container {
 
     constructor () {
         super ();
-        // this.on("tick", this.update, this);
         this.on("frameTick", this.update, this);
         var autof = getCookie("autofire");
         var ctrl = getCookie("controls");
@@ -17,19 +16,30 @@ class Player extends createjs.Shape {
         this.normalSpeed = 400;
         this.focusSpeed  = 150;
         this.radius      = 3;
-        this.size        = 10;
         this.lives       = 2;
         this.invincible  = 0;
 
         this.weapon      = new BlasterWeapon();
         this.special     = new ShieldSpecial();
-        this.normalGraph = new createjs.Graphics().s("#000").f("#33A").dc(0,0,this.size);
-        this.focusGraph  = new createjs.Graphics().s("#000").f("#33A").dc(0,0,this.size).f("#FFF").dc(0,0,this.radius);
+
+        this.sprite      = new createjs.Bitmap(queue.getResult("Player"));
+        this.hitbox      = new createjs.Shape(
+          new createjs.Graphics().s("#000").f("#FFF").dc(0,0,this.radius)
+        );
+
+        this.addChild(this.sprite);
+        this.addChild(this.hitbox);
+        this.hitbox.visible = false;
+        this.sprite.set({
+          regX: this.sprite.image.width / 2,
+          regY: this.sprite.image.height / 2,
+          rotation: -90,
+          scaleX: 0.7, scaleY: 0.7
+        });
 
         this.set({
             x: this.position.e(1),
-            y: this.position.e(2),
-            graphics: this.normalGraph
+            y: this.position.e(2)
         });
     }
 
@@ -73,9 +83,9 @@ class Player extends createjs.Shape {
 
         this.set({
             x: this.position.e(1) + shooter.position.e(1),
-            y: this.position.e(2) + shooter.position.e(2),
-            graphics: input.keys.focus ? this.focusGraph : this.normalGraph
+            y: this.position.e(2) + shooter.position.e(2)
         });
+        this.hitbox.visible = input.keys.focus;
     }
 
     getHit () {
