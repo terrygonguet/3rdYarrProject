@@ -19,19 +19,12 @@ class ShooterStage extends createjs.Container {
         this.time       = 0;
         this.started    = false;
         this.mode       = "";
-        this.borders    = new createjs.Shape();
         this.txtScore   = new createjs.Text("", "20px Verdana", "#FFF");
         this.txtPower   = new createjs.Text("", "20px Verdana", "#FFF");
         this.txtLives   = new createjs.Text("", "20px Verdana", "#FFF");
         this.txtVersion = new createjs.Text("", "12px Verdana", "#FFF");
         this.score      = 0;
-        this.bg         = [];
-        // this.bg         = [
-        //   new createjs.Shape(new createjs.Graphics().f("#333").dr(0,0,window.innerWidth,this.position.e(2))),
-        //   new createjs.Shape(new createjs.Graphics().f("#333").dr(0,this.position.e(2),this.position.e(1),window.innerHeight-this.position.e(2))),
-        //   new createjs.Shape(new createjs.Graphics().f("#333").dr(this.edges.e(1),this.position.e(2),window.innerWidth-this.edges.e(1),window.innerHeight-this.position.e(2))),
-        //   new createjs.Shape(new createjs.Graphics().f("#333").dr(this.position.e(1),this.edges.e(2),this.dimensions.e(1),this.dimensions.e(2)))
-        // ];
+        this.bg         = new createjs.Shape();
 
         this.txtVersion.set({
           x: 7, y: window.innerHeight - 20
@@ -43,21 +36,18 @@ class ShooterStage extends createjs.Container {
             for (var i of data) {
               sum += i.contributions;
             }
-            shooter.txtVersion.text = "Version 0.1c" + sum;
+            shooter.txtVersion.text = "Version 0.1a" + sum;
           } else {
             console.log(data.message);
           }
         });
-
-        for (var i of this.bg)
-          this.addChild(i);
 
         this.set({ x: 0, y: 0 });
         this.txtScore.set({ visible: false });
         this.txtPower.set({ visible: false });
         this.txtLives.set({ visible: false });
 
-        this.addChild(this.borders);
+        this.addChild(this.bg);
         this.addChild(this.txtScore);
         this.addChild(this.txtPower);
         this.addChild(this.txtLives);
@@ -264,7 +254,7 @@ class ShooterStage extends createjs.Container {
         else if (this.alpha > 0) this.alpha -= e.delta / 1000;
         else game.removeChild(this);
       }, itemLine);
-      game.addChild(itemLine);
+      game && game.addChild(itemLine);
     }
 
     getGameBounds () {
@@ -277,18 +267,24 @@ class ShooterStage extends createjs.Container {
     }
 
     resizeStage () {
-      for (var i of this.bg) {
-            this.removeChild(i);
-      }
-      this.bg = [
-        new createjs.Shape(new createjs.Graphics().f("#333").dr(0,0,window.innerWidth,this.position.e(2))),
-        new createjs.Shape(new createjs.Graphics().f("#333").dr(0,this.position.e(2),this.position.e(1),window.innerHeight-this.position.e(2))),
-        new createjs.Shape(new createjs.Graphics().f("#333").dr(this.edges.e(1),this.position.e(2),window.innerWidth-this.edges.e(1),window.innerHeight-this.position.e(2))),
-        new createjs.Shape(new createjs.Graphics().f("#333").dr(this.position.e(1),this.edges.e(2),this.dimensions.e(1),this.dimensions.e(2)))
+      var mask = new createjs.Shape();
+      mask.graphics
+        .f("#000")
+        .dr(0,0,window.innerWidth,this.position.e(2))
+        .dr(0,this.position.e(2),this.position.e(1),this.edges.e(2))
+        .dr(this.edges.e(1),this.position.e(2),window.innerWidth,this.edges.e(2))
+        .dr(0,this.edges.e(2),window.innerWidth,window.innerHeight);
+      mask.cache(0,0,window.innerWidth,window.innerHeight);
+      this.bg.graphics
+        .c()
+        .lf(["#55E", "#DDD"], [0, 1], 0,0,window.innerWidth,window.innerHeight)
+        .dr(0,0,window.innerWidth,window.innerHeight)
+        .ss(5).s("#000")
+        .r(this.position.e(1), this.position.e(2), this.dimensions.e(1), this.dimensions.e(2));
+      this.bg.filters = [
+        new createjs.AlphaMaskFilter(mask.cacheCanvas)
       ];
-      for (var i of this.bg)
-        this.addChildAt(i,1);
-      this.borders.graphics.c().ss(3).s("#000").r(this.position.e(1), this.position.e(2), this.dimensions.e(1), this.dimensions.e(2));
+      this.bg.cache(0,0,window.innerWidth,window.innerHeight);
     }
 
     clear () {
@@ -297,16 +293,10 @@ class ShooterStage extends createjs.Container {
         for (var i of childs) {
           var toKill = true;
           if (i === this.txtScore || i === this.txtPower
-            || i === this.borders || this.txtLives === i
-            ||i === this.txtVersion) {
+            || this.txtLives === i ||i === this.txtVersion
+            || i === this.bg) {
             toKill = false;
             continue;
-          }
-          for (var j of this.bg) {
-            if (j === i) {
-              toKill = false;
-              break;
-            }
           }
           if (toKill) this.removeChild(i);
         }

@@ -24,7 +24,7 @@ class Player extends createjs.Container {
 
         this.sprite      = new createjs.Bitmap(queue.getResult("Player"));
         this.hitbox      = new createjs.Shape(
-          new createjs.Graphics().s("#000").f("#FFF").dc(0,0,this.radius)
+          new createjs.Graphics().s("#000").f("#E33").dc(0,0,this.radius)
         );
 
         this.addChild(this.sprite);

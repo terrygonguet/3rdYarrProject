@@ -44,7 +44,8 @@ class TargetPlayerPattern extends Pattern {
                         bulletProps.position || enemy.position,
                         game.player.position.subtract(enemy.position),
                         bulletProps.speed || 100, 1,
-                        bulletProps.radius || 3);
+                        bulletProps.radius || 3,
+                        "enemy", bulletProps.sprite || "Red Bullet");
                 game.addChild(b);
             }
         });

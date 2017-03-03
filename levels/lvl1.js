@@ -12,7 +12,7 @@
         this.time = 0;
         var dir = game.player.position.subtract(this.enemy.position);
         for (var i = 0; i < 5; i++) {
-            var b = new Bullet(this.enemy.position, dir, 150 + i * 15, 1, 6);
+            var b = new Bullet(this.enemy.position, dir, 150 + i * 15, 1, 6, "enemy", "Green Bullet");
             game.addChild(b);
         }
       }
