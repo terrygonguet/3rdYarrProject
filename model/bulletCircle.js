@@ -65,14 +65,14 @@ class BulletCircle extends createjs.Shape {
       y: shooter.position.e(2) + this.position.e(2)
     });
 
+    for (var i of this.bullets) game.addChild(i);
+
     if (this.position.e(1) > shooter.dimensions.e(1) + 100 ||
         this.position.e(1) < -100 ||
         this.position.e(2) > shooter.dimensions.e(2) + 100 ||
         this.position.e(2) < -100) {
         this.die();
     }
-
-    for (var i of this.bullets) game.addChild(i);
   }
 
   die () {

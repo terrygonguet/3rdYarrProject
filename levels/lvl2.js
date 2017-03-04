@@ -56,23 +56,78 @@
 
       }, {circle: null, spinnyTime:  bounds.dimensions.e(2) * 1.5, dir: -1}),
       new Pattern(boss, function (e) {// move
-          // boss.position = boss.position.add($V([(this.left ? -this.speed : this.speed) * e.delta / 1000, 0]));
-          // if (boss.position.e(1) > bounds.dimensions.e(1) - 100)
-          //   this.left = true;
-          // else if (boss.position.e(1) < 100)
-          //   this.left = false;
+
       }, {left: true, speed: 100}),
-      1000);
+      1700);
 
   // Phase 2 -----------------------------------------------------
+  var rushing = "wait";
+  function fireArrow (position, direction, speed) {
+    var base = new BulletCircle(position.dup(), direction, speed, 10, 20, "Red Bullet", 0, {radius: 7});
+    game.addChild(base);
+    for (var i = 0; i < 5; i++) {
+      var b = new Bullet(
+        position.add(
+          $V([(5-i)*4, i*8]).rotate(
+            direction.angleFrom($V([0,1])) * Math.sign(position.e(1) - game.player.position.e(1)),
+            $V([0,0])
+          )
+        ), direction, speed, 1, 7, "enemy", "Red Bullet")
+      game.addChild(b);
+      b = new Bullet(
+        position.add(
+          $V([-(5-i)*4, i*8]).rotate(
+            direction.angleFrom($V([0,1])) * Math.sign(position.e(1) - game.player.position.e(1)),
+            $V([0,0])
+          )
+        ), direction, speed, 1, 7, "enemy", "Red Bullet")
+      game.addChild(b);
+    }
+  }
   boss.addPhase(
       new Pattern(boss, function (e) {// fire
+        if (!this.circle) {
+          this.circle = new BulletCircle(
+            boss.position.dup(), $V([0,0]), 0, 15, 100, "Green Bullet", 1,
+            {radius: 10}
+          );
+          game.addChild(this.circle);
+        } else
+          this.circle.position = boss.position.dup();
 
-      }, {}),
+        if (rushing === "rush" && this.time > 70) {
+          this.time = 0;
+          var b = new BulletCircle(boss.position.dup().subtract($([0,-50])), $V([1,0.5]), 200, 10, 30, "Blue Bullet", 1, {radius: 7});
+          game.addChild(b);
+          b = new BulletCircle(boss.position.dup().subtract($([0,-50])), $V([-1,0.5]), 200, 10, 30, "Blue Bullet", -1, {radius: 7});
+          game.addChild(b);
+        }
+
+        this.arrowTime += e.delta;
+        if (this.arrowTime > 1000 && !this.first) {
+          fireArrow(bounds.dimensions, game.player.position.subtract(bounds.dimensions), 450);
+          this.first = true;
+        } else if (this.arrowTime > 2000) {
+          fireArrow($V([0, bounds.dimensions.e(2)]), game.player.position.subtract($V([0, bounds.dimensions.e(2)])), 450);
+          this.arrowTime = 0;
+          this.first = false;
+        }
+      }, {arrowTime: 0, first: false, circle: null}),
       new Pattern(boss, function (e) {// move
-
-      }, {}),
-      1000);
+        if (rushing === "wait" && this.time >= 7000) {
+          rushing = "rush";
+        } else if (rushing === "rush") {
+          boss.position = boss.position.add($V([0,1]).x(this.speed * e.delta / 1000));
+          if (boss.position.e(2) > bounds.dimensions.e(2) * 0.7) rushing = "back";
+        } else if (rushing === "back") {
+          boss.position = boss.position.add($V([0,-1]).x(this.speed * e.delta / 3000));
+          if (boss.position.e(2) < 100) {
+            rushing = "wait";
+            this.time = 0;
+          }
+        }
+      }, {speed: 350}),
+      2000);
 
   // Phase 3 -----------------------------------------------------
   boss.addPhase(
