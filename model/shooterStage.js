@@ -206,7 +206,7 @@ class ShooterStage extends createjs.Container {
         dude.pattern = new Pattern(dude, function () {
           if (this.time >= 500) {
             this.time = 0;
-            game.addChild(new Bullet(dude.position.add($V([0, 10])), $V([0, 1]), 500, 1, 8));
+            game.addChild(new Bullet(dude.position.add($V([0, 10])), $V([0, 1]), 500, 1, 8, "enemy", "Red Bullet"));
           }
         });
         game.addChild(dude);

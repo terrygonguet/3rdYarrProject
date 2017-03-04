@@ -89,8 +89,8 @@ class Boss extends createjs.Bitmap {
                 this.visible = !this.visible;
             } else
                 this.visible = true;
-            this.phases[this.step].shooting.update(e);
             this.phases[this.step].moving.update(e);
+            this.phases[this.step].shooting.update(e);
             this.lifemeter.set({
                 scaleX: this.health / this.maxHealth
             });
@@ -114,11 +114,13 @@ class Boss extends createjs.Bitmap {
         this.invincible = 3000;
         var entities = game.children.slice(0);
         for (var e of entities) {
-            if (e instanceof Bullet && e.type === "enemy") e.die();
+            if (e instanceof Bullet && e.type !== "player" ||
+                (!(e instanceof Player) && !(e instanceof Boss)))
+              e.die && e.die();
         };
         this.livesIndic.graphics = new createjs.Graphics().s("#000").f("#A33");
         for (var i = 0; i < this.phases.length-1-this.step; i++) {
-          this.livesIndic.graphics.dc(i*20+7, 0, 7);
+          this.livesIndic.graphics.mt(i*20+14, 0).dc(i*20+7, 0, 7);
         }
     }
 

@@ -59,6 +59,9 @@ var input = {
                 game.killAll();
                 shooter.started = false;
                 break;
+            case "p" : // pause
+                if (debug) createjs.Ticker.paused = !createjs.Ticker.paused;
+                break;
         }
         for (var i of callbacks) {
             i(event);

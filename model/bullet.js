@@ -50,10 +50,10 @@ class Bullet extends createjs.Bitmap {
             this.position = startPos.add(this.direction.x(moved));
         } while (toMove !== moved);
 
-        if (this.position.e(1) > shooter.dimensions.e(1) ||
-            this.position.e(1) < 0 ||
-            this.position.e(2) > shooter.dimensions.e(2) ||
-            this.position.e(2) < 0) {
+        if (this.position.e(1) > shooter.dimensions.e(1) + 100 ||
+            this.position.e(1) < -100 ||
+            this.position.e(2) > shooter.dimensions.e(2) + 100 ||
+            this.position.e(2) < -100) {
             this.die();
         }
         this.set({
