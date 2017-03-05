@@ -21,7 +21,7 @@ class ShieldSpecial extends Special {
                 y: game.player.position.e(2) + shooter.position.e(2),
                 time: 0
             });
-            shield.on("tick", function (e, data) {
+            shield.on("frameTick", function (e, data) {
                 data.shield.y -= e.delta / 1000 * 70;
                 data.shield.time += e.delta;
                 if (data.shield.time >= 1500) {

@@ -14,6 +14,7 @@ class Boss extends createjs.Bitmap {
 
     constructor (position, radius, sprite) {
         super(queue.getResult(sprite));
+        this.tickEnabled   = false;
         this.position      = position;
         this.radius        = radius;
         this.health        = 1;
@@ -117,8 +118,8 @@ class Boss extends createjs.Bitmap {
             if (e instanceof Bullet && e.type !== "player" ||
                 (!(e instanceof Player) && !(e instanceof Boss)))
               e.die && e.die();
-        };
-        this.livesIndic.graphics = new createjs.Graphics().s("#000").f("#A33");
+        }
+        this.livesIndic.graphics.c().s("#000").f("#A33");
         for (var i = 0; i < this.phases.length-1-this.step; i++) {
           this.livesIndic.graphics.mt(i*20+14, 0).dc(i*20+7, 0, 7);
         }
@@ -172,8 +173,10 @@ class Boss extends createjs.Bitmap {
     die () {
       var entities = game.children.slice(0);
       for (var e of entities) {
-          if (e instanceof Bullet && e.type === "enemy") e.die();
-      };
+          if (e instanceof Bullet && e.type !== "player" ||
+              (!(e instanceof Player) && !(e instanceof Boss)))
+            e.die && e.die();
+      }
       this.dropBonus();
       game.removeChild(this);
     }

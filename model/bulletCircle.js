@@ -54,6 +54,7 @@ class BulletCircle extends createjs.Shape {
   }
 
   update (e) {
+    this.time += e.delta;
     this.curAngle = (this.curAngle + this.angleSpeed * e.delta / 1000) % (2 * Math.PI);
     this.position = this.position.add(this.direction.x(this.speed * e.delta / 1000));
     for (var i = 0; i < this.nbBullets; i++) {

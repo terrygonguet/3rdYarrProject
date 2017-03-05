@@ -14,15 +14,9 @@ function debugOn () {
 
     var entities = new createjs.Text("00 ENT", "20px Verdana", "#FFF");
     entities.set({
-        x:460, y:40
+        x:10, y:40
     });
     game.addChildAt(entities, 2);
-
-    var hint = new createjs.Text("W or Z to fire, Shift to focus, X to use special and Arrows to move.\nThe special uses 1 power and power upgrades your weapon.", "12px Verdana", "#FFF");
-    hint.set({
-        x: 10, y: 40
-    });
-    game.addChildAt(hint, 2);
 
     var indic1 = new KeyIndicator("up");
     indic1.set({x:100, y:10});
@@ -51,7 +45,7 @@ function debugOn () {
         entities.text = (game.children.length + shooter.children.length - 1) + " ENT";
     }, null);
 
-    debug = [fps, entities, hint, indic1, indic2, indic3, indic4, indic5, indic6, indic7];
+    debug = [fps, entities, indic1, indic2, indic3, indic4, indic5, indic6, indic7];
 }
 
 function debugOff () {
@@ -108,4 +102,8 @@ Number.prototype.roundPres = function(precision) {
 
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function randFloat(min, max) {
+  return Math.random() * (max - min) + min;
 }

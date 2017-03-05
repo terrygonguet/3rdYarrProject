@@ -38,10 +38,10 @@ class BlasterWeapon extends Weapon {
         super.upgrade(val);
         if (this.level === 3) {
             this.damage      = 2;
-            this.missileRate = 15;
+            this.missileRate = 10;
         } else if (this.level >= 2) {
             this.damage      = 2;
-            this.missileRate = 10;
+            this.missileRate = 7;
         } else if (this.level >= 1) {
             this.damage      = 2;
             this.missileRate = 5;
