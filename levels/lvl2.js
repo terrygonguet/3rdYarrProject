@@ -6,7 +6,7 @@
 
   var bounds = shooter.getGameBounds();
   // Boss --------------------------------------------------------
-  var boss = new Boss($V([bounds.dimensions.e(1) / 2,100]), 100, "Kraken");
+  var boss = new Boss($V([bounds.dimensions.e(1) / 2,100]), 100, "Crab");
   boss.invincible = 2000;
 
   function fireSpinnyBall() {
