@@ -31,6 +31,7 @@ var queue;
   stage.update();
 
   queue.manifest = [
+    // Scripts ----------------------------------
     {id: "Tools", src:"tools/tools.js"},
     {id: "Input Manager", src:"tools/input.js"},
     {id: "Game", src:"model/game.js"},
@@ -55,6 +56,7 @@ var queue;
     {id: "Special Clear", src:"model/weapons/clear.js"},
     {id: "Special Shield", src:"model/weapons/shield.js"},
 
+    // Sprites ----------------------------------------
     {id: "Calamar", src:"resources/calamar.png"},
     {id: "Meduse1", src:"resources/meduse1.png"},
     {id: "Meduse2", src:"resources/meduse2.png"},
@@ -64,6 +66,8 @@ var queue;
     {id: "Red Bullet", src:"resources/redBullet.png"},
     {id: "Green Bullet", src:"resources/greenBullet.png"},
     {id: "Canonball", src:"resources/Boulet.png"},
+    {id: "Wave", src:"resources/wave.png"},
+    {id: "Crab", src:"resources/crab.png"},
     {id: "Kraken", src:"resources/Kraken.png"}
   ];
   queue.loadManifest(queue.manifest);

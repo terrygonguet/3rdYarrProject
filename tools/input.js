@@ -136,4 +136,10 @@ window.addEventListener("keydown", input.onKeyDown, true);
 window.addEventListener("keyup", input.onKeyUp, true);
 window.addEventListener("mousedown", input.onMouseDown, true);
 window.addEventListener("mouseup", input.onMouseUp, true);
+window.addEventListener("focus", function () {
+  createjs.Ticker.paused = false;
+}, false);
+window.addEventListener("blur", function () {
+  createjs.Ticker.paused = true;
+}, false);
 $("#game").on("contextmenu", null, null, false);

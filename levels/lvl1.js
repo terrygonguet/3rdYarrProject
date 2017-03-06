@@ -7,6 +7,10 @@
 (function () {
     var time = 2000;
     var bounds = shooter.getGameBounds();
+    shooter.addEncounter(function () {
+      game.sea.speed = 50;
+    }, 0);
+
     function bigdudeFire (e) {
       if (this.time >= this.delay) {
         this.time = 0;
@@ -20,7 +24,7 @@
 
     var dude = null;
     for (var i = 0; i < 6; i++) {
-        var x = (i + 1) * bounds.dimensions.e(1) / 8;
+        var x = (i + 1) * bounds.dimensions.e(1) / 7;
         dude = new PathingEnemy([
             {position: $V([x, -10]), speed:100},
             {position: $V([x, 150]), speed:0.3},
@@ -109,7 +113,7 @@
 
 
 
-    dude = new SmoothCriminal($V([-10, 100]), 30, "Calamar", 25, 500);
+    dude = new SmoothCriminal($V([-10, 100]), 30, "Calamar", 70, 500);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
@@ -120,7 +124,7 @@
     dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
 
-    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 300]), 30, "Calamar", 25, 500);
+    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, 300]), 30, "Calamar", 70, 500);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 100]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) / 2, 300]), 150);
@@ -172,7 +176,7 @@
     }
     time += dude.getTotalTime();
 
-    dude = new SmoothCriminal($V([-10, bounds.dimensions.e(2) + 10]), 30, "Calamar", 25, 500);
+    dude = new SmoothCriminal($V([-10, bounds.dimensions.e(2) + 10]), 30, "Calamar", 70, 500);
     dude.addPoint($V([0, bounds.dimensions.e(2)]), 150);
     dude.addPoint($V([0, 0]), 150);
     dude.addPoint($V([-10, -10]), 150);
@@ -180,7 +184,7 @@
     dude.pattern = new Pattern(dude, bigdudeFire, {delay: 2000});
     shooter.addEncounter(dude, time);
 
-    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, bounds.dimensions.e(2) + 10]), 30, "Calamar", 25, 500);
+    dude = new SmoothCriminal($V([bounds.dimensions.e(1) + 10, bounds.dimensions.e(2) + 10]), 30, "Calamar", 70, 500);
     dude.addPoint($V([bounds.dimensions.e(1), bounds.dimensions.e(2)]), 150);
     dude.addPoint($V([bounds.dimensions.e(1), 0]), 150);
     dude.addPoint($V([bounds.dimensions.e(1) + 10, -10]), 150);
@@ -191,9 +195,12 @@
 
 
 
-
+    shooter.addEncounter(function () {
+      game.sea.speed = 25;
+    }, 0);
+    
     // Boss --------------------------------------------------------
-    var boss = new Boss($V([bounds.dimensions.e(1) / 2,200]), 50, "Kraken");
+    var boss = new Boss($V([bounds.dimensions.e(1) / 2,200]), 100, "Kraken");
     boss.invincible = 2000;
 
     // Phase 1 -----------------------------------------------------
@@ -201,16 +208,16 @@
         new Pattern(boss, function (e) {// fire
             this.timeSpiral += e.delta;
             if (this.timeSpiral >= 3000 && this.nbSpiral === 0) {
-                this.nbSpiral = 50;
+                this.nbSpiral = 100;
                 this.timeSpiral = 0;
-            } else if (this.timeSpiral >= 20 && this.nbSpiral > 0) {
+            } else if (this.timeSpiral >= 5 && this.nbSpiral > 0) {
                 this.nbSpiral--;
                 this.timeSpiral = 0;
-                var pos = boss.position.add($V([-boss.radius - this.nbSpiral, 0]).rotate(this.nbSpiral * Math.PI / 6, Vector.Zero(2)));
+                var pos = boss.position.add($V([boss.radius + this.nbSpiral - 30, 0]).rotate(this.nbSpiral * Math.PI / 12, Vector.Zero(2)));
                 var b = new Bullet(pos, game.player.position.subtract(pos), 180, 1, 6, "enemy", "Red Bullet");
                 game.addChild(b);
-            }
 
+            }
             if (this.time >= 2000) {
                 this.time = 0;
                 this.offset = !this.offset;

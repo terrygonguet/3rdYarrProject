@@ -10,35 +10,35 @@ function debugOn () {
     fps.set({
         x:10, y:10
     });
-    game.addChildAt(fps, 2);
+    game.addChildAt(fps, 3);
 
     var entities = new createjs.Text("00 ENT", "20px Verdana", "#FFF");
     entities.set({
         x:10, y:40
     });
-    game.addChildAt(entities, 2);
+    game.addChildAt(entities, 3);
 
     var indic1 = new KeyIndicator("up");
     indic1.set({x:100, y:10});
-    game.addChildAt(indic1, 2);
+    game.addChildAt(indic1, 3);
     var indic2 = new KeyIndicator("down");
     indic2.set({x:160, y:10});
-    game.addChildAt(indic2, 2);
+    game.addChildAt(indic2, 3);
     var indic3 = new KeyIndicator("left");
     indic3.set({x:220, y:10});
-    game.addChildAt(indic3, 2);
+    game.addChildAt(indic3, 3);
     var indic4 = new KeyIndicator("right");
     indic4.set({x:280, y:10});
-    game.addChildAt(indic4, 2);
+    game.addChildAt(indic4, 3);
     var indic5 = new KeyIndicator("fire");
     indic5.set({x:340, y:10});
-    game.addChildAt(indic5, 2);
+    game.addChildAt(indic5, 3);
     var indic6 = new KeyIndicator("focus");
     indic6.set({x:400, y:10});
-    game.addChildAt(indic6, 2);
+    game.addChildAt(indic6, 3);
     var indic7 = new KeyIndicator("special");
     indic7.set({x:460, y:10});
-    game.addChildAt(indic7, 2);
+    game.addChildAt(indic7, 3);
 
     createjs.Ticker.on("tick", function () {
         fps.text = Math.round(createjs.Ticker.getMeasuredFPS()) + " FPS";

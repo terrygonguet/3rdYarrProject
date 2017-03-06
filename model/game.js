@@ -17,20 +17,20 @@ class Game extends createjs.Stage {
         this.enemies      = [];
         this.player       = new Player();
         this.shooterStage = new ShooterStage();
-        // this.sea          = new Sea({
-        //   position: this.shooterStage.position.dup(),
-        //   dimensions: this.shooterStage.dimensions.dup()
-        // });
+        this.sea          = new Sea({
+          position: this.shooterStage.position.dup(),
+          dimensions: this.shooterStage.dimensions.dup()
+        });
 
         this.player.position = $V([
             this.shooterStage.dimensions.e(1) / 2,
             this.shooterStage.dimensions.e(2) - 50
         ]);
-        // this.addChildAt(this.sea, 0);
-        // this.addChildAt(this.player,1);
-        // this.addChildAt(this.shooterStage,2);
-        this.addChildAt(this.player,0);
-        this.addChildAt(this.shooterStage,1);
+        this.addChildAt(this.sea, 0);
+        this.addChildAt(this.player,1);
+        this.addChildAt(this.shooterStage,2);
+        // this.addChildAt(this.player,0);
+        // this.addChildAt(this.shooterStage,1);
     }
 
     update (e) {
@@ -45,7 +45,7 @@ class Game extends createjs.Stage {
     }
 
     addChild (child) {
-        super.addChildAt(child, 1);
+        super.addChildAt(child, 2);
         if (child instanceof Enemy || child instanceof Boss)
             this.enemies.push(child);
     }

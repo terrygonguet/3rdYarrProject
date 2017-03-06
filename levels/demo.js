@@ -2,6 +2,10 @@
  * Level 3
  */
 
+ shooter.addEncounter(function () {
+   game.sea.speed = 25;
+ }, 0);
+
 for (var i = 0; i < 50; i++) {
     var crim = new SmoothCriminal($V([0,0]), 20, ["Meduse1", "Meduse2", "Calamar"], 1);
     crim.pattern = new TargetPlayerPattern(crim, 0.5, 0.01);

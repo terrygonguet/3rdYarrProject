@@ -5,6 +5,10 @@
 (function () {
 
   var bounds = shooter.getGameBounds();
+  shooter.addEncounter(function () {
+    game.sea.speed = 25;
+  }, 0);
+
   // Boss --------------------------------------------------------
   var boss = new Boss($V([bounds.dimensions.e(1) / 2,100]), 100, "Crab");
   boss.invincible = 2000;
@@ -191,7 +195,7 @@
           this.dir = -1;
         boss.position = boss.position.add($V([this.speed,0]).x(this.dir * e.delta / 1000));
       }, {dir: 1, speed: 100}),
-      1400);
+      1000);
 
   function fireDart(position, direction, nbBullets) {
     game.addChild(
@@ -248,5 +252,5 @@
       ]}),
       1400);
 
-  shooter.addEncounter(boss, 1000);
+  shooter.addEncounter(boss, 2000);
 })()

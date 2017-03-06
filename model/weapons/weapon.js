@@ -22,7 +22,7 @@ class Weapon {
 
     upgrade (val) {
         if (this.level === 3) {
-            shooter.score += 200 * val;
+            shooter.score += 1000 * val;
         } else {
             this.level = (this.level + val).clamp(0,3).roundPres(2);
         }

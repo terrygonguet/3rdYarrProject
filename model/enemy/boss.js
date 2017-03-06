@@ -61,6 +61,7 @@ class Boss extends createjs.Bitmap {
             this.specialEvent = game.player.on("special", function () {
               this.phases[this.step].failed = true;
             }, this);
+            shooter.paused = true;
         }, this);
         this.on("removed", function () {
             game.removeChild(this.lifemeter);
@@ -68,6 +69,7 @@ class Boss extends createjs.Bitmap {
             game.removeChild(this.livesIndic);
             game.player.off("death", this.deathEvent);
             game.player.off("special", this.specialEvent);
+            shooter.paused = false;
         }, this);
 
         // this.on("tick", this.update, this);
