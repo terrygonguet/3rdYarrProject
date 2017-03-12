@@ -8,7 +8,7 @@
     var time = 2000;
     var bounds = shooter.getGameBounds();
     shooter.addEncounter(function () {
-      game.sea.speed = 25;
+      game.sea.speed = 0;
     }, 0);
 
     // Boss --------------------------------------------------------
@@ -119,6 +119,16 @@
     shooter.addEncounter(boss, time);
 
     shooter.addEncounter(function () {
-      shooter.nextLevel = "levels/lvl2_boss.js";
-    }, time + 5000);
+      shooter.paused = true;
+      boss.on("removed", function () {
+        shooter.paused = false;
+      });
+    }, time);
+
+    shooter.addEncounter(function () {
+      if (shooter.bossOnly)
+        shooter.nextLevel = "levels/lvl2_boss.js";
+      else
+        shooter.switchToMenu();
+    }, time + 2500);
 })();

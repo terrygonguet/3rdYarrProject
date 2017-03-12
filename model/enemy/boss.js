@@ -69,7 +69,6 @@ class Boss extends createjs.Bitmap {
             game.removeChild(this.livesIndic);
             game.player.off("death", this.deathEvent);
             game.player.off("special", this.specialEvent);
-            shooter.paused = false;
         }, this);
 
         // this.on("tick", this.update, this);

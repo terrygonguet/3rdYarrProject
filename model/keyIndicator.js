@@ -4,7 +4,7 @@
 class KeyIndicator extends createjs.Text {
 
     constructor (key) {
-        super(key, "20px Verdana", "red");
+        super(key, "20px Montserrat", "red");
         this.key = key;
         // this.on("tick", this.update, this);
         this.on("frameTick", this.update, this);

@@ -6,7 +6,7 @@
 
   var bounds = shooter.getGameBounds();
   shooter.addEncounter(function () {
-    game.sea.speed = 25;
+    game.sea.speed = 0;
   }, 0);
 
   // Boss --------------------------------------------------------
@@ -253,4 +253,9 @@
       1400);
 
   shooter.addEncounter(boss, 2000);
+
+  shooter.addEncounter(function () {
+    shooter.switchToMenu();
+  }, 4500);
+
 })()

@@ -18,7 +18,7 @@ class Selector extends createjs.Container {
     this.rate     = 1500 / radius;
     this.filled   = 0;
     this.fired    = false;
-    this.txt      = new createjs.Text(text, "15px Verdana", (togglable ? "#E22" : "#EEE"));
+    this.txt      = new createjs.Text(text, "15px Montserrat", (togglable ? "#E22" : "#EEE"));
     this.txtBord  = this.txt.clone();
     this.border   = new createjs.Shape(new createjs.Graphics().ss(3).s("#000").dc(0,0,radius));
     this.meter    = new createjs.Shape();

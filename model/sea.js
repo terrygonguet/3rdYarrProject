@@ -13,7 +13,7 @@ class Sea extends createjs.Container {
     this.angle      = 0;
     this.angleSpeed = 0.07;
     this.rollRadius = 5;
-    this.bounds= bounds;
+    this.bounds     = bounds;
     this.resize(bounds);
     this.on("frameTick", this.update, this);
   }

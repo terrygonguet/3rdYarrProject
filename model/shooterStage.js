@@ -22,10 +22,11 @@ class ShooterStage extends createjs.Container {
         this.timeOffset = 0;
         this.mode       = "";
         this.nextLevel  = "";
-        this.txtScore   = new createjs.Text("", "20px Verdana", "#FFF");
-        this.txtPower   = new createjs.Text("", "20px Verdana", "#FFF");
-        this.txtLives   = new createjs.Text("", "20px Verdana", "#FFF");
-        this.txtVersion = new createjs.Text("", "12px Verdana", "#FFF");
+        this.bossOnly   = false;
+        this.txtScore   = new createjs.Text("", "20px Montserrat", "#FFF");
+        this.txtPower   = new createjs.Text("", "20px Montserrat", "#FFF");
+        this.txtLives   = new createjs.Text("", "20px Montserrat", "#FFF");
+        this.txtVersion = new createjs.Text("", "12px Montserrat", "#FFF");
         this.score      = 0;
         this.bg         = new createjs.Shape();
 
@@ -70,9 +71,8 @@ class ShooterStage extends createjs.Container {
 
             var noMoreSpawns = false;
             do {
-                if (this.encounters[0] && this.encounters[0].time <= this.time + this.timeOffset) {
-                    if (this.encounters[0].element instanceof Enemy
-                        || this.encounters[0].element instanceof Boss) {
+                if (this.encounters[0] && this.encounters[0].time <= this.time + (this.paused ? 0 : this.timeOffset)) {
+                    if (typeof this.encounters[0].element != "function") {
                       game.addChild(this.encounters[0].element);
                     } else {
                       this.encounters[0].element();
@@ -124,7 +124,7 @@ class ShooterStage extends createjs.Container {
         this.started   = true;
         this.paused    = false;
         this.time      = 0;
-        game.player.position = $V([this.dimensions.e(1) / 2, this.dimensions.e(2) - 50]);
+        this.timeOffset= 0;
       }
     }
 
@@ -147,6 +147,7 @@ class ShooterStage extends createjs.Container {
 
       var lvl1btn = new Selector($V([this.dimensions.e(1) / 2 - 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Levels", function() {
           shooter.loadLevel("levels/lvl1.js");
+          shooter.bossOnly = false;
           lvl1btn.state = true;
           lvl2btn.state = false;
           lvl3btn.state = false;
@@ -155,6 +156,7 @@ class ShooterStage extends createjs.Container {
       var lvl2btn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2]), 25, "#3A3", "Bosses Only", function() {
           shooter.loadLevel("levels/lvl1_boss.js");
           game.player.weapon.upgrade(3);
+          shooter.bossOnly = true;
           lvl1btn.state = false;
           lvl2btn.state = true;
           lvl3btn.state = false;

@@ -6,13 +6,13 @@
 
 var debug = false;
 function debugOn () {
-    var fps = new createjs.Text("00 FPS", "20px Verdana", "#FFF");
+    var fps = new createjs.Text("00 FPS", "20px Montserrat", "#FFF");
     fps.set({
         x:10, y:10
     });
     game.addChildAt(fps, 3);
 
-    var entities = new createjs.Text("00 ENT", "20px Verdana", "#FFF");
+    var entities = new createjs.Text("00 ENT", "20px Montserrat", "#FFF");
     entities.set({
         x:10, y:40
     });
