@@ -18,6 +18,7 @@ class Player extends createjs.Container {
         this.radius      = 3;
         this.lives       = 2;
         this.invincible  = 0;
+        this.mode        = "level";
 
         this.weapon      = new BlasterWeapon();
         this.special     = new ShieldSpecial();
@@ -43,48 +44,56 @@ class Player extends createjs.Container {
     }
 
     update (e) {
-        this.weapon.update(e);
-        if (input.keys.fire || input.autofire) this.weapon.fire();
+      switch (this.mode) {
+        case "level":
+          this.weapon.update(e);
+          if (input.keys.fire || input.autofire) this.weapon.fire();
 
-        if (this.invincible > 0) {
-          this.visible = !this.visible;
-          this.invincible -= e.delta;
-        } else {
-          this.visible = true;
-        }
+          if (this.invincible > 0) {
+            this.visible = !this.visible;
+            this.invincible -= e.delta;
+          } else {
+            this.visible = true;
+          }
 
-        var direction = $V([0,0]);
-        switch (input.controls) {
-          case "":
-          case "Keyboard":
-            direction = $V([
-                Number(-input.keys.left + input.keys.right),
-                Number(-input.keys.up + input.keys.down)
-            ]);
-            break;
-          case "Mouse" :
-            var mousePos = $V([
-              game.mouseX - shooter.position.e(1),
-              game.mouseY - shooter.position.e(2)
-            ]);
-            if (mousePos.distanceFrom(this.position) >= (input.keys.focus ? this.focusSpeed : this.normalSpeed) * e.delta / 1000)
-              direction = mousePos.subtract(this.position);
-            else
-              this.position = mousePos;
-            break;
-        }
-        direction = direction.toUnitVector().x((input.keys.focus ? this.focusSpeed : this.normalSpeed) * (e.delta / 1000));
-        this.position = this.position.add(direction);
-        this.position.setElements([
-            this.position.e(1).clamp(this.radius, shooter.dimensions.e(1) - this.radius),
-            this.position.e(2).clamp(this.radius, shooter.dimensions.e(2) - this.radius)
-        ]);
+          var direction = $V([0,0]);
+          switch (input.controls) {
+            case "":
+            case "Keyboard":
+              direction = $V([
+                  Number(-input.keys.left + input.keys.right),
+                  Number(-input.keys.up + input.keys.down)
+              ]);
+              break;
+            case "Mouse" :
+              var mousePos = $V([
+                game.mouseX - shooter.position.e(1),
+                game.mouseY - shooter.position.e(2)
+              ]);
+              if (mousePos.distanceFrom(this.position) >= (input.keys.focus ? this.focusSpeed : this.normalSpeed) * e.delta / 1000)
+                direction = mousePos.subtract(this.position);
+              else
+                this.position = mousePos;
+              break;
+          }
+          direction = direction.toUnitVector().x((input.keys.focus ? this.focusSpeed : this.normalSpeed) * (e.delta / 1000));
+          this.position = this.position.add(direction);
+          break;
 
-        this.set({
-            x: this.position.e(1) + shooter.position.e(1),
-            y: this.position.e(2) + shooter.position.e(2)
-        });
-        this.hitbox.visible = input.keys.focus;
+        case "map" :
+          break;
+      }
+
+      this.position.setElements([
+          this.position.e(1).clamp(this.radius, shooter.dimensions.e(1) - this.radius),
+          this.position.e(2).clamp(this.radius, shooter.dimensions.e(2) - this.radius)
+      ]);
+
+      this.set({
+          x: this.position.e(1) + shooter.position.e(1),
+          y: this.position.e(2) + shooter.position.e(2)
+      });
+      this.hitbox.visible = input.keys.focus;
     }
 
     getHit () {

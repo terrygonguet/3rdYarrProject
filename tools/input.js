@@ -55,12 +55,16 @@ var input = {
                 break;
             case "r" : // reset
                 createjs.Ticker.paused = false;
-                shooter.switchToMenu();
                 game.killAll();
+                shooter.switchOffMap();
+                shooter.switchToMenu();
                 shooter.started = false;
                 break;
             case "p" : // pause
                 if (debug) createjs.Ticker.paused = !createjs.Ticker.paused;
+                break;
+            case "m" : // map
+                shooter.switchToMap();
                 break;
         }
         for (var i of callbacks) {

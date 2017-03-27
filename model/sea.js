@@ -38,7 +38,7 @@ class Sea extends createjs.Container {
         });
         this.addChild(wave);
 
-        x += wave.image.width;
+        x += wave.image.width - 3;
       }
       side = -side;
       y += 100;
@@ -71,7 +71,7 @@ class Sea extends createjs.Container {
           side: this.side
         });
         this.addChildAt(wave, 0);
-        x += wave.image.width;
+        x += wave.image.width - 3;
       }
       this.side = -this.side;
     }

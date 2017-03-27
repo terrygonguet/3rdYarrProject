@@ -70,4 +70,8 @@ class Selector extends createjs.Container {
     if (this.togglable) this.txt.color = (this.state ? "#2E2" : "#E22");
   }
 
+  die () {
+    game.removeChild(this);
+  }
+
 }

@@ -45,6 +45,7 @@ var queue;
     {id: "Patterns", src:"model/enemy/patterns.js"},
     {id: "Boss", src:"model/enemy/boss.js"},
     {id: "Shooter Stage", src:"model/shooterStage.js"},
+    {id: "World Map", src:"model/worldmap.js"},
     {id: "Sea", src:"model/sea.js"},
     {id: "Button", src:"model/button.js"},
     {id: "Selector", src:"model/selector.js"},

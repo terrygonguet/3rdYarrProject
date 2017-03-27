@@ -45,7 +45,8 @@ class Game extends createjs.Stage {
     }
 
     addChild (child) {
-        super.addChildAt(child, 2);
+        var stageAt = this.getChildIndex(this.shooterStage);
+        super.addChildAt(child, (child instanceof Bullet ? stageAt : 1));
         if (child instanceof Enemy || child instanceof Boss)
             this.enemies.push(child);
     }

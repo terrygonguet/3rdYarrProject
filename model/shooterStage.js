@@ -58,7 +58,9 @@ class ShooterStage extends createjs.Container {
         this.addChild(this.txtVersion);
 
         // this.switchToGame();
-        this.switchToMenu();
+        setTimeout(function () {
+          shooter.switchToMenu();
+        }, 10);
 
         // this.on("tick", this.update, this);
         this.on("frameTick", this.update, this);
@@ -152,7 +154,7 @@ class ShooterStage extends createjs.Container {
           lvl2btn.state = false;
           lvl3btn.state = false;
       }, true, true);
-      this.addChild(lvl1btn);
+      game && game.addChild(lvl1btn);
       var lvl2btn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2]), 25, "#3A3", "Bosses Only", function() {
           shooter.loadLevel("levels/lvl1_boss.js");
           game.player.weapon.upgrade(3);
@@ -161,31 +163,31 @@ class ShooterStage extends createjs.Container {
           lvl2btn.state = true;
           lvl3btn.state = false;
       }, true, true);
-      this.addChild(lvl2btn);
+      game && game.addChild(lvl2btn);
       var lvl3btn = new Selector($V([this.dimensions.e(1) / 2 + 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Demo", function() {
           shooter.loadLevel("levels/demo.js");
           lvl1btn.state = false;
           lvl2btn.state = false;
           lvl3btn.state = true;
       }, true, true);
-      this.addChild(lvl3btn);
+      game && game.addChild(lvl3btn);
 
       var powerbtn = new Selector($V([this.dimensions.e(1) / 2 - 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Full power", function() {
             // game.player.weapon = new BlasterWeapon();
             game.player.weapon.level = 3;
             game.player.weapon.upgrade(0);
       });
-      this.addChild(powerbtn);
+      game && game.addChild(powerbtn);
       var emptybtn = new Selector($V([this.dimensions.e(1) / 2 + 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "No power", function() {
             // game.player.weapon = new BlasterWeapon();
             game.player.weapon.level = 0;
             game.player.weapon.upgrade(0);
       });
-      this.addChild(emptybtn);
+      game && game.addChild(emptybtn);
       var startbtn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2 - 75]), 25, "#2E2", "Start game", function() {
             shooter.start();
       });
-      this.addChild(startbtn);
+      game && game.addChild(startbtn);
 
 
       var clearbtn = new Selector($V([150, this.dimensions.e(2) / 2]), 25, "#777", "Special Clear", function() {
@@ -194,7 +196,7 @@ class ShooterStage extends createjs.Container {
             shieldbtn.state = false;
             clearbtn.state = true;
       }, true, true);
-      this.addChild(clearbtn);
+      game && game.addChild(clearbtn);
       var shieldbtn = new Selector($V([150, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Special Shield", function() {
             game.player.special && game.player.special.remove();
             game.player.special = new ShieldSpecial();
@@ -202,27 +204,27 @@ class ShooterStage extends createjs.Container {
             shieldbtn.state = true;
       }, true, true);
       shieldbtn.state = true;
-      this.addChild(shieldbtn);
+      game && game.addChild(shieldbtn);
 
       var autofirebtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2 - 75]), 25, "#A33", "Autofire", function() {
             input.setAutoFire(this.state);
       }, true, true);
       autofirebtn.state = input.autofire;
-      this.addChild(autofirebtn);
+      game && game.addChild(autofirebtn);
       var mousebtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2]), 25, "#A33", "Mouse Controls", function() {
             input.setControls("Mouse");
             keybbtn.state = false;
             mousebtn.state = true;
       }, true, true);
       mousebtn.state = input.controls === "Mouse";
-      this.addChild(mousebtn);
+      game && game.addChild(mousebtn);
       var keybbtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2 + 75]), 25, "#A33", "Keyboard Controls", function() {
             input.setControls("Keyboard");
             mousebtn.state = false;
             keybbtn.state = true;
       }, true, true);
       keybbtn.state = input.controls === "Keyboard" || input.controls === "";
-      this.addChild(keybbtn);
+      game && game.addChild(keybbtn);
 
       // ugly but to initialize the first time when shooter is undefined
       setTimeout(function () {
