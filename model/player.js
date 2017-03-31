@@ -101,7 +101,8 @@ class Player extends createjs.Container {
         this.lives --;
         this.dispatchEvent("death");
         if (this.lives < 0)
-          createjs.Ticker.paused = true;
+          shooter.switchToDead();
+          // createjs.Ticker.paused = true;
         else {
           this.invincible = 3000;
           this.special.trigger();

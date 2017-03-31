@@ -96,7 +96,7 @@ class ShooterStage extends createjs.Container {
         if (this.mode == "menu") game.player.lives = 2;
         this.txtScore.text = "Score : " + this.score;
         this.txtPower.text = "Power : " + game.player.weapon.level.toFixed(2);
-        this.txtLives.text = "Lives : " + "●".repeat(game.player.lives);
+        this.txtLives.text = "Lives : " + "●".repeat(game.player.lives > 0 ? game.player.lives : 0);
         for (var i of this.children)
           i.dispatchEvent(new createjs.Event("frameTick").set({delta: e.delta}));
     }
@@ -267,9 +267,9 @@ class ShooterStage extends createjs.Container {
         .mt(-this.dimensions.e(1) / 2.3, 0)
         .lt(this.dimensions.e(1) / 2.3, 0);
       itemLine.addChild(line);
-      var linetxt = new createjs.Text("Item get line", "18px Verdana", "#FFF")
+      var linetxt = new createjs.Text("Item get line", "18px Montserrat", "#FFF")
         .set({textAlign: "center", textBaseline: "middle", y: 15});
-      var linetxtbg = new createjs.Text("Item get line", "18px Verdana", "#000")
+      var linetxtbg = new createjs.Text("Item get line", "18px Montserrat", "#000")
         .set({textAlign: "center", textBaseline: "middle", y: 15, outline: 3, y: 15});
       itemLine.addChild(linetxtbg);
       itemLine.addChild(linetxt);
@@ -284,6 +284,30 @@ class ShooterStage extends createjs.Container {
         else game.removeChild(this);
       }, itemLine);
       game && game.addChild(itemLine);
+    }
+
+    switchToDead () {
+      createjs.Ticker.paused = true;
+      this.mode = "dead";
+      var redGlass = new createjs.Shape();
+      redGlass.set({
+        graphics: new createjs.Graphics().f("rgba(255,0,0,0.5)").r(0, 0, this.dimensions.e(1), this.dimensions.e(2)),
+        x: this.position.e(1), y: this.position.e(2),
+        die: function () {
+          game.removeChild(redGlass);
+        }
+      });
+      var deathText = new createjs.Text("You died\nPress R to restart\n\nScore : " + this.score, "25px Montserrat", "#FFF");
+      deathText.set({
+        x: this.position.e(1) + this.dimensions.e(1) / 2,
+        y: this.position.e(2) + this.dimensions.e(2) / 2 - 150,
+        textAlign: "center", textBaseline: "middle",
+        die: function () {
+          game.removeChild(deathText);
+        }
+      });
+      game.addChildAt(redGlass, game.children.length);
+      game.addChildAt(deathText, game.children.length);
     }
 
     getGameBounds () {
