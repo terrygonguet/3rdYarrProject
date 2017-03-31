@@ -15,6 +15,7 @@ class ShooterStage extends createjs.Container {
         this.position   = $V([100, 100]);
         this.dimensions = $V([600, 800]);
         this.edges      = this.position.add(this.dimensions);
+        this.mapOffset  = $V([0,0]);
         this.encounters = [];
         this.time       = 0;
         this.started    = false;

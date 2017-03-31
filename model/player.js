@@ -15,10 +15,11 @@ class Player extends createjs.Container {
         this.position    = $V([0,0]);
         this.normalSpeed = 400;
         this.focusSpeed  = 150;
-        this.radius      = 3;
+        this.radius      = 5;
         this.lives       = 2;
         this.invincible  = 0;
         this.mode        = "level";
+        this.direction   = $V([-1, 0]);
 
         this.weapon      = new BlasterWeapon();
         this.special     = new ShieldSpecial();
@@ -78,9 +79,22 @@ class Player extends createjs.Container {
           }
           direction = direction.toUnitVector().x((input.keys.focus ? this.focusSpeed : this.normalSpeed) * (e.delta / 1000));
           this.position = this.position.add(direction);
+          this.hitbox.visible = input.keys.focus;
+          this.rotation = 0;
           break;
 
         case "map" :
+          this.direction = $V([
+              Number(-input.keys.up + input.keys.down),
+              Number(-input.keys.left + input.keys.right)
+          ]);
+          if (this.direction.modulus() != 0) {
+            shooter.mapOffset = shooter.mapOffset.add($V([
+                Number(-input.keys.left + input.keys.right),
+                Number(-input.keys.up + input.keys.down)
+            ]).toUnitVector().x(e.delta / 1000 * this.focusSpeed));
+            this.rotation = this.direction.angleFrom($V([-1, 0])) * 57.296 * (input.keys.left ? -1 : 1);
+          }
           break;
       }
 
@@ -93,7 +107,6 @@ class Player extends createjs.Container {
           x: this.position.e(1) + shooter.position.e(1),
           y: this.position.e(2) + shooter.position.e(2)
       });
-      this.hitbox.visible = input.keys.focus;
     }
 
     getHit () {
