@@ -93,6 +93,10 @@ class Player extends createjs.Container {
                 Number(-input.keys.left + input.keys.right),
                 Number(-input.keys.up + input.keys.down)
             ]).toUnitVector().x(e.delta / 1000 * this.normalSpeed));
+            shooter.mapOffset.setElements([
+              shooter.mapOffset.e(1).clamp(-shooter.worldmap.width/2*50, shooter.worldmap.width/2*50),
+              shooter.mapOffset.e(2).clamp(-shooter.worldmap.height/2*50, shooter.worldmap.height/2*50)
+            ]);
             this.rotation = this.direction.angleFrom($V([-1, 0])) * 57.296 * (input.keys.left ? -1 : 1);
           }
           break;

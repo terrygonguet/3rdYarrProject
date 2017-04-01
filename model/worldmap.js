@@ -1,10 +1,11 @@
 class WorldMap extends createjs.Container {
 
-  constructor(width, height, seed=randInt(0,500000)) {
+  constructor(width, height, prob=0.3, seed=randInt(0,500000)) {
     super();
     this.width       = width;
     this.height      = height;
     this.seed        = seed;
+    this.prob        = prob;
     this.matrix      = new Array(width);
     for (var i=0; i<width; i++) {
       this.matrix[i] = new Array(height);
@@ -13,7 +14,7 @@ class WorldMap extends createjs.Container {
         this.matrix[i][j].set({
           x: i * 50,
           y: j * 50,
-          graphics: new createjs.Graphics().s("#000").f("#77F").r(0,0,50,50)
+          graphics: new createjs.Graphics().f("#77F").r(0,0,50,50)
         });
         this.addChild(this.matrix[i][j]);
       }
@@ -39,28 +40,30 @@ class WorldMap extends createjs.Container {
   }
 
   generate () {
-    var nbIslands = randInt(5,20);
+    var perfStart = performance.now();
+    var nbIslands = randInt(30,50);
     for (var i = 0; i < nbIslands; i++) {
-      var islandSize = randInt(10,100);
+      var islandSize = randInt(10,80);
       var x = randInt(0, this.width), y = randInt(0, this.height);
       this.makeIsland(x, y, islandSize);
     }
 
     for (var x = 0; x < this.width; x++) {
       for (var y = 0; y < this.height; y++) {
-        if (this.isInland(x, y)) {
-          this.matrix[x][y].graphics.c().s("#000").f("#555").r(0,0,50,50);
-          this.matrix[x][y].ground = true;
+        if (!this.matrix[x][y].ground && this.lakeSize(x, y) < 15) {
+          this.createLand(x, y, randInt(1,3));
+        } else {
+
         }
       }
     }
 
     this.updateCache();
+    console.log(performance.now() - perfStart);
   }
 
   makeIsland(x, y, islandSize) {
-    this.matrix[x][y].graphics.c().s("#000").f("#333").r(0,0,50,50);
-    this.matrix[x][y].ground = true;
+    this.createLand(x, y, islandSize);
     islandSize--;
     var added = [ x+"_"+y ];
     var toAdd = [
@@ -73,12 +76,10 @@ class WorldMap extends createjs.Container {
       x = Number(coords[0]); y = Number(coords[1]);
       if (!(x < 0 || x >= this.width || y < 0 || y >= this.width) && added.indexOf(toAdd[i]) == -1) {
         if (
-          Math.random() > 0.3 ||
-          this.isInland(x, y)
+          Math.random() < this.prob
         ) {
           islandSize--;
-          this.matrix[x][y].graphics.c().s("#000").f("#555").r(0,0,50,50);
-          this.matrix[x][y].ground = true;
+          this.createLand(x, y, islandSize);
           added.push(toAdd[i]);
           toAdd.splice(i,1); i--;
           toAdd.push((x+1)+"_"+(y), (x)+"_"+(y+1), (x-1)+"_"+(y), (x)+"_"+(y-1));
@@ -87,18 +88,33 @@ class WorldMap extends createjs.Container {
       }
       i = (i+1 == toAdd.length ? 0 : i+1);
     }
-
   }
 
-  isInland(x, y) {
-    if (!this.matrix[x] || !this.matrix[x][y] || this.matrix[x][y].ground)
-      return false;
+  createLand (x, y, baseAltitude) {
+    this.matrix[x][y].set({
+      ground: true, lakeSize: 0,
+      baseAltitude: baseAltitude * 2
+    });
+    if (baseAltitude <= 30) {
+      this.matrix[x][y].graphics = new createjs.Graphics().f("#24A61F").r(0,0,50,50);
+    } else {
+      this.matrix[x][y].graphics = new createjs.Graphics().f("#8DB5AC").r(0,0,50,50);
+    }
+  }
+
+  lakeSize(x, y) {
+    if (this.matrix[x] && this.matrix[x][y]) {
+      if (this.matrix[x][y].lakeSize)
+        return this.matrix[x][y].lakeSize;
+    } else
+      return 0;
+
     var size = 1;
     var checked = [ x+"_"+y ];
     var toCheck = [
       (x+1)+"_"+(y), (x)+"_"+(y+1), (x-1)+"_"+(y), (x)+"_"+(y-1)
     ];
-    while (toCheck.length > 0 && size < 15) {
+    while (toCheck.length > 0) {
       var coords = toCheck[0].split("_");
       x = Number(coords[0]); y = Number(coords[1]);
       if (this.matrix[x] && this.matrix[x][y] && !this.matrix[x][y].ground) {
@@ -116,7 +132,14 @@ class WorldMap extends createjs.Container {
       checked.push(toCheck[0]);
       toCheck.shift();
     }
-    return size < 15;
+
+    for (var cell of checked) {
+      var coords = cell.split("_");
+      x = Number(coords[0]); y = Number(coords[1]);
+      if (this.matrix[x] && this.matrix[x][y] && !this.matrix[x][y].ground)
+        this.matrix[x][y].lakeSize = size;
+    }
+    return size;
   }
 
 }
