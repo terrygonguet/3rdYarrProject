@@ -12,7 +12,7 @@ ShooterStage.prototype.switchToMap = function () {
   this.txtPower.visible = false;
   this.txtLives.visible = false;
   game.player.position  = this.dimensions.x(0.5);
-  if (!this.worldmap) this.worldmap = new WorldMap(50,50);
+  if (!this.worldmap) this.worldmap = new WorldMap(50,50,"Test");
   game.addChild(this.worldmap);
 
 };

@@ -107,3 +107,14 @@ function randInt(min, max) {
 function randFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
+
+// http://codereview.stackexchange.com/questions/83717/filter-out-duplicates-from-an-array-and-return-only-unique-value
+function unique (xs) {
+  var seen = {};
+  return xs.filter(function(x) {
+    if (seen[x])
+      return;
+    seen[x] = true;
+    return x;
+  });
+}

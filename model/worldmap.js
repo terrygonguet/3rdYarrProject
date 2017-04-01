@@ -45,11 +45,78 @@ class WorldMap extends createjs.Container {
       var x = randInt(0, this.width), y = randInt(0, this.height);
       this.makeIsland(x, y, islandSize);
     }
+
+    for (var x = 0; x < this.width; x++) {
+      for (var y = 0; y < this.height; y++) {
+        if (this.isInland(x, y)) {
+          this.matrix[x][y].graphics.c().s("#000").f("#555").r(0,0,50,50);
+          this.matrix[x][y].ground = true;
+        }
+      }
+    }
+
     this.updateCache();
   }
 
   makeIsland(x, y, islandSize) {
-    this.matrix[x][y].graphics.c().s("#000").f("#555").r(0,0,50,50);
+    this.matrix[x][y].graphics.c().s("#000").f("#333").r(0,0,50,50);
+    this.matrix[x][y].ground = true;
+    islandSize--;
+    var added = [ x+"_"+y ];
+    var toAdd = [
+      (x+1)+"_"+(y), (x)+"_"+(y+1), (x-1)+"_"+(y), (x)+"_"+(y-1)
+    ];
+    var i = 0;
+
+    while (islandSize > 0) {
+      var coords = toAdd[i].split("_");
+      x = Number(coords[0]); y = Number(coords[1]);
+      if (!(x < 0 || x >= this.width || y < 0 || y >= this.width) && added.indexOf(toAdd[i]) == -1) {
+        if (
+          Math.random() > 0.3 ||
+          this.isInland(x, y)
+        ) {
+          islandSize--;
+          this.matrix[x][y].graphics.c().s("#000").f("#555").r(0,0,50,50);
+          this.matrix[x][y].ground = true;
+          added.push(toAdd[i]);
+          toAdd.splice(i,1); i--;
+          toAdd.push((x+1)+"_"+(y), (x)+"_"+(y+1), (x-1)+"_"+(y), (x)+"_"+(y-1));
+          toAdd = unique(toAdd);
+        }
+      }
+      i = (i+1 == toAdd.length ? 0 : i+1);
+    }
+
+  }
+
+  isInland(x, y) {
+    if (!this.matrix[x] || !this.matrix[x][y] || this.matrix[x][y].ground)
+      return false;
+    var size = 1;
+    var checked = [ x+"_"+y ];
+    var toCheck = [
+      (x+1)+"_"+(y), (x)+"_"+(y+1), (x-1)+"_"+(y), (x)+"_"+(y-1)
+    ];
+    while (toCheck.length > 0 && size < 15) {
+      var coords = toCheck[0].split("_");
+      x = Number(coords[0]); y = Number(coords[1]);
+      if (this.matrix[x] && this.matrix[x][y] && !this.matrix[x][y].ground) {
+        size++;
+        [
+          (x+1)+"_"+(y),
+          (x)+"_"+(y+1),
+          (x-1)+"_"+(y),
+          (x)+"_"+(y-1)
+        ].forEach(function (e) {
+          if (checked.indexOf(e) == -1 && toCheck.indexOf(e) == -1)
+            toCheck.push(e);
+        });
+      }
+      checked.push(toCheck[0]);
+      toCheck.shift();
+    }
+    return size < 15;
   }
 
 }
