@@ -89,7 +89,7 @@ class Player extends createjs.Container {
               Number(-input.keys.left + input.keys.right)
           ]);
           if (this.direction.modulus() != 0) {
-            shooter.mapOffset = shooter.mapOffset.add($V([
+            shooter.mapOffset = shooter.mapOffset.subtract($V([
                 Number(-input.keys.left + input.keys.right),
                 Number(-input.keys.up + input.keys.down)
             ]).toUnitVector().x(e.delta / 1000 * this.focusSpeed));

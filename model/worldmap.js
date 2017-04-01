@@ -1,36 +1,55 @@
+class WorldMap extends createjs.Container {
 
-ShooterStage.prototype.switchToMap = function () {
-  this.clear();
-  game.player.mode = "map";
-  this.mode = "map";
-  game && (game.sea.visible = false);
-  this.position   = $V([100, 100]);
-  this.dimensions = $V([window.innerWidth - 200, window.innerHeight - 200]);
-  this.edges      = this.position.add(this.dimensions);
-  this.resizeStage();
-  this.txtScore.visible = false;
-  this.txtPower.visible = false;
-  this.txtLives.visible = false;
-  game.player.position = this.dimensions.x(0.5);
-
-  var square = new createjs.Shape(new createjs.Graphics().s("#000").ss(3).r(-100,-100,200,200));
-  square.on("frameTick", function () {
-    square.set({
-      x: this.position.e(1) + this.dimensions.e(1) / 2 + this.mapOffset.e(1),
-      y: this.position.e(2) + this.dimensions.e(2) / 2 + this.mapOffset.e(2),
-      die: function () {
-        game.removeChild(square);
+  constructor(width, height, seed=randInt(0,500000)) {
+    super();
+    this.width       = width;
+    this.height      = height;
+    this.seed        = seed;
+    this.matrix      = new Array(width);
+    for (var i=0; i<width; i++) {
+      this.matrix[i] = new Array(height);
+      for (var j = 0; j < height; j++) {
+        this.matrix[i][j] = new createjs.Shape();
+        this.matrix[i][j].set({
+          x: i * 50,
+          y: j * 50,
+          graphics: new createjs.Graphics().s("#000").f("#77F").r(0,0,50,50)
+        });
+        this.addChild(this.matrix[i][j]);
       }
-    });
-  }, this);
-  square.set({
-    x: this.position.e(1) + this.dimensions.e(1) / 2,
-    y: this.position.e(2) + this.dimensions.e(2) / 2
-  });
-  game.addChild(square);
-};
+    }
+    this.cache(0,0,width*50,height*50);
+    Math.seedrandom(seed + "");
 
-ShooterStage.prototype.switchOffMap = function () {
-  game.player.mode = "level";
-  game.sea.visible = true;
-};
+    this.set({
+      x: shooter.position.e(1) + shooter.dimensions.e(1) / 2,
+      y: shooter.position.e(2) + shooter.dimensions.e(2) / 2,
+      regX: width / 2 * 50, regY: height / 2 * 50
+    });
+    this.on("frameTick", this.update, this);
+
+    this.generate();
+  }
+
+  update (e) {
+    this.set({
+      x: shooter.position.e(1) + shooter.dimensions.e(1) / 2 + shooter.mapOffset.e(1),
+      y: shooter.position.e(2) + shooter.dimensions.e(2) / 2 + shooter.mapOffset.e(2)
+    });
+  }
+
+  generate () {
+    var nbIslands = randInt(5,20);
+    for (var i = 0; i < nbIslands; i++) {
+      var islandSize = randInt(10,100);
+      var x = randInt(0, this.width), y = randInt(0, this.height);
+      this.makeIsland(x, y, islandSize);
+    }
+    this.updateCache();
+  }
+
+  makeIsland(x, y, islandSize) {
+    this.matrix[x][y].graphics.c().s("#000").f("#555").r(0,0,50,50);
+  }
+
+}
