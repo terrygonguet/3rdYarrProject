@@ -9,8 +9,6 @@ class Player extends createjs.Container {
     constructor () {
         super ();
         this.on("frameTick", this.update, this);
-        var autof = getCookie("autofire");
-        var ctrl = getCookie("controls");
 
         this.position    = $V([0,0]);
         this.normalSpeed = 400;
@@ -19,8 +17,6 @@ class Player extends createjs.Container {
         this.invincible  = 0;
         this.mode        = "level";
         this.direction   = $V([-1, 0]);
-
-        this.inventory   = new Inventory();
 
         this.sprite      = new createjs.Bitmap(queue.getResult("Player"));
         this.hitbox      = new createjs.Shape(
@@ -36,6 +32,11 @@ class Player extends createjs.Container {
           scaleX: 0.5, scaleY: 0.5
         });
 
+        this.position = $V([
+            shooter.dimensions.e(1) / 2,
+            shooter.dimensions.e(2) - 50
+        ]);
+
         this.set({
             x: this.position.e(1),
             y: this.position.e(2)
@@ -45,8 +46,6 @@ class Player extends createjs.Container {
     update (e) {
       switch (this.mode) {
         case "level":
-          this.inventory.mainWeapon.update(e);
-          if (input.keys.fire || input.autofire) this.inventory.mainWeapon.fire();
 
           if (this.invincible > 0) {
             this.visible = !this.visible;
@@ -113,14 +112,14 @@ class Player extends createjs.Container {
 
     getHit () {
       if (this.invincible <= 0) {
-        this.inventory.lives --;
+        inventory.lives --;
         this.dispatchEvent("death");
-        if (this.inventory.lives < 0)
+        if (inventory.lives < 0)
           shooter.switchToDead();
         else {
           this.invincible = 3000;
-          this.inventory.special.trigger();
-          for (var i=0; i<this.inventory.special.cost; i+=0.1) {
+          inventory.special.trigger();
+          for (var i=0; i<inventory.special.cost; i+=0.1) {
             game.addChild(new Drop("upgrade", 0.1,
               $V([shooter.dimensions.e(1) / 2 + randInt(-50,50),
               shooter.dimensions.e(2) / 3 + randInt(-50,50)]))

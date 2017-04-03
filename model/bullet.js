@@ -37,30 +37,31 @@ class Bullet extends createjs.Bitmap {
     }
 
     update (e) {
-        var startPos = this.position.dup();
-        var toMove = this.speed * (e.delta / 1000)
-        var moved = 0;
-        do {
-            this.collide();
-            if (toMove - moved >= 2 * this.radius) {
-                moved += 2 * this.radius;
-            } else {
-                moved = toMove;
-            }
-            this.position = startPos.add(this.direction.x(moved));
-        } while (toMove !== moved);
+      if (!game.player) return;
+      var startPos = this.position.dup();
+      var toMove = this.speed * (e.delta / 1000)
+      var moved = 0;
+      do {
+          this.collide();
+          if (toMove - moved >= 2 * this.radius) {
+              moved += 2 * this.radius;
+          } else {
+              moved = toMove;
+          }
+          this.position = startPos.add(this.direction.x(moved));
+      } while (toMove !== moved);
 
-        if (this.position.e(1) > shooter.dimensions.e(1) + 100 ||
-            this.position.e(1) < -100 ||
-            this.position.e(2) > shooter.dimensions.e(2) + 100 ||
-            this.position.e(2) < -100) {
-            this.die();
-        }
-        this.set({
-            x: this.position.e(1) + shooter.position.e(1),
-            y: this.position.e(2) + shooter.position.e(2),
-            rotation: this.direction.angleFrom($V([0,-1])) * Math.sign(this.direction.e(1)) * 57.2958
-        });
+      if (this.position.e(1) > shooter.dimensions.e(1) + 100 ||
+          this.position.e(1) < -100 ||
+          this.position.e(2) > shooter.dimensions.e(2) + 100 ||
+          this.position.e(2) < -100) {
+          this.die();
+      }
+      this.set({
+          x: this.position.e(1) + shooter.position.e(1),
+          y: this.position.e(2) + shooter.position.e(2),
+          rotation: this.direction.angleFrom($V([0,-1])) * Math.sign(this.direction.e(1)) * 57.2958
+      });
     }
 
     die () {

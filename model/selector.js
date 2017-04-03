@@ -45,6 +45,7 @@ class Selector extends createjs.Container {
   }
 
   update (e) {
+    if (!game.player) return;
     if (game.player.position.distanceFrom(this.position) <= this.radius) {
       this.filled += this.rate * e.delta / 1000;
     } else if (this.filled > 0) {

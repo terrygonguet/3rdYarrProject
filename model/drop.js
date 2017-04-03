@@ -71,7 +71,7 @@ class Drop extends createjs.Shape {
                     shooter.score += this.value;
                     break;
                 case "upgrade" :
-                    inventory.upgrade(this.value);
+                    inventory.deltaPower(this.value);
                     break;
             }
             this.die();

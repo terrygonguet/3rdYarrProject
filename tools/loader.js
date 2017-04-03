@@ -50,7 +50,6 @@ var queue;
     {id: "Shooter Map", src:"model/shootermap.js"},
     {id: "World Map", src:"model/worldmap.js"},
     {id: "Sea", src:"model/sea.js"},
-    {id: "Button", src:"model/button.js"},
     {id: "Selector", src:"model/selector.js"},
     {id: "Drops", src:"model/drop.js"},
     {id: "Weapon Abstract", src:"model/weapons/weapon.js"},
@@ -84,7 +83,7 @@ var queue;
     stage.removeChild(txt);
     game = new Game("game");
     shooter = game.shooterStage;
-    inventory = game.player.inventory;
+    inventory = new Inventory();
     resizeCanvas();
     debugOn();
   }

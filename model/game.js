@@ -13,25 +13,23 @@ class Game extends createjs.Stage {
         createjs.Ticker.framerate = 60;
         createjs.Ticker.on("tick", this.update, this);
 
-        this.tickEnabled   = false;
+        this.tickEnabled  = true;
         this.enemies      = [];
-        this.player       = new Player();
+        this.player       = null;
         this.shooterStage = new ShooterStage();
         this.sea          = new Sea({
           position: this.shooterStage.position.dup(),
           dimensions: this.shooterStage.dimensions.dup()
         });
-        this.stageAt      = 2;
+        this.stageAt      = 1;
 
-        this.player.position = $V([
-            this.shooterStage.dimensions.e(1) / 2,
-            this.shooterStage.dimensions.e(2) - 50
-        ]);
         this.addChildAt(this.sea, 0);
-        this.addChildAt(this.player,1);
-        this.addChildAt(this.shooterStage,2);
-        // this.addChildAt(this.player,0);
-        // this.addChildAt(this.shooterStage,1);
+        this.addChildAt(this.shooterStage,1);
+
+        this.on("tick", function () {
+          this.player = new Player();
+          this.addChildAt(this.player,1);
+        }, this, true);
     }
 
     update (e) {
@@ -45,10 +43,10 @@ class Game extends createjs.Stage {
     }
 
     addChild (child) {
-        super.addChildAt(child, (child instanceof Bullet ? this.stageAt : 1));
-        this.stageAt = this.getChildIndex(this.shooterStage);
-        if (child instanceof Enemy || child instanceof Boss)
-            this.enemies.push(child);
+      this.stageAt = this.getChildIndex(this.shooterStage);
+      super.addChildAt(child, (child instanceof Bullet ? this.stageAt++ : 1));
+      if (child instanceof Enemy || child instanceof Boss)
+          this.enemies.push(child);
     }
 
     removeChild (child) {

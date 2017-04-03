@@ -2,15 +2,13 @@
  * Input manager
  */
 var input = {
-    controls: getCookie("controls"),
-    autofire: getCookie("autofire") === "true",
+    controls: localStorage.controls || "Keyboard",
+    autofire: localStorage.autofire || false,
     setControls: function (val) {
-      input.controls = val;
-      setCookie("controls", val);
+      localStorage.controls = input.controls = val;
     },
     setAutoFire: function (val) {
-      input.autofire = val;
-      setCookie("autofire", val);
+      localStorage.autofire = input.autofire = val;
     },
     keys: {
         up: false,

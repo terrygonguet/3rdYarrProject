@@ -19,6 +19,20 @@ class BlasterWeapon extends Weapon {
         this.time.clamp(0, 1000 / this.fireRate);
         if (this.missileRate) this.missileTime += e.delta;
         this.missileTime.clamp(0, 1000 / this.missileRate);
+
+        if (inventory.level === 3) {
+            this.damage      = 2;
+            this.missileRate = 10;
+        } else if (inventory.level >= 2) {
+            this.damage      = 2;
+            this.missileRate = 7;
+        } else if (inventory.level >= 1) {
+            this.damage      = 2;
+            this.missileRate = 5;
+        } else {
+            this.damage      = 2;
+            this.missileRate = 0;
+        }
     }
 
     fire () {
@@ -33,21 +47,5 @@ class BlasterWeapon extends Weapon {
             game.addChild(bullet);
         }
     }
-
-    upgrade (val) {
-        super.upgrade(val);
-        if (this.level === 3) {
-            this.damage      = 2;
-            this.missileRate = 10;
-        } else if (this.level >= 2) {
-            this.damage      = 2;
-            this.missileRate = 7;
-        } else if (this.level >= 1) {
-            this.damage      = 2;
-            this.missileRate = 5;
-        } else {
-            this.damage      = 2;
-            this.missileRate = 0;
-        }
-    }
+    
 }

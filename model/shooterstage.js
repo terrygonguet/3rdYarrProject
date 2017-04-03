@@ -13,7 +13,7 @@ class ShooterStage extends createjs.Container {
     constructor () {
         super();
         this.position   = $V([100, 100]);
-        this.dimensions = $V([600, 800]);
+        this.dimensions = $V([window.innerWidth - 200, window.innerHeight - 200]);
         this.edges      = this.position.add(this.dimensions);
         this.mapOffset  = $V([0,0]);
         this.worldmap   = null;
@@ -59,13 +59,11 @@ class ShooterStage extends createjs.Container {
         this.addChild(this.txtLives);
         this.addChild(this.txtVersion);
 
-        // this.switchToGame();
-        setTimeout(function () {
-          shooter.switchToMenu();
-        }, 10);
-
-        // this.on("tick", this.update, this);
         this.on("frameTick", this.update, this);
+        this.on("frameTick", function () {
+          shooter.switchToMenu();
+        }, this, true);
+
     }
 
     update(e) {
@@ -159,7 +157,7 @@ class ShooterStage extends createjs.Container {
       game && game.addChild(lvl1btn);
       var lvl2btn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2]), 25, "#3A3", "Bosses Only", function() {
           shooter.loadLevel("levels/lvl1_boss.js");
-          game.player.weapon.upgrade(3);
+          inventory.deltaPower(3);
           shooter.bossOnly = true;
           lvl1btn.state = false;
           lvl2btn.state = true;
@@ -175,15 +173,11 @@ class ShooterStage extends createjs.Container {
       game && game.addChild(lvl3btn);
 
       var powerbtn = new Selector($V([this.dimensions.e(1) / 2 - 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Full power", function() {
-            // game.player.weapon = new BlasterWeapon();
-            game.player.weapon.level = 3;
-            game.player.weapon.upgrade(0);
+            inventory.deltaPower(3);
       });
       game && game.addChild(powerbtn);
       var emptybtn = new Selector($V([this.dimensions.e(1) / 2 + 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "No power", function() {
-            // game.player.weapon = new BlasterWeapon();
-            game.player.weapon.level = 0;
-            game.player.weapon.upgrade(0);
+            inventory.deltaPower(-10);
       });
       game && game.addChild(emptybtn);
       var startbtn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2 - 75]), 25, "#2E2", "Start game", function() {
@@ -193,15 +187,15 @@ class ShooterStage extends createjs.Container {
 
 
       var clearbtn = new Selector($V([150, this.dimensions.e(2) / 2]), 25, "#777", "Special Clear", function() {
-            game.player.special && game.player.special.remove();
-            game.player.special = new ClearSpecial();
+            inventory.special && inventory.special.remove();
+            inventory.special = new ClearSpecial();
             shieldbtn.state = false;
             clearbtn.state = true;
       }, true, true);
       game && game.addChild(clearbtn);
       var shieldbtn = new Selector($V([150, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Special Shield", function() {
-            game.player.special && game.player.special.remove();
-            game.player.special = new ShieldSpecial();
+            inventory.special && inventory.special.remove();
+            inventory.special = new ShieldSpecial();
             clearbtn.state = false;
             shieldbtn.state = true;
       }, true, true);

@@ -17,7 +17,7 @@ class Special {
 
     trigger () {
       this.triggered = inventory.level >= this.cost;
-      inventory.upgrade(-this.cost);
+      inventory.deltaPower(-this.cost);
       game.player.dispatchEvent("special");
     }
 
