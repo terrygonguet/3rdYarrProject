@@ -95,10 +95,10 @@ class ShooterStage extends createjs.Container {
             }
         }
 
-        if (this.mode == "menu") game.player.lives = 2;
+        if (this.mode == "menu") inventory.lives = 2;
         this.txtScore.text = "Score : " + this.score;
-        this.txtPower.text = "Power : " + game.player.weapon.level.toFixed(2);
-        this.txtLives.text = "Lives : " + "●".repeat(game.player.lives > 0 ? game.player.lives : 0);
+        this.txtPower.text = "Power : " + inventory.level.toFixed(2);
+        this.txtLives.text = "Lives : " + "●".repeat(inventory.lives > 0 ? inventory.lives : 0);
         for (var i of this.children)
           i.dispatchEvent(new createjs.Event("frameTick").set({delta: e.delta}));
     }

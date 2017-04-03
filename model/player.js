@@ -16,13 +16,11 @@ class Player extends createjs.Container {
         this.normalSpeed = 400;
         this.focusSpeed  = 150;
         this.radius      = 5;
-        this.lives       = 2;
         this.invincible  = 0;
         this.mode        = "level";
         this.direction   = $V([-1, 0]);
 
-        this.weapon      = new BlasterWeapon();
-        this.special     = new ShieldSpecial();
+        this.inventory   = new Inventory();
 
         this.sprite      = new createjs.Bitmap(queue.getResult("Player"));
         this.hitbox      = new createjs.Shape(
@@ -47,8 +45,8 @@ class Player extends createjs.Container {
     update (e) {
       switch (this.mode) {
         case "level":
-          this.weapon.update(e);
-          if (input.keys.fire || input.autofire) this.weapon.fire();
+          this.inventory.mainWeapon.update(e);
+          if (input.keys.fire || input.autofire) this.inventory.mainWeapon.fire();
 
           if (this.invincible > 0) {
             this.visible = !this.visible;
@@ -115,15 +113,14 @@ class Player extends createjs.Container {
 
     getHit () {
       if (this.invincible <= 0) {
-        this.lives --;
+        this.inventory.lives --;
         this.dispatchEvent("death");
-        if (this.lives < 0)
+        if (this.inventory.lives < 0)
           shooter.switchToDead();
-          // createjs.Ticker.paused = true;
         else {
           this.invincible = 3000;
-          this.special.trigger();
-          for (var i=0; i<this.special.cost; i+=0.1) {
+          this.inventory.special.trigger();
+          for (var i=0; i<this.inventory.special.cost; i+=0.1) {
             game.addChild(new Drop("upgrade", 0.1,
               $V([shooter.dimensions.e(1) / 2 + randInt(-50,50),
               shooter.dimensions.e(2) / 3 + randInt(-50,50)]))

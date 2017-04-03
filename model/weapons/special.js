@@ -8,14 +8,17 @@ class Special {
 
     constructor () {
         var self = this;
+        this.cost       = 0;
+        this.triggered  = true;
         input.onSpecial.push(function () {
             self.trigger();
         });
     }
 
     trigger () {
-        game.player.weapon.upgrade(0);
-        game.player.dispatchEvent("special");
+      this.triggered = inventory.level >= this.cost;
+      inventory.upgrade(-this.cost);
+      game.player.dispatchEvent("special");
     }
 
     remove () {

@@ -2,6 +2,7 @@
 
 var game;
 var shooter;
+var inventory;
 var queue;
 
 (function () {
@@ -37,6 +38,7 @@ var queue;
     {id: "Game", src:"model/game.js"},
     {id: "KeyIndicator", src:"model/keyIndicator.js"},
     {id: "Player", src:"model/player.js"},
+    {id: "Inventory", src:"model/inventory.js"},
     {id: "Bullet", src:"model/bullet.js"},
     {id: "Bullet Circle", src:"model/bulletCircle.js"},
     {id: "Enemy Abstract", src:"model/enemy/enemy.js"},
@@ -82,6 +84,7 @@ var queue;
     stage.removeChild(txt);
     game = new Game("game");
     shooter = game.shooterStage;
+    inventory = game.player.inventory;
     resizeCanvas();
     debugOn();
   }
