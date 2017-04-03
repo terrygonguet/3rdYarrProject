@@ -21,6 +21,7 @@ class Game extends createjs.Stage {
           position: this.shooterStage.position.dup(),
           dimensions: this.shooterStage.dimensions.dup()
         });
+        this.stageAt      = 2;
 
         this.player.position = $V([
             this.shooterStage.dimensions.e(1) / 2,
@@ -44,8 +45,8 @@ class Game extends createjs.Stage {
     }
 
     addChild (child) {
-        var stageAt = this.getChildIndex(this.shooterStage);
-        super.addChildAt(child, (child instanceof Bullet ? stageAt : 1));
+        super.addChildAt(child, (child instanceof Bullet ? this.stageAt : 1));
+        this.stageAt = this.getChildIndex(this.shooterStage);
         if (child instanceof Enemy || child instanceof Boss)
             this.enemies.push(child);
     }

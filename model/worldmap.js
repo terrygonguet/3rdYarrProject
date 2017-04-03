@@ -6,21 +6,29 @@ class WorldMap extends createjs.Container {
     this.height      = height;
     this.seed        = seed;
     this.prob        = prob;
-    this.matrix      = new Array(width);
-    for (var i=0; i<width; i++) {
-      this.matrix[i] = new Array(height);
-      for (var j = 0; j < height; j++) {
-        this.matrix[i][j] = new createjs.Shape();
-        this.matrix[i][j].set({
-          x: i * 50,
-          y: j * 50,
-          graphics: new createjs.Graphics().f("#77F").r(0,0,50,50)
-        });
-        this.addChild(this.matrix[i][j]);
-      }
-    }
+    this.matrix      = null;
+    this.btnInv      = new createjs.Sprite(
+      new createjs.SpriteSheet({
+        images: ["resources/btn_inventory.jpg"],
+        frames: {width: 100, height: 40},
+        animations: {
+          out: 0, down: 1
+        }
+      }), "normal"
+    );
+
     this.cache(0,0,width*50,height*50);
     Math.seedrandom(seed + "");
+
+    var btnInvhelper = new createjs.ButtonHelper(this.btnInv, "out", "out", "down", this.btnInv);
+    this.btnInv.set({
+      die: function () {
+        game.removeChild(this.btnInv);
+      }, x: window.innerWidth - 120, y: 20
+    });
+    this.btnInv.addEventListener("click", function (e) {
+      console.log("test");
+    });
 
     this.set({
       x: shooter.position.e(1) + shooter.dimensions.e(1) / 2,
@@ -41,6 +49,21 @@ class WorldMap extends createjs.Container {
 
   generate () {
     var perfStart = performance.now();
+
+    this.matrix   = new Array(this.width);
+    for (var i=0; i<this.width; i++) {
+      this.matrix[i] = new Array(this.height);
+      for (var j = 0; j < this.height; j++) {
+        this.matrix[i][j] = new createjs.Shape();
+        this.matrix[i][j].set({
+          x: i * 50,
+          y: j * 50
+        });
+        this.createLand(i, j, "water");
+        this.addChild(this.matrix[i][j]);
+      }
+    }
+
     var nbIslands = randInt(30,50);
     for (var i = 0; i < nbIslands; i++) {
       var islandSize = randInt(10,80);
@@ -50,10 +73,11 @@ class WorldMap extends createjs.Container {
 
     for (var x = 0; x < this.width; x++) {
       for (var y = 0; y < this.height; y++) {
-        if (!this.matrix[x][y].ground && this.lakeSize(x, y) < 15) {
-          this.createLand(x, y, randInt(1,3));
-        } else {
-
+        if (!this.matrix[x][y].ground) {
+          if (this.lakeSize(x, y) < 15)
+            this.createLand(x, y, "jungle");
+          else if (this.lakeSize(x, y) < 1000)
+          this.createLand(x, y, "lake");
         }
       }
     }
@@ -63,7 +87,11 @@ class WorldMap extends createjs.Container {
   }
 
   makeIsland(x, y, islandSize) {
-    this.createLand(x, y, islandSize);
+    var type = "jungle";
+    if (islandSize <= 40) type = "sand";
+    if (islandSize <= 25 && Math.random() < 0.1) type = "rock";
+
+    this.createLand(x, y, type);
     islandSize--;
     var added = [ x+"_"+y ];
     var toAdd = [
@@ -76,10 +104,10 @@ class WorldMap extends createjs.Container {
       x = Number(coords[0]); y = Number(coords[1]);
       if (!(x < 0 || x >= this.width || y < 0 || y >= this.width) && added.indexOf(toAdd[i]) == -1) {
         if (
-          Math.random() < this.prob
+          Math.random() <= this.prob
         ) {
           islandSize--;
-          this.createLand(x, y, islandSize);
+          this.createLand(x, y, type);
           added.push(toAdd[i]);
           toAdd.splice(i,1); i--;
           toAdd.push((x+1)+"_"+(y), (x)+"_"+(y+1), (x-1)+"_"+(y), (x)+"_"+(y-1));
@@ -90,20 +118,33 @@ class WorldMap extends createjs.Container {
     }
   }
 
-  createLand (x, y, baseAltitude) {
-    this.matrix[x][y].set({
-      ground: true, lakeSize: 0,
-      baseAltitude: baseAltitude * 2
-    });
-    if (baseAltitude <= 30) {
-      this.matrix[x][y].graphics = new createjs.Graphics().f("#24A61F").r(0,0,50,50);
-    } else {
-      this.matrix[x][y].graphics = new createjs.Graphics().f("#8DB5AC").r(0,0,50,50);
+  createLand (x, y, type) {
+    var color = "";
+    switch (type) {
+      case "water":
+        color = "#4361E8";
+        break;
+      case "lake":
+        color = "#58D9ED";
+        break;
+        case "jungle" :
+        color = "#24A61F";
+        break;
+      case "sand" :
+        color = "#EDE24C";
+        break;
+      case "rock" :
+        color = "#8DB5AC";
+        break;
     }
+    this.matrix[x][y].set({
+      ground: type != "water", lakeSize: this.matrix[x][y].lakeSize,
+      graphics: new createjs.Graphics().f(color).r(0,0,50,50)
+    });
   }
 
   lakeSize(x, y) {
-    if (this.matrix[x] && this.matrix[x][y]) {
+    if (this.matrix[x] && this.matrix[x][y] && !this.matrix[x][y].ground) {
       if (this.matrix[x][y].lakeSize)
         return this.matrix[x][y].lakeSize;
     } else
