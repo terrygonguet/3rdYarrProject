@@ -49,6 +49,7 @@ var queue;
     {id: "Shooter Stage", src:"model/shooterstage.js"},
     {id: "Shooter Map", src:"model/shootermap.js"},
     {id: "World Map", src:"model/worldmap.js"},
+    {id: "Map Encounter", src:"model/enemy/mapEncounter.js"},
     {id: "Sea", src:"model/sea.js"},
     {id: "Selector", src:"model/selector.js"},
     {id: "Drops", src:"model/drop.js"},
