@@ -127,7 +127,7 @@ class Boss extends createjs.Bitmap {
     }
 
     dropBonus () {
-      if (game.player.weapon.level != 3) {
+      if (inventory.level != 3) {
         for (var i=0; i<5; i ++) {
           game.addChild(
             new Drop("upgrade", 0.2, $V([

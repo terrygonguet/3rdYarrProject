@@ -7,6 +7,7 @@ class WorldMap extends createjs.Container {
     this.seed        = seed;
     this.prob        = prob;
     this.matrix      = null;
+    this.encounters  = [];
     this.btnInv      = new createjs.Sprite(
       new createjs.SpriteSheet({
         images: ["resources/btn_inventory.jpg"],
@@ -37,14 +38,38 @@ class WorldMap extends createjs.Container {
     });
     this.on("frameTick", this.update, this);
 
+    this.on("added", function (e) {
+      for(var i of this.encounters)
+        game.addChild(i);
+    }, this);
+
     this.generate();
   }
 
   update (e) {
+    var self = this;
     this.set({
       x: shooter.position.e(1) + shooter.dimensions.e(1) / 2 + shooter.mapOffset.e(1),
       y: shooter.position.e(2) + shooter.dimensions.e(2) / 2 + shooter.mapOffset.e(2)
     });
+
+    if (this.encounters.length <= 20 && Math.random() <= 0.001) {
+      var enc = new MapEncounter(
+        $V([randInt(this.width * -25, this.width * 25), randInt(this.height * -25, this.height * 25)]),
+        20, "Meduse1", function () {
+          shooter.loadLevel("levels/lvl1.js");
+          shooter.switchOffMap();
+          shooter.switchToGame();
+          game.removeChild(this);
+          self.encounters.splice(self.encounters.indexOf(this), 1);
+          setTimeout(function () {
+            shooter.start();
+          }, 150);
+        }
+      );
+      this.encounters.push(enc);
+      game.addChild(enc);
+    }
   }
 
   generate () {
