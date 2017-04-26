@@ -12,8 +12,8 @@ class ShooterStage extends createjs.Container {
 
     constructor () {
         super();
-        this.position   = $V([100, 100]);
-        this.dimensions = $V([window.innerWidth - 200, window.innerHeight - 200]);
+        this.position   = $V([0,0]);
+        this.dimensions = $V([window.innerWidth, window.innerHeight]);
         this.edges      = this.position.add(this.dimensions);
         this.mapOffset  = $V([0,0]);
         this.worldmap   = null;
@@ -134,8 +134,8 @@ class ShooterStage extends createjs.Container {
       this.clear();
       this.mode = "menu";
       game && (game.sea.speed = 0);
-      this.position   = $V([100, 100]);
-      this.dimensions = $V([window.innerWidth - 200, window.innerHeight - 200]);
+      this.position   = $V([0,0]);
+      this.dimensions = $V([window.innerWidth, window.innerHeight]);
       this.edges      = this.position.add(this.dimensions);
       this.resizeStage();
       this.txtScore.visible = false;
@@ -242,7 +242,7 @@ class ShooterStage extends createjs.Container {
       this.clear();
       this.mode = "game";
       this.dimensions = $V([600, 800]);
-      this.position   = $V([window.innerWidth / 2 - this.dimensions.e(1) / 2, 100]);
+      this.position   = $V([window.innerWidth / 2 - this.dimensions.e(1) / 2, window.innerHeight / 2 - this.dimensions.e(2) / 2]);
       this.edges      = this.position.add(this.dimensions);
       this.resizeStage();
       this.txtScore.set({
@@ -308,7 +308,7 @@ class ShooterStage extends createjs.Container {
 
     getGameBounds () {
       var bounds = {
-        position: $V([window.innerWidth / 2 - 300, 100]),
+        position: $V([window.innerWidth / 2 - 300, window.innerHeight / 2 - 400]),
         dimensions: $V([600, 800])
       };
       bounds.edges = bounds.position.add(bounds.dimensions);
