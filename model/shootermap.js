@@ -14,7 +14,7 @@ ShooterStage.prototype.switchToMap = function () {
   game.player.position  = this.dimensions.x(0.5);
   if (!this.worldmap) this.worldmap = new WorldMap(100,100, 0.4);
   game.addChild(this.worldmap);
-  game.addChild(this.worldmap.btnInv);
+  // game.addChild(this.worldmap.btnInv);
 };
 
 ShooterStage.prototype.switchOffMap = function () {

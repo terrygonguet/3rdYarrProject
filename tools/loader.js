@@ -72,6 +72,10 @@ var queue;
     {id: "Green Bullet", src:"resources/greenBullet.png"},
     {id: "Canonball", src:"resources/Boulet.png"},
     {id: "Wave", src:"resources/wave.png"},
+    {id: "mapJungle", src:"resources/texture-jungle.png"},
+    {id: "mapRock", src:"resources/texture-stone.png"},
+    {id: "mapSand", src:"resources/texture-sand.png"},
+    {id: "mapSea", src:"resources/texture-sea.png"},
     {id: "Crab", src:"resources/crab.png"},
     {id: "Kraken", src:"resources/Kraken.png"}
   ];

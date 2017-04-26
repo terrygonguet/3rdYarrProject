@@ -78,7 +78,7 @@ class WorldMap extends createjs.Container {
     for (var i=0; i<this.width; i++) {
       this.matrix[i] = new Array(this.height);
       for (var j = 0; j < this.height; j++) {
-        this.matrix[i][j] = new createjs.Shape();
+        this.matrix[i][j] = new createjs.Bitmap();
         this.matrix[i][j].set({
           x: i * 50,
           y: j * 50
@@ -98,10 +98,8 @@ class WorldMap extends createjs.Container {
     for (var x = 0; x < this.width; x++) {
       for (var y = 0; y < this.height; y++) {
         if (!this.matrix[x][y].ground) {
-          if (this.lakeSize(x, y) < 15)
+          if (this.lakeSize(x, y) < 1000)
             this.createLand(x, y, "jungle");
-          else if (this.lakeSize(x, y) < 1000)
-          this.createLand(x, y, "lake");
         }
       }
     }
@@ -113,7 +111,7 @@ class WorldMap extends createjs.Container {
   makeIsland(x, y, islandSize) {
     var type = "jungle";
     if (islandSize <= 40) type = "sand";
-    if (islandSize <= 25 && Math.random() < 0.1) type = "rock";
+    if (islandSize <= 25 && Math.random() < 0.3) type = "rock";
 
     this.createLand(x, y, type);
     islandSize--;
@@ -143,27 +141,25 @@ class WorldMap extends createjs.Container {
   }
 
   createLand (x, y, type) {
-    var color = "";
+    var texture = "";
     switch (type) {
       case "water":
-        color = "#4361E8";
-        break;
-      case "lake":
-        color = "#58D9ED";
+        texture = "mapSea";
         break;
         case "jungle" :
-        color = "#24A61F";
+        texture = "mapJungle";
         break;
       case "sand" :
-        color = "#EDE24C";
+        texture = "mapSand";
         break;
       case "rock" :
-        color = "#8DB5AC";
+        texture = "mapRock";
         break;
     }
     this.matrix[x][y].set({
       ground: type != "water", lakeSize: this.matrix[x][y].lakeSize,
-      graphics: new createjs.Graphics().f(color).r(0,0,50,50)
+      // graphics: new createjs.Graphics().f(color).r(0,0,50,50)
+      image: queue.getResult(texture)
     });
   }
 
