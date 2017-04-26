@@ -57,9 +57,8 @@ class WorldMap extends createjs.Container {
       var enc = new MapEncounter(
         $V([randInt(this.width * -25, this.width * 25), randInt(this.height * -25, this.height * 25)]),
         20, "Meduse1", function () {
-          shooter.loadLevel("levels/lvl1.js");
+          Generator.generate(randInt(60000, 80000), true);
           shooter.switchOffMap();
-          shooter.switchToGame();
           game.removeChild(this);
           self.encounters.splice(self.encounters.indexOf(this), 1);
           setTimeout(function () {

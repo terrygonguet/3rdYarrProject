@@ -46,6 +46,7 @@ var queue;
     {id: "Smooth Enemy", src:"model/enemy/smoothCriminal.js"},
     {id: "Patterns", src:"model/enemy/patterns.js"},
     {id: "Boss", src:"model/enemy/boss.js"},
+    {id: "Generator", src:"levels/generator.js"},
     {id: "Shooter Stage", src:"model/shooterstage.js"},
     {id: "Shooter Map", src:"model/shootermap.js"},
     {id: "World Map", src:"model/worldmap.js"},
