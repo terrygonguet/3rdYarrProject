@@ -158,6 +158,7 @@ class WorldMap extends createjs.Container {
     }
     this.matrix[x][y].set({
       ground: type != "water", lakeSize: this.matrix[x][y].lakeSize,
+      type: type,
       // graphics: new createjs.Graphics().f(color).r(0,0,50,50)
       image: queue.getResult(texture)
     });

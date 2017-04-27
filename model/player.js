@@ -96,6 +96,11 @@ class Player extends createjs.Container {
             ]);
             this.rotation = this.direction.angleFrom($V([-1, 0])) * 57.296 * (input.keys.left ? -1 : 1);
           }
+          var x = Math.floor((-shooter.mapOffset.e(1) + shooter.worldmap.width * 25) / 50),
+              y = Math.floor((-shooter.mapOffset.e(2) + shooter.worldmap.height * 25) / 50);
+          var cell = shooter.worldmap.matrix[x][y];
+
+          this.sprite.image = queue.getResult(cell.ground ? "Captain" : "Player");
           break;
       }
 

@@ -66,6 +66,7 @@ var queue;
     {id: "Meduse1", src:"resources/meduse1.png"},
     {id: "Meduse2", src:"resources/meduse2.png"},
     {id: "Player", src:"resources/Bateau-100x100.png"},
+    {id: "Captain", src:"resources/captain.png"},
     {id: "Missile", src:"resources/Balle.png"},
     {id: "Blue Bullet", src:"resources/blueBullet.png"},
     {id: "Red Bullet", src:"resources/redBullet.png"},
