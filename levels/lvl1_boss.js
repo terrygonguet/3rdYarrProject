@@ -125,10 +125,10 @@
       });
     }, time);
 
-    shooter.addEncounter(function () {
-      if (shooter.bossOnly)
-        shooter.nextLevel = "levels/lvl2_boss.js";
-      else
-        shooter.switchToMenu();
-    }, time + 2500);
+    // shooter.addEncounter(function () {
+    //   if (shooter.bossOnly)
+    //     shooter.nextLevel = "levels/lvl2_boss.js";
+    //   else
+    //     shooter.switchToMenu();
+    // }, time + 2500);
 })();

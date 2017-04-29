@@ -189,6 +189,7 @@
         }
       }, {circle: null, prison: null, size: 500, dir: -1, next: bounds.dimensions.x(0.5)}),
       new Pattern(boss, function (e) {// move
+        boss.position.e(2) = bounds.dimensions.e(2) * 0.7;
         if (boss.position.e(1) < 100)
           this.dir = 1;
         else if (boss.position.e(1) > bounds.dimensions.e(1) - 100)
@@ -254,8 +255,8 @@
 
   shooter.addEncounter(boss, 2000);
 
-  shooter.addEncounter(function () {
-    shooter.switchToMenu();
-  }, 4500);
+  // shooter.addEncounter(function () {
+  //   shooter.switchToMenu();
+  // }, 4500);
 
 })()

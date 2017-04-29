@@ -61,7 +61,7 @@ class ShooterStage extends createjs.Container {
 
         this.on("frameTick", this.update, this);
         this.on("frameTick", function () {
-          shooter.switchToMenu();
+          shooter.switchToMap();
         }, this, true);
 
     }
@@ -89,11 +89,12 @@ class ShooterStage extends createjs.Container {
                 this.loadLevel(this.nextLevel, true);
                 this.nextLevel = "";
               }
+              else
+                this.switchToMap();
               this.started = false;
             }
         }
 
-        if (this.mode == "menu") inventory.lives = 2;
         this.txtScore.text = "Score : " + this.score;
         this.txtPower.text = "Power : " + inventory.level.toFixed(2);
         this.txtLives.text = "Lives : " + "●".repeat(inventory.lives > 0 ? inventory.lives : 0);
@@ -222,8 +223,7 @@ class ShooterStage extends createjs.Container {
       keybbtn.state = input.controls === "Keyboard" || input.controls === "";
       game && game.addChild(keybbtn);
 
-      // ugly but to initialize the first time when shooter is undefined
-      setTimeout(function () {
+      this.on("frameTick", function () {
         var dude = new Enemy(
           $V([100, 100]),
           20, ["Meduse1", "Meduse2"], 99999999, 0
@@ -235,7 +235,7 @@ class ShooterStage extends createjs.Container {
           }
         });
         game.addChild(dude);
-      }, 50);
+      }, this, true);
     }
 
     switchToGame () {

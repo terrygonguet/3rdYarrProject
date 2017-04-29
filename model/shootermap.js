@@ -3,7 +3,7 @@ ShooterStage.prototype.switchToMap = function () {
   this.clear();
   game.player.mode      = "map";
   this.mode             = "map";
-  game.sea.visible      = false;
+  // game.sea.visible      = false;
   this.position         = $V([0, 0]);
   this.dimensions       = $V([window.innerWidth, window.innerHeight]);
   this.edges            = this.position.add(this.dimensions);
@@ -19,6 +19,6 @@ ShooterStage.prototype.switchToMap = function () {
 
 ShooterStage.prototype.switchOffMap = function () {
   game.player.mode = "level";
-  game.sea.visible = true;
+  // game.sea.visible = true;
   game.removeChild(this.worldmap);
 };

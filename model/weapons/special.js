@@ -11,7 +11,7 @@ class Special {
         this.cost       = 0;
         this.triggered  = true;
         input.onSpecial.push(function () {
-            self.trigger();
+            if (game.player.mode == "level") self.trigger();
         });
     }
 

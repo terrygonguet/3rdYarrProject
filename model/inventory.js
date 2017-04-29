@@ -21,11 +21,6 @@ class Inventory extends createjs.Container {
   update (e) {
     this.mainWeapon.update(e);
     this.offWeapon && this.offWeapon.update(e);
-
-    if (input.keys.fire || input.autofire) {
-      this.mainWeapon.fire();
-      this.offWeapon && this.offWeapon.fire();
-    }
   }
 
 }

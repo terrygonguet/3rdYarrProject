@@ -8,17 +8,22 @@ class Generator {
     var time = 2000;
     var len = Generator.levelBlocks.length - 1;
     var bounds = shooter.getGameBounds();
+    var blocksPicked = {};
 
     shooter.addEncounter(function () {
       game.sea.speed = 50;
     }, 0);
 
     do {
-      time = Generator.levelBlocks[randInt(0,len)](time, bounds);
+      var pick = randInt(0,len);
+      if (!blocksPicked[pick] || blocksPicked[pick] <= 2) {
+        time = Generator.levelBlocks[pick](time, bounds);
+        blocksPicked[pick] = (blocksPicked[pick] ? blocksPicked[pick] + 1 : 1);
+      }
     } while (time <= length);
 
     if (hasBoss)
-      Generator.bosses[randInt(0,Generator.bosses.length-1)](time);
+      Generator.bosses[randInt(0,Generator.bosses.length)](time);
 
     console.log("Total level time : " + time);
   }
