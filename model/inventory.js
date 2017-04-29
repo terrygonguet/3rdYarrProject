@@ -6,7 +6,7 @@ class Inventory extends createjs.Container {
     this.mainWeapon     = new BlasterWeapon();
     this.offWeapon      = null;
     this.special        = new ShieldSpecial();
-    this.lives          = 1;
+    this.lives          = 2;
     this.level          = 0;
     this.gold           = 0;
 
