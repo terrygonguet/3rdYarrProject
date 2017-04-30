@@ -8,6 +8,7 @@ class WorldMap extends createjs.Container {
     this.prob        = prob;
     this.matrix      = null;
     this.encounters  = [];
+    this.done        = false;
     this.btnInv      = new createjs.Sprite(
       new createjs.SpriteSheet({
         images: ["resources/btn_inventory.jpg"],
@@ -28,7 +29,8 @@ class WorldMap extends createjs.Container {
       }, x: window.innerWidth - 120, y: 20
     });
     this.btnInv.addEventListener("click", function (e) {
-      console.log("test");
+      shooter.switchOffMap();
+      shooter.switchToMenu();
     });
 
     this.set({
@@ -56,7 +58,7 @@ class WorldMap extends createjs.Container {
     if (this.encounters.length <= 20 && Math.random() <= 0.001) {
       var enc = new MapEncounter(
         $V([randInt(this.width * -25, this.width * 25), randInt(this.height * -25, this.height * 25)]),
-        20, "Meduse1", function () {
+        20, ["Meduse1", "Meduse2", "RedFish", "VampireFish"], function () {
           Generator.generate(randInt(60000, 80000), true);
           shooter.switchOffMap();
           game.removeChild(this);
@@ -105,6 +107,7 @@ class WorldMap extends createjs.Container {
     }
 
     this.updateCache();
+    this.done = true;
     console.log(performance.now() - perfStart);
   }
 

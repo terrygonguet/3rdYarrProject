@@ -95,7 +95,7 @@ var queue;
     shooter = game.shooterStage;
     inventory = new Inventory();
     resizeCanvas();
-    debugOn();
+    // debugOn();
   }
 
   function handleFileLoad	(e) {

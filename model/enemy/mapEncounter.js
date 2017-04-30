@@ -5,7 +5,12 @@
  */
 class MapEncounter extends createjs.Bitmap {
 
-  constructor(position, radius, sprite, callback) {
+  constructor(position, radius, sprites, callback) {
+    var sprite;
+    if (typeof sprites === "string")
+      sprite = sprites;
+    else
+      sprite = sprites[randInt(0, sprites.length)];
     super(queue.getResult(sprite));
     this.on("frameTick", this.update, this);
 

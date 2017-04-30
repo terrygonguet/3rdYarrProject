@@ -7,7 +7,7 @@ class Inventory extends createjs.Container {
     this.offWeapon      = null;
     this.special        = new ShieldSpecial();
     this.lives          = 2;
-    this.level          = 0;
+    this.level          = 0.5;
     this.gold           = 0;
 
     this.on("tick", this.update, this);

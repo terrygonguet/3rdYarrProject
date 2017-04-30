@@ -42,7 +42,7 @@ class ShooterStage extends createjs.Container {
             for (var i of data) {
               sum += i.contributions;
             }
-            shooter.txtVersion.text = "Version 0.1a" + sum;
+            shooter.txtVersion.text = "Version 0.3a" + sum;
           } else {
             console.log(data.message);
           }
@@ -148,74 +148,73 @@ class ShooterStage extends createjs.Container {
       });
       this.txtLives.visible = false;
 
-      var lvl1btn = new Selector($V([this.dimensions.e(1) / 2 - 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Levels", function() {
-          shooter.loadLevel("levels/lvl1.js");
-          shooter.bossOnly = false;
-          lvl1btn.state = true;
-          lvl2btn.state = false;
-          lvl3btn.state = false;
-      }, true, true);
-      game && game.addChild(lvl1btn);
-      var lvl2btn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2]), 25, "#3A3", "Bosses Only", function() {
-          shooter.loadLevel("levels/lvl1_boss.js");
-          inventory.deltaPower(3);
-          shooter.bossOnly = true;
-          lvl1btn.state = false;
-          lvl2btn.state = true;
-          lvl3btn.state = false;
-      }, true, true);
-      game && game.addChild(lvl2btn);
-      var lvl3btn = new Selector($V([this.dimensions.e(1) / 2 + 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Demo", function() {
-          shooter.loadLevel("levels/demo.js");
-          lvl1btn.state = false;
-          lvl2btn.state = false;
-          lvl3btn.state = true;
-      }, true, true);
-      game && game.addChild(lvl3btn);
+      // var lvl1btn = new Selector($V([this.dimensions.e(1) / 2 - 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Levels", function() {
+      //     shooter.loadLevel("levels/lvl1.js");
+      //     shooter.bossOnly = false;
+      //     lvl1btn.state = true;
+      //     lvl2btn.state = false;
+      //     lvl3btn.state = false;
+      // }, true, true);
+      // game && game.addChild(lvl1btn);
+      // var lvl2btn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2]), 25, "#3A3", "Bosses Only", function() {
+      //     shooter.loadLevel("levels/lvl1_boss.js");
+      //     inventory.deltaPower(3);
+      //     shooter.bossOnly = true;
+      //     lvl1btn.state = false;
+      //     lvl2btn.state = true;
+      //     lvl3btn.state = false;
+      // }, true, true);
+      // game && game.addChild(lvl2btn);
+      // var lvl3btn = new Selector($V([this.dimensions.e(1) / 2 + 75, this.dimensions.e(2) / 2]), 25, "#3A3", "Demo", function() {
+      //     shooter.loadLevel("levels/demo.js");
+      //     lvl1btn.state = false;
+      //     lvl2btn.state = false;
+      //     lvl3btn.state = true;
+      // }, true, true);
+      // game && game.addChild(lvl3btn);
 
-      var powerbtn = new Selector($V([this.dimensions.e(1) / 2 - 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Full power", function() {
-            inventory.deltaPower(3);
-      });
-      game && game.addChild(powerbtn);
-      var emptybtn = new Selector($V([this.dimensions.e(1) / 2 + 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "No power", function() {
-            inventory.deltaPower(-10);
-      });
-      game && game.addChild(emptybtn);
-      var startbtn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2 - 75]), 25, "#2E2", "Start game", function() {
-            shooter.start();
+      // var powerbtn = new Selector($V([this.dimensions.e(1) / 2 - 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Full power", function() {
+      //       inventory.deltaPower(3);
+      // });
+      // game && game.addChild(powerbtn);
+      // var emptybtn = new Selector($V([this.dimensions.e(1) / 2 + 50, this.dimensions.e(2) / 2 + 75]), 25, "#777", "No power", function() {
+      //       inventory.deltaPower(-10);
+      // });
+      // game && game.addChild(emptybtn);
+      var startbtn = new Selector($V([this.dimensions.e(1) / 2, this.dimensions.e(2) / 2 - 75]), 25, "#2E2", "Go to Map", function() {
+            shooter.switchToMap();
       });
       game && game.addChild(startbtn);
 
+      // var clearbtn = new Selector($V([150, this.dimensions.e(2) / 2]), 25, "#777", "Special Clear", function() {
+      //       inventory.special && inventory.special.remove();
+      //       inventory.special = new ClearSpecial();
+      //       shieldbtn.state = false;
+      //       clearbtn.state = true;
+      // }, true, true);
+      // game && game.addChild(clearbtn);
+      // var shieldbtn = new Selector($V([150, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Special Shield", function() {
+      //       inventory.special && inventory.special.remove();
+      //       inventory.special = new ShieldSpecial();
+      //       clearbtn.state = false;
+      //       shieldbtn.state = true;
+      // }, true, true);
+      // shieldbtn.state = true;
+      // game && game.addChild(shieldbtn);
 
-      var clearbtn = new Selector($V([150, this.dimensions.e(2) / 2]), 25, "#777", "Special Clear", function() {
-            inventory.special && inventory.special.remove();
-            inventory.special = new ClearSpecial();
-            shieldbtn.state = false;
-            clearbtn.state = true;
-      }, true, true);
-      game && game.addChild(clearbtn);
-      var shieldbtn = new Selector($V([150, this.dimensions.e(2) / 2 + 75]), 25, "#777", "Special Shield", function() {
-            inventory.special && inventory.special.remove();
-            inventory.special = new ShieldSpecial();
-            clearbtn.state = false;
-            shieldbtn.state = true;
-      }, true, true);
-      shieldbtn.state = true;
-      game && game.addChild(shieldbtn);
-
-      var autofirebtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2 - 75]), 25, "#A33", "Autofire", function() {
+      var autofirebtn = new Selector($V([this.dimensions.e(1) / 2 - 50, this.dimensions.e(2) / 2 + 75]), 25, "#A33", "Autofire", function() {
             input.setAutoFire(this.state);
       }, true, true);
       autofirebtn.state = input.autofire;
       game && game.addChild(autofirebtn);
-      var mousebtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2]), 25, "#A33", "Mouse Controls", function() {
+      var mousebtn = new Selector($V([this.dimensions.e(1) / 2 + 50, this.dimensions.e(2) / 2 + 40]), 25, "#A33", "Mouse Controls", function() {
             input.setControls("Mouse");
             keybbtn.state = false;
             mousebtn.state = true;
       }, true, true);
       mousebtn.state = input.controls === "Mouse";
       game && game.addChild(mousebtn);
-      var keybbtn = new Selector($V([this.dimensions.e(1) - 75, this.dimensions.e(2) / 2 + 75]), 25, "#A33", "Keyboard Controls", function() {
+      var keybbtn = new Selector($V([this.dimensions.e(1) / 2 + 50, this.dimensions.e(2) / 2 + 105]), 25, "#A33", "Keyboard Controls", function() {
             input.setControls("Keyboard");
             mousebtn.state = false;
             keybbtn.state = true;
@@ -226,7 +225,7 @@ class ShooterStage extends createjs.Container {
       this.on("frameTick", function () {
         var dude = new Enemy(
           $V([100, 100]),
-          20, ["Meduse1", "Meduse2"], 99999999, 0
+          20, ["Meduse1", "Meduse2", "RedFish", "VampireFish"], 99999999, 0
         );
         dude.pattern = new Pattern(dude, function () {
           if (this.time >= 500) {
@@ -293,7 +292,7 @@ class ShooterStage extends createjs.Container {
           game.removeChild(redGlass);
         }
       });
-      var deathText = new createjs.Text("You died\nPress R to restart\n\nScore : " + this.score, "25px Montserrat", "#FFF");
+      var deathText = new createjs.Text("You died\nPress M to restart\n\nScore : " + this.score, "25px Montserrat", "#FFF");
       deathText.set({
         x: this.position.e(1) + this.dimensions.e(1) / 2,
         y: this.position.e(2) + this.dimensions.e(2) / 2 - 150,

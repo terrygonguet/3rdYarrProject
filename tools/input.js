@@ -51,17 +51,11 @@ var input = {
                 input.keys.left = true;
                 callbacks = input.onArrowLeft;
                 break;
-            case "r" : // reset
-                createjs.Ticker.paused = false;
-                game.killAll();
-                shooter.switchOffMap();
-                shooter.switchToMenu();
-                shooter.started = false;
-                break;
             case "p" : // pause
                 if (debug) createjs.Ticker.paused = !createjs.Ticker.paused;
                 break;
             case "m" : // map
+                inventory.lives = 2;
                 shooter.switchToMap();
                 break;
         }
